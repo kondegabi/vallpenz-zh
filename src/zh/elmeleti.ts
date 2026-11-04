@@ -1,0 +1,298 @@
+// Elméleti feleletválasztós kérdések a ZH-szimulációhoz. A jó válasz a képlettárból jön
+// (a `kulcs` szó szerinti részlete alátámasztja, a teszt ellenőrzi); a rossz válaszok a képlettár
+// más mondatai, azok pontos ellentétei, vagy a képlettár „Csapda” pontjaiban leírt tipikus tévedések.
+// A rossz opciók hossza a jóéhoz igazodik, hogy a hossz ne árulja el a jó választ (a teszt ellenőrzi).
+
+import { fejezetKor } from '../content/kepletter.ts'
+import type { Kor } from '../kor.ts'
+
+export type ElmeletiKerdes = { id: string; forras: string; kerdes: string; helyes: string; rosszak: [string, string, string]; kulcs: string }
+
+export function elmeletiKor(k: Pick<ElmeletiKerdes, 'forras'>): Kor {
+  return fejezetKor(Number(k.forras.split('.')[0]))
+}
+
+export const ELMELETI: ElmeletiKerdes[] = [
+  {
+    id: 'piac-megfizeti',
+    forras: '4.3',
+    kerdes: 'Melyik kockázatot fizeti meg a piac?',
+    helyes: 'A piaci (szisztematikus) kockázatot',
+    rosszak: ['Az egyedi (diverzifikálható) kockázatot', 'A teljes kockázatot, vagyis a szórást', 'A piaci és az egyedi kockázatot is'],
+    kulcs: '| β²σ²(rM) | piaci, szisztematikus, nem diverzifikálható, releváns kockázat | nem | igen |',
+  },
+  {
+    id: 'szoras-mit-mer',
+    forras: '2.2',
+    kerdes: 'Mit mér a hozam szórása?',
+    helyes: 'Mennyivel tér el egy átlagos évben a hozam az átlagtól',
+    rosszak: [
+      'Mennyi volt a hozam egy átlagos évben',
+      'Az átlagos, kamatos kamatozással számolt éves hozamot',
+      'Két eszköz hozamának együttmozgását és irányát',
+    ],
+    kulcs: 'egy átlagos évben mennyivel tér el a tényleges hozam az átlagtól',
+  },
+  {
+    id: 'historikus-oszto',
+    forras: '2.3',
+    kerdes: 'Az elmúlt évek hozamaiból számolunk szórást. Mivel osztjuk a négyzetes eltérések összegét?',
+    helyes: 'A megfigyelések számánál eggyel kisebb számmal (N − 1)',
+    rosszak: [
+      'A megfigyelések számával, vagyis az évek számával (N)',
+      'Nem osztunk: az eltéréseket valószínűségekkel szorozzuk',
+      'A megfigyelések számánál eggyel nagyobb számmal (N + 1)',
+    ],
+    kulcs: 'itt N − 1-gyel osztunk, nem N-nel és nem valószínűséggel szorzunk',
+  },
+  {
+    id: 'kockazatmentes-beta',
+    forras: '4.2',
+    kerdes: 'Mekkora a kockázatmentes eszköz bétája?',
+    helyes: '0',
+    rosszak: ['1', '−1', 'Ugyanannyi, mint a piaci portfólióé'],
+    kulcs: 'a kockázatmentes eszköz bétája 0',
+  },
+  {
+    id: 'beta-ertelmezes',
+    forras: '4.2',
+    kerdes: 'Mit jelent, ha egy részvény bétája 1-nél kisebb (de pozitív)?',
+    helyes: 'A részvény a piacnál kevésbé leng',
+    rosszak: ['A részvény a piacnál jobban leng', 'A részvény maga a piaci portfólió', 'A részvény kockázatmentes'],
+    kulcs: 'β < 1 kevésbé',
+  },
+  {
+    id: 'gordon-tavalyi',
+    forras: '7.1',
+    kerdes: 'A Gordon-modellben a feladat a tavaly fizetett osztalékot adja meg. Mit kell vele tenni?',
+    helyes: 'Ez D₀: előbb (1 + g)-vel fel kell szorozni, így lesz belőle D₁',
+    rosszak: [
+      'Ez már D₁: változtatás nélkül a képlet számlálójába kerül',
+      'Ez D₀, de a képletben D₁ helyett közvetlenül használható',
+      'Ez D₁: előbb (1 + g)-vel el kell osztani, és D₀ kerül a képletbe',
+    ],
+    kulcs: '„tavaly fizetett” / „utoljára fizetett” = D\\_0, ezt előbb fel kell szorozni (1 + g)-vel',
+  },
+  {
+    id: 'rd-forras',
+    forras: '7.3',
+    kerdes: 'Melyik hozam a hitel adózás előtti költsége (rD), ha a vállalat kötvényeiről mindkettő adott?',
+    helyes: 'A kötvény lejáratig számított hozama (YTM)',
+    rosszak: ['A kötvény névértékre vetített kuponkamata', 'A kockázatmentes hozam (állampapírhozam)', 'A kuponkamat szorozva (1 − adókulcs)-csal'],
+    kulcs: 'a kötvény eredeti (kupon)kamata nem releváns, csak a mai hozam (YTM)',
+  },
+  {
+    id: 'adopajzs-ok',
+    forras: '7.3',
+    kerdes: 'Miért szorozzuk a hitel költségét (1 − adókulcs)-csal a WACC-ban?',
+    helyes: 'Mert a kamat csökkenti az adóalapot, az osztalék nem',
+    rosszak: [
+      'Mert az osztalék csökkenti az adóalapot, a kamat nem',
+      'Mert a kötvény a névértéke alatt, diszkonttal forog',
+      'Mert a hitelezők a kapott kamat után adót fizetnek',
+    ],
+    kulcs: 'mert a kamat csökkenti az adóalapot (az osztalék nem)',
+  },
+  {
+    id: 'wacc-diszkontrata',
+    forras: '7.4',
+    kerdes: 'Mikor használható a vállalat WACC-ja egy projekt diszkontrátájaként?',
+    helyes: 'Ha kockázata és tőkeszerkezete a vállalatéval egyezik',
+    rosszak: [
+      'Minden projektnél, a projekt kockázatától függetlenül',
+      'Csak ha a projekt bétája nagyobb a vállalat bétájánál',
+      'Csak ha a projektet teljes egészében hitelből finanszírozzák',
+    ],
+    kulcs: 'csak ha a projekt kockázata és tőkeszerkezete megegyezik a vállalatéval',
+  },
+  {
+    id: 'wacc-sulyok',
+    forras: '7.4',
+    kerdes: 'Milyen értékek alapján számoljuk a WACC súlyait?',
+    helyes: 'A saját tőke és az adósság piaci értéke alapján',
+    rosszak: [
+      'A saját tőke és az adósság könyv szerinti értéke alapján',
+      'Az adósság névértéke és a jegyzett tőke alapján',
+      'Egyenlő súllyal, a finanszírozás módjától függetlenül',
+    ],
+    kulcs: 'a piaci értékük arányában súlyozott átlaga',
+  },
+  {
+    id: 'alacsony-kockazat-projekt',
+    forras: '7.5',
+    kerdes:
+      'Egy projekt várható hozama a vállalat WACC-ja alatt, de a saját bétájával számolt CAPM szerinti elvárt hozam fölött van. Mi a helyes döntés?',
+    helyes: 'Elfogadni: többet hoz a saját bétájához tartozó elvárt hozamnál',
+    rosszak: [
+      'Elutasítani, mert a várható hozama a vállalat WACC-ja alatt van',
+      'Elutasítani, mert az alacsony bétájú projekt nem teremt értéket',
+      'Nem dönthető el: ehhez a projekt NPV-jét is ismerni kellene',
+    ],
+    kulcs: 'az alacsony kockázatú jó projektet elvetné',
+  },
+  {
+    id: 'diverzifikacio-hatas',
+    forras: '3.5',
+    kerdes: 'Mi történik a portfólió kockázatával, ha az elemszámot növeljük?',
+    helyes: 'Az egyedi kockázat eltűnik, a piaci kockázat megmarad',
+    rosszak: [
+      'A piaci kockázat eltűnik, az egyedi kockázat megmarad',
+      'Mindkét kockázat eltűnik, a szórás nullához tart',
+      'Egyik sem változik: a szórás az elemek szórásának átlaga',
+    ],
+    kulcs: 'az elemszám növelésével az egyedi (diverzifikálható) kockázat eltűnik, a piaci (szisztematikus) kockázat megmarad',
+  },
+  {
+    id: 'felulbecsles',
+    forras: '1.3',
+    kerdes: 'Melyik átlaghozam becsül kicsit felül hosszú távú előrejelzésnél?',
+    helyes: 'A számtani átlag',
+    rosszak: ['A mértani átlag', 'A folytonos hozamok átlaga', 'Egyik sem, mind a három pontos'],
+    kulcs: 'hosszú távon a számtani átlag kicsit felülbecsül',
+  },
+  {
+    id: 'alularazott',
+    forras: '5.2',
+    kerdes: 'Egy részvény várható hozama nagyobb a CAPM szerinti elvárt hozamánál. Hogyan árazott?',
+    helyes: 'Alulárazott: venni fogják, ára nő, hozama csökken',
+    rosszak: [
+      'Túlárazott: eladják, ára csökken, hozama nő',
+      'Helyesen árazott: a többlet a nagyobb kockázat jutalma',
+      'Nem dönthető el a részvény bétájának ismerete nélkül',
+    ],
+    kulcs: 'alulárazott: venni fogják, ára nő, hozama csökken a vonalig',
+  },
+  {
+    id: 'irr-def',
+    forras: '6.2',
+    kerdes: 'Mi a belső megtérülési ráta (IRR)?',
+    helyes: 'Az a diszkontráta, amelynél a projekt NPV-je pontosan nulla',
+    rosszak: [
+      'Az a diszkontráta, amelynél a projekt NPV-je a legnagyobb',
+      'A projekt bétájához tartozó, CAPM szerinti elvárt hozam',
+      'A vállalat súlyozott átlagos tőkeköltsége (WACC-ja)',
+    ],
+    kulcs: 'az IRR az a diszkontráta, amelynél a projekt NPV-je pontosan nulla',
+  },
+  {
+    id: 'korrelacio-tartomany',
+    forras: '3.3',
+    kerdes: 'Milyen értékeket vehet fel két hozam korrelációja?',
+    helyes: '−1 és +1 között',
+    rosszak: ['0 és +1 között', '0 és végtelen között', 'Bármilyen valós számot'],
+    kulcs: 'egy −1 és +1 közé eső, mértékegység nélküli szám',
+  },
+  // ---- 2. ZH: tőkeszerkezet (8. fejezet) ----
+  {
+    id: 'mm1-mirol-szol',
+    forras: '8.1',
+    kerdes: 'Mit mond ki az MM I. tétel tökéletes tőkepiacon?',
+    helyes: 'A tőkeszerkezet nem hat a vállalat értékére',
+    rosszak: ['A több adósság növeli a vállalat értékét', 'A több saját tőke növeli a vállalat értékét', 'A vállalat értéke az osztaléktól függ'],
+    kulcs: 'a tőkeszerkezet megválasztása nem hat a vállalat értékére',
+  },
+  {
+    id: 'mm2-mirol-szol',
+    forras: '8.3',
+    kerdes: 'Mit mond ki az MM II. tétel?',
+    helyes: 'A saját tőke hozama a tőkeáttétellel nő',
+    rosszak: ['A saját tőke hozama a tőkeáttétellel csökken', 'A hitel hozama a tőkeáttétellel csökken', 'A WACC a tőkeáttétellel monoton nő'],
+    kulcs: 'a saját tőke (részvények) várható hozama az eladósodottsággal párhuzamosan (monoton) nő',
+  },
+  {
+    id: 'mi-nincs-tokeletes-piacon',
+    forras: '8.1',
+    kerdes: 'Melyik NEM feltétele a tökéletes piacnak?',
+    helyes: 'A befektetők eltérően informáltak',
+    rosszak: ['Nincsenek adók és tranzakciós költségek', 'Nincsenek intézményi korlátok', 'Az értékpapírok korlátlanul oszthatók'],
+    kulcs: 'mindenki árelfogadó és egyformán informált',
+  },
+  {
+    id: 'hozam-kozep',
+    forras: '8.2',
+    kerdes: 'Melyik sorrend helyes tökéletes piacon?',
+    helyes: 'rD < rA < rE',
+    rosszak: ['rA < rD < rE', 'rE < rA < rD', 'rD < rE < rA'],
+    kulcs: 'r\\_D < r\\_A = r\\_V < r\\_E',
+  },
+  {
+    id: 'adomegtakaritas-eves',
+    forras: '8.4',
+    kerdes: 'Mekkora az adómegtakarítás éves összege?',
+    helyes: 'TC × D × rD',
+    rosszak: ['TC × E × rD', '(1 − TC) × D × rD', 'TC × E × rE'],
+    kulcs: 'TS_{\\text{éves}} = T_C \\cdot D \\cdot r_D',
+  },
+  {
+    id: 'mikor-ervenyesul',
+    forras: '8.4',
+    kerdes: 'Mikor érvényesül az adómegtakarítás?',
+    helyes: 'Ha a vállalkozásnak elegendő EBIT-je van',
+    rosszak: ['Ha a vállalkozás osztalékot is fizet', 'Ha a vállalkozásnak nincs saját tőkéje', 'Ha a hitel névértéken forog a piacon'],
+    kulcs: 'csak akkor, ha a vállalkozás elegendő EBIT-tel rendelkezik',
+  },
+  {
+    id: 'adoval-wacc',
+    forras: '8.8',
+    kerdes: 'Mi történik adóval a WACC*-gal, ha nő a tőkeáttétel?',
+    helyes: 'Folyamatosan csökken',
+    rosszak: ['Folyamatosan növekszik', 'Változatlan marad', 'Előbb nő, utána csökken'],
+    kulcs: 'a WACC* folyamatosan csökken, ahogy a tőkeáttétel nő',
+  },
+  {
+    id: 'trade-off-mi',
+    forras: '8.10',
+    kerdes: 'Mit mérlegel a választásos (trade-off) elmélet?',
+    helyes: 'Az adómegtakarítást és a pénzügyi nehézségeket',
+    rosszak: ['Az osztalékot és a részvény-visszavásárlást', 'A kötvény kuponját és a lejáratig számított hozamot', 'A belső forrást és a részvénykibocsátást'],
+    kulcs: 'az adómegtakarítás és a pénzügyi nehézségek megnövekedett költsége ellentétesen hat',
+  },
+  {
+    id: 'hierarchia-elso',
+    forras: '8.10',
+    kerdes: 'Melyik forrást választják először a hierarchia-elmélet szerint?',
+    helyes: 'A belső forrást',
+    rosszak: ['A kötvénykibocsátást', 'A részvénykibocsátást', 'A banki hitelt'],
+    kulcs: 'belső forrás, utána kötvény- és adósságkibocsátás',
+  },
+  {
+    id: 'legjovedelmezobb',
+    forras: '8.10',
+    kerdes: 'Miért vesznek fel kevesebb hitelt a legjövedelmezőbb cégek a hierarchia-elmélet szerint?',
+    helyes: 'Mert nincs szükségük külső finanszírozásra',
+    rosszak: ['Mert alacsonyabb az optimális adósságszintjük', 'Mert számukra magasabb a hitel kamatlába', 'Mert nem élvezik az adómegtakarítás előnyét'],
+    kulcs: 'mert nem akarnak külső finanszírozást és nincs rá szükségük',
+  },
+  {
+    id: 'reszveny-kibocsatas-arfolyam',
+    forras: '8.10',
+    kerdes: 'Miért húzza le az árfolyamot a részvénykibocsátás bejelentése?',
+    helyes: 'A befektetők túlárazott részvényre gyanakszanak',
+    rosszak: ['A kibocsátás csökkenti a vállalat eszközeit', 'A kibocsátással megszűnik az adómegtakarítás', 'A kibocsátás miatt nő a hitelek kamatlába'],
+    kulcs: 'ha a részvények túlárazottak',
+  },
+  {
+    id: 'olcsobb-hitel',
+    forras: '8.10',
+    kerdes: 'Miért nem elég az olcsóbb hitelkamat a vállalatérték növeléséhez?',
+    helyes: 'Az adók és a pénzügyi nehézségek döntenek',
+    rosszak: ['A hitelkamat nem szerepel a tőkeköltségben', 'A hitel mindig drágább a saját tőkénél', 'Az adósság kamata nem vonható le az adóalapból'],
+    kulcs: 'a valóságban az adók és a pénzügyi nehézségek költségei döntenek',
+  },
+  {
+    id: 'apv-melyik',
+    forras: '8.6',
+    kerdes: 'Melyik megközelítés adja a saját tőkés értékhez az adóhatást?',
+    helyes: 'Capital CF, APV',
+    rosszak: ['Equity érték, FCFE', 'Free CF, FCFF', 'Osztaléknövekedési modell'],
+    kulcs: 'a saját tőkés finanszírozású vállalatérték plusz az idegen forrás finanszírozási hatása (Capital CF, APV)',
+  },
+  {
+    id: 'agazat-legmagasabb',
+    forras: '8.10',
+    kerdes: 'Melyik ágazat eladósodottsága a legmagasabb a 31. dia szerint?',
+    helyes: 'Food Wholesalers',
+    rosszak: ['Semiconductor Equip', 'Computer Services', 'Utility (General)'],
+    kulcs: '| Food Wholesalers | 79,51% |',
+  },
+]

@@ -1,0 +1,8 @@
+# Netlify: build-beállítás (ha egyszer git-repóhoz kötnéd). A gyorsítótár-fejlécek a public/_headers-ben vannak,
+# így a CLI-s feltöltésre is érvényesek. Hash-alapú útvonalak (#/...), ezért nincs szükség átirányításra.
+[build]
+  command = "npm run build"
+  publish = "dist"
+
+[build.environment]
+  NODE_VERSION = "24"

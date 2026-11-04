@@ -1,0 +1,13 @@
+node_modules
+dist
+*.local
+.vite
+.vercel
+.netlify
+
+# helyi indító, csak ezen a gépen kell
+ZH-gyakorlo.exe
+
+# az oktató diái: a publikus repóba nem kerülnek fel
+forras/zh1/
+forras/zh2/
