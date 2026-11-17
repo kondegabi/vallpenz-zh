@@ -18,7 +18,7 @@ const KATEX_OPCIOK = {
 
 describe('A képlettár beolvasása', () => {
   it('megvan az 1. ZH 7 fejezete és 28 képlete, utána a 2. ZH anyaga, sorrendben', () => {
-    expect(KT.fejezetek.map((f) => f.szam)).toEqual([1, 2, 3, 4, 5, 6, 7, 8])
+    expect(KT.fejezetek.map((f) => f.szam)).toEqual([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
     expect(KEPLETEK.filter((k) => k.fejezet === 8).map((k) => k.id)).toEqual(['8.1', '8.2', '8.3', '8.4', '8.5', '8.6', '8.7', '8.8', '8.9', '8.10'])
     expect(KEPLETEK.filter((k) => k.fejezet <= 7).map((k) => k.id)).toEqual([
       '1.1', '1.2', '1.3', '1.4', '2.1', '2.2', '2.3', '2.4', '3.1', '3.2', '3.3', '3.4', '3.5',
@@ -62,7 +62,7 @@ describe('A képlettár beolvasása', () => {
   it('a fő szakaszok és a felismerő tábla sorai (14 az 1. ZH-é)', () => {
     expect(KT.cim).toBe('Vállalati pénzügyek II – ZH képlettár')
     expect(KT.terkep.blokkok[0].tipus).toBe('kod')
-    expect(KT.felismero.sorok).toHaveLength(22)
+    expect(KT.felismero.sorok).toHaveLength(26)
     for (const s of KT.felismero.sorok) expect(s.kepletek.length, s.lanc).toBeGreaterThan(0)
     expect(KT.felismero.sorok[13].kepletek).toEqual(['5.1', '7.5'])
     expect(KT.hibak.blokkok.some((b) => b.tipus === 'tabla')).toBe(true)

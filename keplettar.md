@@ -2,7 +2,7 @@
 
 Oct 10, 2026 · @Gabi
 
-Az 1. ZH (1–5. előadás, videós összefoglaló) és a 2. ZH (eddig: tőkeszerkezet) összes képlete egy helyen: mit jelent minden jel, mikor kell használni, milyen korábbi eredmény kell hozzá, és egy diáról vett példa. A példák eredményeit újraszámoltam; ahol a dia hibás, a végén jelzem.
+Az 1. ZH (1–5. előadás, videós összefoglaló) és a 2. ZH (tőkeszerkezet, likviditás, osztalékpolitika) összes képlete egy helyen: mit jelent minden jel, mikor kell használni, milyen korábbi eredmény kell hozzá, és egy diáról vett példa. A példák eredményeit újraszámoltam; ahol a dia hibás, a végén jelzem.
 
 ## A képletek térképe
 
@@ -31,6 +31,15 @@ Adó (TC):
    Adómegtakarítás (8.4 örökjáradék, 8.5 véges) ──> Vállalatérték VL (8.6)
           └─(− pénzügyi nehézségek)─> Választásos elmélet (8.10)
    rE adóval (8.7) ──> Módosított WACC* (8.8)
+```
+
+A 9–10. fejezet önálló:
+
+```text
+Állandó pénzigény: T, F, r ──> Baumol: Copt, Lopt (9.1)
+Ingadozó pénzigény: σ, F, r, L ──> Miller–Orr: C*, U* (9.2)
+ROE, dp (10.2) ──> g = ROE × (1 − dp) (10.3) ──> P0 = DIV1 / (r − g) (10.1)
+Visszavásárlás, felaprózás ──> tulajdoni hányad, új árfolyam (10.4)
 ```
 
 A tökéletes piacon (8.1–8.3) a tőkeszerkezet nem hat az értékre; az adó (8.4–8.9) és a pénzügyi nehézségek (8.10) miatt igen.
@@ -896,6 +905,261 @@ V = V_U + PV(\text{adómegtakarítás}) - PV(\text{pénzügyi nehézségek})
 | Electronics (Consumer & Office) | 8,39% |
 | Semiconductor Equip | 2,22% |
 
+## 9. Készpénz- és likviditásmenedzsment
+
+Forrás: a Készpénz- és likviditásmenedzsment diasor (Dr. Walter György, `forras/zh2/`). Ebben a fejezetben a „dia” ennek a diasornak az oldalszáma.
+
+- **Vállalati likviditás (3. dia):** a vállalat azon képessége, hogy rendelkezésére állnak-e likvid eszközök; képes-e adott összegű pénzhez jutni adott (rövid) időtávon, adott (csekély) veszteség mellett; képes-e a pénzt külföldi pénznemre váltani és abban fizetni. Mérése likviditási mutatókkal
+- **Eszközoldali (piaci) likviditás (4. dia):** az eszközök értékesíthetősége; az eszközök másodlagos piacaitól függ (pl. ingatlan, gépek, készletek)
+- **Forrásoldali (finanszírozási) likviditás (4. dia):** finanszírozási források bevonása, rövid távú pénzhez jutás forrásbevonással (hitel, saját tőke, egyéb); a pénz- és tőkepiacoktól való függés
+- **Fizetési képesség (5. dia):** attól függ, mennyire biztonságosan képes a vállalat rövid távú kötelezettségeit likvid eszközeiből vagy gyorsan bevonható forrásokból teljesíteni úgy, hogy működését ne érje jelentős hátrány (pl. magas költségek, hírnévromlás)
+- **Likviditás és szolvencia (5. dia):** a fizetési képesség és a likviditási helyzet rövid távú, a szolvencia hosszú távú fogalom; az elégtelen likviditás és/vagy szolvencia értékrombolás
+- **Tervezési időhorizontok (6. dia):** hosszú távú pénzügyi tervezés 5–20 év (beruházási, finanszírozási és osztalékpolitika); rövid távú pénzügyi tervezés 1 év (rövid távú pénzáramlások, szerződések, rövid távú finanszírozási döntések, modellek, forgótőke-menedzsment); likviditástervezés 1–3 hónap (pénzbeáramlások és -kiáramlások); operatív menedzsment 1 hét (befizetések, pénzfelvételek, kifizetések). A hosszú távú tervezés részletesen későbbi tantárgyakban (Befektetés és finanszírozás)
+- **Finanszírozási szükséglet (6. dia ábrája):** a hosszú távú finanszírozás egyenletesen nő, a teljes finanszírozási szükséglet szezonálisan ingadozik körülötte; a különbséget rövid távon kell rendezni: ahol a szükséglet fölötte van, bankhitel, ahol alatta, forgalomképes értékpapír
+- **A likviditástervezés lépései (8. dia):** előrejelzés vagy szimuláció a következő hónapok tényleges pénzáramlásairól (bevételek, kiadások, egyenlegek) napi, heti és havi bontásban; a rövid távú finanszírozás optimalizálása a költségek és kockázatok figyelembevételével; a tranzakciók lebonyolítása és nyomon követése; ellenőrzés és a szükséges korrekciók
+- **Likviditásmenedzsment (9. dia):** a szükséges és optimális likvid eszközállomány meghatározása, tervezése és megvalósítása
+- **Készpénzgazdálkodás (9. dia):** a likviditásmenedzsment része: mennyi pénzeszközt tartsunk, hol és hogyan használjuk fel? Területei: pénzbeszedés, kifizetések, úton lévő pénzeszközök kezelése (float), nemzetközi készpénzgazdálkodás (devizák), cash pooling és zéró egyenlegű számlák, kötelezettségek és követelések nettósítása, modellezés és optimalizálás
+- **A pénztartás költségei (11. dia):** a pénzeszközök tartása a likvid eszközökbe fektetéshez képest költségekkel jár: kamat (alternatívaköltség) és az értékpapír-eladás tranzakciós költsége. A probléma hasonló a készletgazdálkodáshoz, hasonló modellekkel. Az ábrán a pénzállománnyal az alternatívaköltség nő, a tranzakciós költség csökken, a teljes költség U alakú, és a minimuma a C* célzott pénzállomány
+
+A pénztartás motivációi (10. dia):
+
+| Motiváció | Magyarázat |
+| --- | --- |
+| Tranzakciós motívum | A szokásos működés során teljesítendő kifizetésekhez pénz szükséges |
+| Óvatossági motívum | Védelem a lehetséges pénzáramlási sokkokkal szemben (sokk esetén már nem biztos, hogy hitelhez jutunk); beruházási tartalék (a növekvő vállalat csak saját tőkéből képes beruházni) |
+| Kereskedési, tranzakciós költség motívuma | Egy bizonyos összegű tartalék tartása olcsóbb, mint hitelt igényelni, lehívni vagy értékpapírt értékesíteni |
+| Spekulációs motívum | Kedvező üzleti lehetőségek kihasználása, pl. olcsó alapanyag-beszerzés, árengedmény, kedvező devizaárfolyam |
+| Ügynökköltség | A vezető növeli hatalmát és döntési lehetőségeit |
+
+Rövid távú pénzügyi terv negyedévenként (7. dia, Ross és mtsai 2021, 633. o.):
+
+| Tétel | Q1 | Q2 | Q3 | Q4 |
+| --- | --- | --- | --- | --- |
+| Induló pénzállomány | 20 | 60 | 10 | 10,0 |
+| Nettó pénzbeáramlás | 40 | −110 | 55 | −15,0 |
+| Új rövid lejáratú hitel | 0 | 60 | 0 | 15,4 |
+| Rövid lejáratú hitel kamata | 0 | 0 | −3 | −0,4 |
+| Rövid lejáratú hitel törlesztése | 0 | 0 | −52 | 0 |
+| Záró pénzállomány | 60 | 10 | 10 | 10,0 |
+| Minimális pénzállomány | −10 | −10 | −10 | −10,0 |
+| Halmozott többlet (hiány) | 50 | 0 | 0 | 0 |
+| Induló rövid lejáratú hitel | 0 | 0 | 60 | 8,0 |
+| Rövid lejáratú adósság változása | 0 | 60 | −52 | 15,4 |
+| Záró rövid lejáratú adósság | 0 | 60 | 8 | 23,4 |
+
+### 9.1 Baumol–Allais–Tobin-modell
+
+```latex
+C_{opt} = \sqrt{\frac{2T \times F}{r}}
+```
+
+```latex
+L_{opt} = \sqrt{\frac{2F}{r \times T}}
+```
+
+**Magyarul:** előre jelezhető, állandó pénzigénynél az egyszerre felveendő optimális pénzösszeg a kétszeres időszaki pénzigény és a tranzakciós költség szorzata osztva a hozammal, négyzetgyök alatt; az optimális időköz két pénzfelvétel között ugyanígy, gyök alatt.
+
+| Jel | Jelentés |
+| --- | --- |
+| `C_opt` | az egy alkalommal felveendő optimális pénzösszeg |
+| `L_opt` | az optimális időköz két pénzfelvétel között, az időszak törtrészében (pl. év) |
+| `T` | az időszak alatt felhasznált összes pénz (pl. az éves pénzigény) |
+| `F` | egy pénzfelvétel (értékpapír-eladás) tranzakciós költsége |
+| `r` | a bankbetét vagy értékpapír hozama ugyanarra az időszakra |
+
+- **Feltevések (12. dia):** két eszköz közül választunk: készpénz, illetve bankbetét vagy r hozamú értékpapír; a pénzigény előre jelezhető és állandó: időszakonként T összeg kerül felhasználásra; a betétből C állandó pénzösszeget veszünk fel F tranzakciós költséggel
+- **Átlagos pénzállomány (12. dia ábrája):** a pénzállomány C-ről egyenletesen csökken nullára, ekkor újra C-t veszünk fel, így az átlag C / 2
+- **Kapcsolat (kiegészítés):** L\_opt = C\_opt / T, vagyis egy időszakban T / C\_opt alkalommal kell a pénzállományt feltölteni
+- **Forrás:** Készpénz, 11–13. dia (Ross et al. 2021)
+- **Csapda:** T, r és az időköz ugyanarra az időszakra vonatkozik: napi kiáramlásból az éves T = 365 × a napi összeg, éves hozammal az L\_opt években jön ki, napokban ennek 365-szöröse
+- **Csapda:** a 2 a gyök alatt van, és mindkét képletben gyököt kell vonni
+- **Példa (13. dia):** Vulcan Corporation: napi kiáramlás 100 USD, r = 5%, F = 10 USD → T = 36 500, C\_opt = 3821 USD, L\_opt = 0,1047 év (a dián levágva 0,104) = 38,2 nap
+
+### 9.2 Miller–Orr-modell
+
+```latex
+C^{*} = L + \sqrt[3]{\frac{3 \times F \times \sigma^2}{4 \times r}}
+```
+
+```latex
+U^{*} = 3C^{*} - 2L = L + 3 \times (C^{*} - L)
+```
+
+```latex
+\text{átlagos pénzállomány} = \frac{4C^{*} - L}{3}
+```
+
+**Magyarul:** ingadozó pénzigénynél a pénzállomány célértéke az alsó korlát, plusz a tranzakciós költség és a pénzáramlás varianciájának háromszorosa osztva a hozam négyszeresével, köbgyök alatt; a felső korlát a célérték háromszorosa mínusz az alsó korlát kétszerese.
+
+| Jel | Jelentés |
+| --- | --- |
+| `C*` | a pénzállomány célértéke |
+| `L` | alsó korlát, a minimális pénzállomány (a vállalat adja meg) |
+| `U*` | felső korlát |
+| `F` | egy értékpapír-tranzakció költsége |
+| `σ` | a pénzáramlás szórása egy időszakra (napi, havi) |
+| `r` | a hozam ugyanarra az időszakra |
+
+- **Feltevések (14. dia):** két eszköz: készpénz, illetve bankbetét vagy r hozamú értékpapír; a pénzigény sztochasztikus: a napi pénzáramlások várható értéke nulla, a szórásuk ismert (normális, véletlenszerű); a betétből történő pénzfelvétel költsége F, és azonnal végbemegy
+- **Döntési szabály (14–16. dia):** amíg a pénzállomány L és U\* között van, nincs tranzakció. A felső korlátnál a többlet pénzeszközt befektetjük (értékpapírt veszünk), az alsó korlátnál értékpapírt adunk el vagy forrást vonunk be; mindkét esetben vissza a C\* célértékre
+- **Forrás:** Készpénz, 14–17. dia (Ross et al. 2021, 674–676. o.)
+- **Csapda:** a szórás négyzete (variancia) kell, és σ és r ugyanarra az időszakra vonatkozik: a 17. dián havi, a 16. dián napi
+- **Csapda:** köbgyök, nem négyzetgyök, és az L hozzáadódik
+- **Példa (17. dia):** L = 100 USD, F = 10 USD, havi σ = 200 USD, havi r = 1% → C\* = 411 USD, U\* = 1032 USD, átlagos pénzállomány 514 USD
+- **Példa (16. dia):** EMPEC, lengyel távhőszolgáltató (2014-es adatok, 251 nap): napi σ = 357 697 PLN, F = 10 PLN, éves kamat 2,25%, napi r = 0,0060962%, L = 350 000 PLN → C\* = 600 616 PLN, U\* = 1 101 848 PLN. 4,38 millió PLN egyenlegnél 3,78 millió PLN-t fektetnek be, és a 0,60 millió PLN célállomány marad
+
+## 10. Osztalékpolitika
+
+Forrás: az Osztalékpolitika diasor (Dr. Walter György, `forras/zh2/`). Ebben a fejezetben a „dia” ennek a diasornak az oldalszáma. Az osztalékdiszkontálási modell a 7.1 Gordon-modell, a diasor jelöléseivel (DIV, r).
+
+- **Osztalék (4. és 10. dia):** általában a nyereségből kifizetett készpénz, de különböző formájú lehet (nem csak készpénz)
+- **Formái (10. dia):** rendszeres készpénzes osztalék; rendkívüli osztalék (nem ismételhető meg); speciális osztalék (biztosan nem ismétlődik meg); likvidációs osztalék (a vállalkozás felszámolásából); osztalék (kiosztás) természetben (a vállalat termékében vagy szolgáltatásában); részvényosztalék (új részvények kibocsátása); részvény-visszavásárlás
+- **Kronológia (11. dia):** nyilatkozat dátuma; ex-dividend date, egy üzleti nappal a bejegyzés előtt (ekkor esik az árfolyam: ex-dividend price drop); bejegyzés: akiről úgy gondolják, hogy részvényes, jogosulttá válik; a fizetés dátuma
+- **Az ex-dividend árfolyamesés (11. dia):** a TransDigm Group 2019 decemberében részvényenként 32,50 USD speciális osztalékot fizetett kb. 600 USD-s árfolyam mellett (az ár kb. 5%-a); az ex-dividend napon, 2019. december 27-én az árfolyam nagyjából ennyivel esett (kb. 598-ról 564 USD-ra)
+- **Osztalékpolitika (12. dia):** fizessünk-e osztalékot, vagy fektessük be újra; ha igen, mennyi osztalékot, milyen formában, mikor? A relevanciája: van-e hatással a vállalati értékre, a részvényesek vagyonára. A vizsgálat kiindulópontja: rögzített befektetési politika (az eszközoldal adott) és rögzített tőkeszerkezet
+- **Fizessünk vagy sem (13. dia):** nincs osztalékfizetés, ha van növekedési lehetőség (a ROE és az elvárt hozam viszonya dönt). Van osztalékfizetés, ha nincs növekedési lehetőség, és a vállalat kifizeti az eredményt; vagy ha van növekedés, de akkor, mivel érdemes újrabefektetni, külső forrás kell, és a rögzített idegentőke-mennyiség miatt ez csak részvénykibocsátás lehet
+- **Tökéletes piacon (14–15. dia):** az osztalékot a részvényes fekteti be, a visszaforgatott eredményt a vállalat; tökéletes piacon mindegy, ki fekteti be: az osztalékpolitika irreleváns, a részvényesi vagyon nem változik (Modigliani–Miller, 1961)
+- **Készpénzmozgással járó műveletek (16. dia):** készpénzes osztalék fizetése, részvény-visszavásárlás
+- **Készpénzmozgással nem járó műveletek (18–19. dia):** kifizetés naturáliában, részvényosztalék fizetése, aprózás / összevonás / felülbélyegzés
+- **Visszavásárlás osztalék helyett (17. dia, Berkshire Hathaway):** osztalék minden jogosult részvényesnek jár, visszavásárlásnál csak az eladó kap pénzt; a megtartó tulajdonos részesedése nőhet, az eladóé csökkenhet; rugalmasabb kifizetés, és a tulajdonos maga dönt az eladásról (az adóhatás országfüggő). A Berkshire 2020-ban 24,7 milliárd USD-ért vásárolt vissza részvényt, a megtartók tulajdoni hányada 5,2%-kal nőtt
+- **Részvényfelaprózás (20–22. dia):** új értéket nem teremt, a részvényesi vagyon összértéke változatlan, csak elérhetőbbé teszi a részvényt. A Walmart 2024-ben 3:1 arányban aprózott, hogy a részvény a kisbefektetőknek és a több mint 400 000 fős dolgozói részvényprogramnak is elérhető legyen (piaci reakció kb. +1%); a Tesla 2022-ben részvényosztalék formájában tervezett felaprózást
+- **Kezdeti viták (25. dia):** a jobboldaliak (Graham–Dodd 1951; Gordon 1957, 1959, 1962) magasabb osztalékot akarnak: információs aszimmetria; az osztalék biztosabb pénz, mint a majdani árfolyamnyereség; a piaci várható hozam és a ROE viszonya a döntő (Gordon-modell). A radikális baloldal (Brennan 1970) minimális osztalékot akar az adókülönbségek miatt: az osztalék adókulcsa nagyobb az árfolyamnyereség adójánál. A középutasok (Modigliani–Miller 1961) tökéletes piacot feltételeznek
+- **Jelzéselmélet (26. dia):** az információ aszimmetrikus a menedzsment és a részvényesek között, a menedzsmentnek többletinformációja van; ez függ a tulajdoni szerkezettől (szórt tulajdonnál nagyobb a tulajdonosok hátránya). A „jó” vállalat képes az osztalékszint hosszú távú fenntartására; az osztalékszint ingadozásánál a várakozások lefelé rugalmatlanok; az osztalékszint fenntartásának költsége van, és drága lehet a forrásbevonás
+- **Lintner (1956) (26. dia):** az osztalékok kiegyenlítése, kisimítás (smoothing)
+- **Klientúra effektus (27. dia):** a befektetők különböző csoportjai különböző szintű osztalékot akarnak; amikor egy cég egy adott osztalékpolitikát választ, az egyetlen hatás egy adott ügyfélkör bevonzása; ha megváltoztatja az osztalékpolitikáját, más ügyfélkört vonz
+
+A műveletek összehasonlítása (23. dia):
+
+| Hatás | Készpénzosztalék | Részvény-visszavásárlás | Osztalékrészvény / felaprózás |
+| --- | --- | --- | --- |
+| Árfolyam | Csökken | Nem változik | Csökken |
+| Forgalomban lévő részvények darabszáma | Nem változik | Csökken | Növekszik |
+| Saját tőke értéke | Csökken | Csökken | Nem változik |
+| Tulajdonosi szerkezet | Nem változik | Nem változik | Változhat |
+
+Osztalékpolitikai elméletek, néhány példa (24. dia, Fazakas 2009 alapján):
+
+| Csoport | Irányzatok |
+| --- | --- |
+| Klasszikus | baloldali, radikális jobboldali, középutas |
+| Piaci tökéletlenségek | adóhatás, információs tökéletlenség, tranzakciós költségek |
+| Információtartalom | ügynökelmélet, viselkedéstan |
+
+A menedzsment véleménye: mi hat az osztalékpolitikájukra (28. dia, Ross et al. 2021, 647. o., Brav et al. 2005 alapján, angolból fordítva):
+
+| Állítás | Egyetért (%) |
+| --- | --- |
+| Az osztalékcsökkentés elkerülése | 93,8 |
+| Egyenletes („kisimított”) osztalék fenntartása | 89,6 |
+| A legutóbb fizetett osztalékok nagysága | 88,2 |
+| Hogy a változtatásokat később ne kelljen visszafordítani | 77,9 |
+| Az osztalék változásának, növekedésének üteme | 66,7 |
+| Az osztalékcsökkentés költsége meghaladja a külső tőke bevonásának költségét | 42,8 |
+| Osztalékkal a „prudent man” korlátok alá eső befektetők vonzása | 41,7 |
+
+### 10.1 Osztalékdiszkontálási modell
+
+```latex
+P_0 = \sum_{t=1}^{\infty} \frac{DIV_t}{(1+r)^t}
+```
+
+```latex
+P_0 = \frac{DIV_1}{r - g} \quad (g < r), \qquad r = \frac{DIV_1}{P_0} + g
+```
+
+**Magyarul:** a részvény értéke a jövőbeli osztalékok jelenértéke; állandó g ütemben növő osztaléknál a következő évi osztalék osztva az elvárt hozam és a növekedési ütem különbségével.
+
+| Jel | Jelentés |
+| --- | --- |
+| `P_0` | a részvény mai értéke |
+| `DIV_t` | a t. évben fizetett osztalék |
+| `DIV_1` | a következő évi osztalék |
+| `r` | elvárt hozam |
+| `g` | az osztalék éves növekedési üteme |
+| `t` | az év sorszáma |
+
+- **Feltevések (4–5. dia):** teljes mértékben saját tőkével finanszírozott vállalat; az osztalék hosszú távon nő; végtelen időtáv
+- **Kapcsolat:** ugyanaz, mint a 7.1, a diasor jelöléseivel (DIV a D, r az r\_E helyett)
+- **Forrás:** Osztalékpolitika, 4–5. és 9. dia
+- **Csapda:** a számlálóban a következő évi osztalék (DIV\_1) áll; csak g < r esetén van véges ár
+
+### 10.2 Nyereség, ROE és kifizetési ráta
+
+```latex
+EPS = \frac{\text{Earnings}}{\text{részvény db}}, \qquad ROE = \frac{\text{Earnings}}{\text{piaci Equity}} = \frac{EPS_1}{P_0}
+```
+
+```latex
+dp = \frac{\sum DIV_t}{\text{Earnings}_t} = \frac{DIV_t}{EPS_t}, \qquad \text{plow-back} = 1 - dp
+```
+
+**Magyarul:** az egy részvényre jutó nyereség a nyereség osztva a részvények számával; a sajáttőke-arányos nyereség a jövő évi EPS osztva a mai árfolyammal; a kifizetési ráta az osztalék osztva a nyereséggel, a visszaforgatott hányad ennek kiegészítője.
+
+| Jel | Jelentés |
+| --- | --- |
+| `EPS` | egy részvényre jutó nyereség (Earnings per Share) |
+| `ROE` | sajáttőke-arányos nyereség (Return on Equity) |
+| `Earnings` | nettó eredmény |
+| `P_0` | piaci „Equity” érték / részvény db, vagyis egy részvényre jutó saját tőke |
+| `dp` | osztalék-kifizetési ráta (dividend payout ratio) |
+| `1 − dp` | újrabefektetési hányad (plow-back ratio) |
+
+- **A ROE alakjai (6. dia):** Earnings / piaci „Equity” = EPS\_1 / P\_0, vagyis nettó eredmény\_1 / saját tőke\_0
+- **Újrabefektetési hányad (7. dia):** újrabefektetett eredmény / nettó eredmény = 1 − dp; feltétel, hogy csak saját tőkéből finanszírozunk
+- **Forrás:** Osztalékpolitika, 6–7. dia
+- **Csapda:** a dp a kifizetett hányad; a növekedéshez a visszaforgatott hányad, 1 − dp kell
+- **Csapda:** a diasor a ROE-t a piaci sajáttőke-értékhez méri (EPS\_1 / P\_0)
+
+### 10.3 Fenntartható növekedési ütem
+
+```latex
+g = ROE \times (1 - dp)
+```
+
+**Magyarul:** ha a vállalat csak belső forrásból finanszíroz, az osztalék növekedési üteme a sajáttőke-arányos nyereség szorozva a visszaforgatott hányaddal.
+
+| Jel | Jelentés |
+| --- | --- |
+| `g` | a fenntartható növekedési ütem |
+| `ROE` | sajáttőke-arányos nyereség |
+| `dp` | osztalék-kifizetési ráta |
+| `1 − dp` | újrabefektetési hányad |
+
+- **Feltevések (8. dia):** stabil növekedés: csak belső finanszírozás, állandó ROE, állandó dp, nincs D, állandó r. A dia kérdése: fenntartható-e?
+- **Az árfolyam (9. dia):** a 10.1-be helyettesítve P\_0 = DIV\_1 / (r − ROE × (1 − dp)), ha g < r; a következő évi osztalék DIV\_1 = dp × EPS\_1
+- **A ROE és az elvárt hozam viszonya (13. és 25. dia):** ez dönti el, érdemes-e visszaforgatni
+- **Kiegészítés:** a ROE a feladatokban adott adat, a visszaforgatott nyereség hozama. Ha a 6. dia szerint EPS\_1 / P\_0-ból számolnánk, a 10.1-gyel együtt ROE = r adódna, és az árfolyam nem függne a dp-től (ez a 14–15. dia irrelevanciája). A 10.1 és a 10.3 együtt azt adja, hogy ROE > r esetén a visszaforgatás, ROE < r esetén a kifizetés emeli az árfolyamot; ezt a diák nem írják ki
+- **Forrás:** Osztalékpolitika, 8–9. dia
+- **Csapda:** nem ROE × dp: a visszaforgatott hányaddal kell szorozni
+
+### 10.4 Részvény-visszavásárlás és felaprózás
+
+```latex
+w_i = \frac{N_i}{N - N_v}
+```
+
+```latex
+P_{\text{új}} = \frac{P}{k}
+```
+
+**Magyarul:** visszavásárlás után a megtartó tulajdonos hányada a megtartott részvényei osztva a megmaradt részvények számával; k:1 arányú felaprózás után az árfolyam a k-ad része, a részvényesi vagyon nem változik.
+
+| Jel | Jelentés |
+| --- | --- |
+| `w_i` | az i. tulajdonos hányada a visszavásárlás után |
+| `N_i` | az i. tulajdonos részvényeinek száma |
+| `N` | a részvények száma a visszavásárlás előtt |
+| `N_v` | a visszavásárolt részvények száma |
+| `P` | árfolyam a felaprózás előtt |
+| `k` | a felaprózás aránya (k:1) |
+| `P_új` | árfolyam a felaprózás után |
+
+- **Kiegészítés:** a diák nem adnak képletet; a két sor a 17. és a 22. dia számpéldájának számítása
+- **Forrás:** Osztalékpolitika, 17. és 22. dia
+- **Csapda:** a visszavásárolt részvényeket le kell vonni a darabszámból (N − N\_v); az eladó tulajdonos darabszáma is csökken
+- **Példa (17. dia):** 100 részvény (A 50, B 30, C 20), 10 db visszavásárlás B-től → 90 részvény: A 55,6%, B 22,2%, C 22,2% (szemléltető példa, nem Berkshire-adat)
+- **Példa (22. dia):** Walmart, 2024, 3:1 arányú felaprózás → 175,56 USD / 3 = 58,52 USD; a részvényesi vagyon összértéke változatlan
+
 ## Feladattípus-felismerő
 
 A feladat elolvasása után először azt döntsd el, melyik sorba tartozik: a megadott adatok és a kérdés együtt meghatározzák a láncot.
@@ -924,6 +1188,10 @@ A feladat elolvasása után először azt döntsd el, melyik sorba tartozik: a m
 | hitel véges futamidővel, kamatláb, adókulcs | adómegtakarítás jelenértéke | 8.5 |
 | tőkeáttétel nélküli hozam, r\_D, súlyok, adókulcs | tőkeköltség adóval | 8.7 → 8.8 |
 | piaci mérleg, r\_E, r\_D, adókulcs | tőkeköltség adóval | 8.8 |
+| állandó, előre ismert pénzigény, tranzakciós költség, hozam | felveendő összeg, a feltöltések időköze | 9.1 |
+| ingadozó pénzáramlás szórása, tranzakciós költség, hozam, alsó korlát | célérték, felső korlát, átlagos pénzállomány | 9.2 |
+| sajáttőke-arányos nyereség, kifizetési ráta, elvárt hozam, EPS | növekedési ütem, részvényárfolyam | 10.3 → 10.1 |
+| részvényszámok, visszavásárlás vagy felaprózási arány, árfolyam | tulajdoni hányad, új árfolyam | 10.4 |
 
 **A leghosszabb lánc:** β → CAPM → r\_E → (+ YTM → adózás utáni r\_D) → piaci értékű súlyok → WACC → NPV diszkontrátája. Ha egy feladat ennek csak egy darabját kérdezi, a többi adat zavaró is lehet.
 
@@ -943,5 +1211,10 @@ A diák minden kidolgozott példáját újraszámoltam. Az NPV (12 627,41), az I
 | Szeminárium, adós 4. példa (8.7, 8.8) | r\_E = 12,7%, WACC* = 11,2% | **12,65%** és **11,16%** (a megoldás kerekít) | számítással igazolva: 12% + 4% × 0,25 × 0,65 = 12,65%; 0,2 × 5,2% + 0,8 × 12,65% = 11,16% | 2 |
 | Szeminárium, 6. példa | az a) kérdés megoldása „b)” jelöléssel kezdődik | a) | számítással igazolva: az eredmény (r\_A = 15%) az a) kérdésre felel, a végeredményt nem érinti | 2 |
 | Tőkeszerkezet, 30. dia | „mindegyik ágazatnak már az adómegtakarítási potenciálja” | „más” | számítással igazolva: elírás, a mondat értelme csak így kerek | 2 |
+| Készpénz, 17. dia (Miller–Orr) | U\* = 3 × 411 − 2 × 100 = 1032 | 3 × 411 − 200 = **1033**; az 1032 a kerekítetlen C\* = 410,7-ből jön | számítással igazolva: 3 × 410,72 − 200 = 1032,2; ugyanígy az átlag (4 × 411 − 100) / 3 = 514,67 lenne, a dia 514-e a 410,7-ből jön (514,3) | 2 |
+| Készpénz, 13. dia (Baumol) | L\_opt = 0,104 év | 0,1047 év (kerekítve **0,105**); a 38,2 nap jó | számítással igazolva: √(20 / 1825) = 0,10468 | 2 |
+| Osztalékpolitika, 23. és 17. dia | a 23. dia táblája szerint a visszavásárlás a tulajdonosi szerkezetet nem változtatja | a 17. dia szerint a megtartók hányada nőhet (A: 50% → 55,6%) | nyitott – kérdezd meg az oktatót: valószínűleg a sor utolsó két cellája felcserélődött (visszavásárlásnál változhat, osztalékrészvénynél és felaprózásnál nem) | 2 |
+| Osztalékpolitika, 24. és 25. dia | a 24. dián „radikális jobboldali” irányzat | a 25. dián „jobboldaliak” (magas osztalék) és „radikális baloldal” (minimális osztalék) | nyitott – kérdezd meg az oktatót: a két dia megnevezése eltér | 2 |
+| Osztalékpolitika, 12. dia | „Hitel – saját tőle volumenét” | „saját tőke” | számítással igazolva: elírás | 2 |
 
-Az első két sor számítási különbség; a többi elírás, a végeredményt nem változtatja. A nyitott tételnél a gyakorlásban és a ZH-szimulációban mindkét értéket elfogadjuk, és a kiértékelés jelzi, hogy a dia mást mutat.
+A számítási különbségek: a 4. ea 29. diája, a Gordon-példa, és a 2. ZH-nál a Miller–Orr- és a Baumol-példa kerekítése; a többi elírás, a végeredményt nem változtatja. Nyitott tételből több is van: a 4. ea 29. diájánál a gyakorlásban és a ZH-szimulációban mindkét értéket elfogadjuk, és a kiértékelés jelzi, hogy a dia mást mutat. A 2. ZH két nyitott tétele fogalmi (osztalékpolitika, 23–25. dia), ezekre nem épül kérdés.

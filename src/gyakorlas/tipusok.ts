@@ -60,7 +60,7 @@ export type FeladatSzoveg = {
   kerdesek: string[]
 }
 
-export type Csalad = 'hozam' | 'allapot' | 'beta' | 'capm' | 'npv' | 'wacc' | 'mm' | 'ado'
+export type Csalad = 'hozam' | 'allapot' | 'beta' | 'capm' | 'npv' | 'wacc' | 'mm' | 'ado' | 'likvid' | 'osztalek'
 
 export type Sablon<P> = {
   id: string

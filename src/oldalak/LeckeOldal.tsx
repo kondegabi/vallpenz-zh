@@ -13,6 +13,8 @@ import { Lecke11 } from '../leckek/l11-wacc.tsx'
 import { Lecke12 } from '../leckek/l12-wacc-capm.tsx'
 import { Lecke13 } from '../leckek/l13-mm.tsx'
 import { Lecke14 } from '../leckek/l14-trade-off.tsx'
+import { Lecke15 } from '../leckek/l15-penzallomany.tsx'
+import { Lecke16 } from '../leckek/l16-osztalek.tsx'
 import { LECKEK } from '../leckek/leckek.ts'
 import { LeckeNavigator } from '../leckek/ui/keret.tsx'
 import { link } from '../router.ts'
@@ -32,6 +34,8 @@ const OLDALAK: Record<number, () => ReactNode> = {
   12: () => <Lecke12 />,
   13: () => <Lecke13 />,
   14: () => <Lecke14 />,
+  15: () => <Lecke15 />,
+  16: () => <Lecke16 />,
 }
 
 export function LeckeOldal({ szam }: { szam: number }) {

@@ -14,13 +14,15 @@ import { Elonezet11 } from '../leckek/l11-wacc.tsx'
 import { Elonezet12 } from '../leckek/l12-wacc-capm.tsx'
 import { Elonezet13 } from '../leckek/l13-mm.tsx'
 import { Elonezet14 } from '../leckek/l14-trade-off.tsx'
+import { Elonezet15 } from '../leckek/l15-penzallomany.tsx'
+import { Elonezet16 } from '../leckek/l16-osztalek.tsx'
 import { leckeKor, LECKEK } from '../leckek/leckek.ts'
 import { LeckeNavigator } from '../leckek/ui/keret.tsx'
 import { link } from '../router.ts'
 import { KorFejlec } from '../ui/KorJeloles.tsx'
 
 /** A függőségi térkép sorrendje: fő ág 1 → … → 8 → 12, mellékágon 9 → 11 és 10. */
-const SORREND = [1, 2, 3, 4, 5, 6, 7, 8, 12, 9, 11, 10, 13, 14]
+const SORREND = [1, 2, 3, 4, 5, 6, 7, 8, 12, 9, 11, 10, 13, 14, 15, 16]
 
 const ELONEZETEK: Record<number, () => ReactNode> = {
   1: () => <Elonezet01 />,
@@ -37,6 +39,8 @@ const ELONEZETEK: Record<number, () => ReactNode> = {
   12: () => <Elonezet12 />,
   13: () => <Elonezet13 />,
   14: () => <Elonezet14 />,
+  15: () => <Elonezet15 />,
+  16: () => <Elonezet16 />,
 }
 
 /** „Minden együtt”: az összes lecke kis élő előnézettel (diás nézet, alapértékekkel). */

@@ -18,7 +18,8 @@ function vartPeldak(): Map<string, number> {
     const pont = /^- \*\*(.+?):\*\*/.exec(sor)
     if (!id || !pont) continue
     const cimke = pont[1].replace(/\\_/g, '_')
-    if (!/\((\d+\. ea|videó|szem\.[^)]*|jegyzet[^)]*)\)/.test(cimke)) continue
+    // a diasor oldalszáma csak a „Példa (N. dia)” címkében jelent diás példát, máshol csak forrásmegjelölés
+    if (!/\((\d+\. ea|videó|szem\.[^)]*|jegyzet[^)]*)\)/.test(cimke) && !/^Példa \(\d+\. dia\)/.test(cimke)) continue
     const kulcs = `${id} ${cimke}`
     vart.set(kulcs, (vart.get(kulcs) ?? 0) + 1)
   }

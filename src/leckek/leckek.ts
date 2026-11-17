@@ -20,6 +20,8 @@ export const LECKEK: LeckeInfo[] = [
   { szam: 12, cim: 'WACC vagy projekt-CAPM', kepletek: ['7.5'], kesz: true },
   { szam: 13, cim: 'MM-tételek: tőkeköltség és tőkeáttétel', kepletek: ['8.1', '8.3', '8.7', '8.8'], kesz: true },
   { szam: 14, cim: 'Adómegtakarítás és optimális tőkeszerkezet', kepletek: ['8.4', '8.6', '8.10'], kesz: true },
+  { szam: 15, cim: 'Célzott pénzállomány: Baumol és Miller–Orr', kepletek: ['9.1', '9.2'], kesz: true },
+  { szam: 16, cim: 'Osztalék, visszaforgatás és árfolyam', kepletek: ['10.1', '10.3'], kesz: true },
 ]
 
 /** A lecke ZH-ja a képleteiből. */

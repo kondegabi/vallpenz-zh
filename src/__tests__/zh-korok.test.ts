@@ -91,9 +91,9 @@ Nincs.
     expect(kt.fejezetek[0].kor).toBe(1)
   })
 
-  it('az 1–7. fejezet az 1., a 8. a 2. ZH-é; minden képletnek pontosan egy ZH-ja van', () => {
+  it('az 1–7. fejezet az 1., a 8–10. a 2. ZH-é; minden képletnek pontosan egy ZH-ja van', () => {
     expect(KT.fejezetek.filter((f) => f.kor === 1).map((f) => f.szam)).toEqual([1, 2, 3, 4, 5, 6, 7])
-    expect(KT.fejezetek.filter((f) => f.kor === 2).map((f) => f.szam)).toEqual([8])
+    expect(KT.fejezetek.filter((f) => f.kor === 2).map((f) => f.szam)).toEqual([8, 9, 10])
     expect(fejezetKor(7)).toBe(1)
     expect(fejezetKor(8)).toBe(2)
     expect(kepletKor('7.4')).toBe(1)

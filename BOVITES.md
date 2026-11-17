@@ -1,6 +1,6 @@
 # Új fejezet hozzáadása
 
-A 2. ZH anyaga folyamatosan érkezik (eddig: tőkeszerkezet; hátravan: tőkebevonás, készpénz- és likviditáskezelés, osztalékpolitika). Ez a leírás azt mutatja meg, hogyan lesz a `keplettar.md` egy új szakaszából új rész az appban.
+A 2. ZH anyaga folyamatosan érkezik (eddig: tőkeszerkezet, készpénz- és likviditásmenedzsment, osztalékpolitika; hátravan: tőkebevonás és a szemináriumi feladatok). Ez a leírás azt mutatja meg, hogyan lesz a `keplettar.md` egy új szakaszából új rész az appban.
 
 ## Melyik ZH-hoz tartozik
 

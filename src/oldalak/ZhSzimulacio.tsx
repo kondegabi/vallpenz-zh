@@ -40,7 +40,7 @@ function Kezdo({ indit }: { indit: () => void }) {
     <section className="zh-kezdo">
       <p className="zh-anyag">
         Anyag: <strong>{KOR_OPCIOK.find((o) => o.ertek === valasztas)?.cim}</strong>
-        {valasztas !== 1 && ' (a 2. ZH-ból eddig a tőkeszerkezet van feltöltve)'}. Másik anyaghoz használd a fejléc választóját.
+        {valasztas !== 1 && ' (a 2. ZH-ból eddig a tőkeszerkezet, a likviditás és az osztalékpolitika van feltöltve)'}. Másik anyaghoz használd a fejléc választóját.
       </p>
       <p className="bevezeto-szoveg">A valódi ZH formátuma: {ZH_PERC} perc, összesen {MAX.ossz} pont. Közben nincs visszajelzés; a pontokat és a megoldásokat a beadás után látod.</p>
       <div className="tabla-keret">

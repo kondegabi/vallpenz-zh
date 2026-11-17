@@ -561,6 +561,7 @@ export const adopajzsOrok: Sablon<Merleg> = {
         { ertek: (1 - p.Tc) * p.D, uzenet: 'A jelenérték TC × D, nem (1 − TC) × D.' },
         { ertek: p.Tc * (p.nft + p.be), uzenet: 'Az adókulcsot az adóssággal kell szorozni, nem a vállalat értékével.' },
         { ertek: p.Tc * (p.nft + p.be - p.D), uzenet: 'Az adókulcsot az adóssággal kell szorozni, nem a saját tőkével: a kamat vonható le.' },
+        { ertek: (p.Tc * p.D) / (1 + p.rD), uzenet: 'A TC × D már a jelenérték, nem kell még egyszer diszkontálni.' },
       ],
       levezetes: (p) => `PV(TS) = TC × D = ${sz(p.Tc)} × ${sz(p.D)} = ${sz(adomegtakaritasPvOrok(p.Tc, p.D))} M USD`,
     },
@@ -578,6 +579,7 @@ export const adopajzsOrok: Sablon<Merleg> = {
         { ertek: p.dD, uzenet: 'Ez a felvett hitel; a részvényesek nyeresége csak az adómegtakarítás: TC × ΔD.' },
         { ertek: adomegtakaritasEves(p.Tc, p.dD, p.rD), uzenet: 'Ez az éves összeg; a jelenértéke TC × ΔD.' },
         { ertek: (1 - p.Tc) * p.dD, uzenet: 'A jelenérték TC × ΔD, nem (1 − TC) × ΔD.' },
+        { ertek: (p.Tc * p.dD) / (1 + p.rD), uzenet: 'A TC × ΔD már a jelenérték, nem kell még egyszer diszkontálni.' },
       ],
       levezetes: (p) => `TC × ΔD = ${sz(p.Tc)} × ${sz(p.dD)} = ${sz(p.Tc * p.dD)} M USD`,
     },
@@ -596,6 +598,7 @@ export const adopajzsOrok: Sablon<Merleg> = {
           { ertek: V, uzenet: 'Ez a tőkeáttételes érték (VL); le kell vonni belőle az adómegtakarítás jelenértékét.' },
           { ertek: V - p.D, uzenet: 'Ez a saját tőke értéke; VU = VL − TC × D.' },
           { ertek: V - adomegtakaritasEves(p.Tc, p.D, p.rD), uzenet: 'Az éves összeget vontad le; a jelenérték TC × D.' },
+          { ertek: V - p.Tc * V, uzenet: 'Az adókulcsot az adóssággal kell szorozni, nem a vállalat értékével: VU = VL − TC × D.' },
         ]
       },
       levezetes: (p, e) => `VU = VL − TC × D = ${sz(p.nft + p.be)} − ${sz(e('pv'))} = ${sz(p.nft + p.be - e('pv'))} M USD`,
@@ -678,6 +681,11 @@ export const adopajzsVeges: Sablon<Veges> = {
           { ertek: adomegtakaritasPvVeges(1, k, p.rD), uzenet: 'Ez a kamatok jelenértéke; az adómegtakarítás ennek TC-szerese.' },
           { ertek: adomegtakaritasPvVeges(1 - p.Tc, k, p.rD), uzenet: 'A megtakarítás a kamat TC-szerese, nem (1 − TC)-szerese.' },
         ]
+        hibak.push(
+          { ertek: (p.Tc * k[0]) / (1 + p.rD), uzenet: 'Ez csak az első év adómegtakarítása; minden év adómegtakarítását össze kell adni.' },
+          { ertek: (p.Tc * k.reduce((s, x) => s + x, 0)) / Math.pow(1 + p.rD, p.n), uzenet: 'Minden évet a saját évével kell diszkontálni, nem mindet az utolsó évvel.' },
+          { ertek: adomegtakaritasPvVeges(p.Tc, k, p.rD) / (1 + p.rD), uzenet: 'Egy évvel többször diszkontáltál: az első év megtakarítása (1 + rD)^1-gyel osztódik.' },
+        )
         if (p.mod === 'torleszto') hibak.push({ ertek: adomegtakaritasPvVeges(p.Tc, new Array<number>(p.n).fill(p.D * p.rD), p.rD), uzenet: 'A törlesztő hitelnél a tartozás, és vele a kamat, évről évre csökken.' })
         return hibak
       },

@@ -35,6 +35,10 @@ const KERDEZETT: Record<string, string[]> = {
   F20: ['adómegtakarítás', 'adópajzs', 'jelenérték'],
   F21: ['tőkeköltség', 'módosított'],
   F22: ['tőkeköltség', 'módosított'],
+  F23: ['felveendő', 'időköz', 'hány naponként'],
+  F24: ['célérték', 'felső korlát', 'átlagos pénzállomány'],
+  F25: ['növekedési ütem', 'árfolyam', 'részvény értéke'],
+  F26: ['tulajdoni hányad', 'új árfolyam', 'után'],
 }
 
 function szovegbol(sz: FeladatSzoveg): string {
