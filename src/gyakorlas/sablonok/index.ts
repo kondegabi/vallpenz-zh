@@ -10,7 +10,7 @@ import { waccVagyCapm } from './projekt.ts'
 import { adopajzsOrok, adopajzsVeges, adosTokekoltseg, mmEszkozBeta, mmSajatToke, mmTokekoltseg, mmUjrafinanszirozas, modositottTokekoltseg } from './tokeszerkezet.ts'
 import { waccLanc } from './wacc.ts'
 import { baumolSablon, millerOrrSablon } from './likviditas.ts'
-import { osztalekNovekedes, reszvenyMuveletek } from './osztalek.ts'
+import { osztalekNovekedes, osztalekSzakaszos, reszvenyMuveletek, tokeletesPiaciMuveletek } from './osztalek.ts'
 
 export const SABLONOK: AnySablon[] = [
   atlaghozamok,
@@ -40,6 +40,8 @@ export const SABLONOK: AnySablon[] = [
   millerOrrSablon,
   osztalekNovekedes,
   reszvenyMuveletek,
+  osztalekSzakaszos,
+  tokeletesPiaciMuveletek,
 ]
 
 // fejezetsorrendben
@@ -53,7 +55,7 @@ export const CSALADOK: { id: Csalad; cim: string; fejezet: string; kor: Kor }[] 
   { id: 'mm', cim: 'Tőkeszerkezet tökéletes piacon (MM)', fejezet: '8.1–8.3', kor: 2 },
   { id: 'ado', cim: 'Tőkeszerkezet adóval', fejezet: '8.4–8.8', kor: 2 },
   { id: 'likvid', cim: 'Készpénz- és likviditásmenedzsment', fejezet: '9.1–9.2', kor: 2 },
-  { id: 'osztalek', cim: 'Osztalékpolitika', fejezet: '10.1–10.4', kor: 2 },
+  { id: 'osztalek', cim: 'Osztalékpolitika', fejezet: '10.1–10.5', kor: 2 },
 ]
 
 export function sablonKor(s: AnySablon): Kor {

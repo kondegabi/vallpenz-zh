@@ -384,4 +384,21 @@ export const ELMELETI: ElmeletiKerdes[] = [
     rosszak: ['A radikális baloldal (Brennan)', 'A középutasok (Modigliani–Miller)', 'A jelzéselmélet hívei (Lintner)'],
     kulcs: 'a jobboldaliak (Graham–Dodd 1951',
   },
+  // ---- 2. ZH: a 10. fejezet szemináriumi feladataiból ----
+  {
+    id: 'kibocsatasi-ar-ex',
+    forras: '10.5',
+    kerdes: 'Milyen áron bocsát ki új részvényt tökéletes piacon, ha az új részvényekre nem jár a soron következő osztalék?',
+    helyes: 'Az osztalék utáni árfolyamon',
+    rosszak: ['Az osztalékkal együtti árfolyamon', 'A részvények névértékén', 'Az osztalék kétszeresével csökkentve'],
+    kulcs: 'az osztalék utáni (ex) áron bocsátjuk ki őket',
+  },
+  {
+    id: 'reszvenyosztalek-mit-novel',
+    forras: '10.5',
+    kerdes: 'Mit növel a részvényosztalék?',
+    helyes: 'Az alaptőkét és a darabszámot',
+    rosszak: ['A saját tőke piaci értékét', 'A részvény árfolyamát', 'A részvényesek vagyonát'],
+    kulcs: 'ezért növeli az alaptőkét',
+  },
 ]

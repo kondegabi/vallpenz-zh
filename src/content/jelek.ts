@@ -292,6 +292,16 @@ export const JELEK: Record<string, JelLatex[]> = {
     { megj: 'k', mintak: ['k'] },
     { megj: 'P_{\\text{új}}', mintak: ['P_{\\text{új}}'] },
   ],
+  '10.5': [
+    { megj: 'P_{cum}', mintak: ['P_{cum}'] },
+    { megj: 'P_{ex}', mintak: ['P_{ex}'] },
+    { megj: 'DIV', mintak: ['DIV'] },
+    { megj: 'n_{új}', mintak: ['n_{új}'] },
+    { megj: '\\text{forrásigény}', mintak: ['\\text{forrásigény}'] },
+    { megj: '\\text{alaptőke}', mintak: ['\\text{alaptőke}'] },
+    { megj: '\\text{darabszám}', mintak: ['\\text{darabszám}'] },
+    { megj: '\\text{névérték}', mintak: ['\\text{névérték}'] },
+  ],
   '8.10': [
     { megj: 'V', mintak: ['V'] },
     { megj: 'V_U', mintak: ['V_U'] },

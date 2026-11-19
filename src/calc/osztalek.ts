@@ -45,3 +45,28 @@ export function tulajdoniHanyadVisszavasarlasUtan(Ni: number, N: number, Nv: num
 export function felaprozottAr(P: number, k: number): number {
   return P / k
 }
+
+/**
+ * 10.1 szakaszonként: az eredményt t = 0 … k − 1 teljesen visszaforgatják (az EPS évente ROE-val nő),
+ * t = k-tól dp-t fizetnek ki, onnan g = ROE × (1 − dp). P_0 = DIV_k / (r − g) / (1 + r)^(k − 1).
+ */
+export function ketszakaszosAr(EPS0: number, ROE: number, k: number, dp: number, r: number): number {
+  const EPSk = EPS0 * Math.pow(1 + ROE, k)
+  const Pkm1 = osztalekModellAr(dp * EPSk, r, fenntarthatoNovekedes(ROE, dp))
+  return Pkm1 / Math.pow(1 + r, k - 1)
+}
+
+/** 10.5 Tökéletes piacon az osztalék kifizetésekor az árfolyam az osztalékkal esik: P_ex = P_cum − DIV. */
+export function exDividendAr(Pcum: number, DIV: number): number {
+  return Pcum - DIV
+}
+
+/** 10.5 A kibocsátandó részvények száma: forrásigény / kibocsátási ár. */
+export function kibocsatandoDarab(forrasigeny: number, ar: number): number {
+  return forrasigeny / ar
+}
+
+/** 10.5 Alaptőke = részvényszám × névérték (a felaprózás nem, a részvényosztalék növeli). */
+export function alaptoke(db: number, nevertek: number): number {
+  return db * nevertek
+}

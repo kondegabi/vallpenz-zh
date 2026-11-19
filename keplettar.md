@@ -907,7 +907,7 @@ V = V_U + PV(\text{adómegtakarítás}) - PV(\text{pénzügyi nehézségek})
 
 ## 9. Készpénz- és likviditásmenedzsment
 
-Forrás: a Készpénz- és likviditásmenedzsment diasor (Dr. Walter György, `forras/zh2/`). Ebben a fejezetben a „dia” ennek a diasornak az oldalszáma.
+Forrás: a Készpénz- és likviditásmenedzsment diasor (Dr. Walter György, `forras/zh2/`). Ebben a fejezetben a „dia” ennek a diasornak az oldalszáma. A „szem. Baumol N” és „szem. Miller–Orr N” a szemináriumi feladatsor (VPÜ2 cash\_examples) feladatai; a feladatsor megoldás nélküli, az eredmények saját számítások a képlettár képleteivel.
 
 - **Vállalati likviditás (3. dia):** a vállalat azon képessége, hogy rendelkezésére állnak-e likvid eszközök; képes-e adott összegű pénzhez jutni adott (rövid) időtávon, adott (csekély) veszteség mellett; képes-e a pénzt külföldi pénznemre váltani és abban fizetni. Mérése likviditási mutatókkal
 - **Eszközoldali (piaci) likviditás (4. dia):** az eszközök értékesíthetősége; az eszközök másodlagos piacaitól függ (pl. ingatlan, gépek, készletek)
@@ -973,7 +973,11 @@ L_{opt} = \sqrt{\frac{2F}{r \times T}}
 - **Forrás:** Készpénz, 11–13. dia (Ross et al. 2021)
 - **Csapda:** T, r és az időköz ugyanarra az időszakra vonatkozik: napi kiáramlásból az éves T = 365 × a napi összeg, éves hozammal az L\_opt években jön ki, napokban ennek 365-szöröse
 - **Csapda:** a 2 a gyök alatt van, és mindkét képletben gyököt kell vonni
+- **Napi adatokkal:** (szem. Baumol 1) napi pénzigénnyel és a napi kamatra lineárisan átszámolt éves kamatlábbal (r / 365) ugyanaz a C\_opt jön ki, mint éves T-vel és éves r-rel; a C\_opt / napi összeg ekkor közvetlenül napokban adja az időközt
+- **A paraméterek hatása:** (szem. Baumol 1b, a képletből) nagyobb pénzigény (T) → nagyobb C\_opt, rövidebb időköz; nagyobb tranzakciós költség (F) → nagyobb C\_opt, hosszabb időköz; nagyobb hozam (r) → kisebb C\_opt, rövidebb időköz
 - **Példa (13. dia):** Vulcan Corporation: napi kiáramlás 100 USD, r = 5%, F = 10 USD → T = 36 500, C\_opt = 3821 USD, L\_opt = 0,1047 év (a dián levágva 0,104) = 38,2 nap
+- **Példa (szem. Baumol 1):** napi 200 000 USD kifizetés, APR 5%, F = 500 USD → C\_opt = √(2 × 200 000 × 500 / (0,05 / 365)) = 1 208 305 USD, 6,04 naponként (évente kb. 60-szor)
+- **Példa (szem. Baumol 2):** napi 50 000 USD, APR 2%, F = 100 USD → C\_opt = 427 200 USD, 8,54 naponként
 
 ### 9.2 Miller–Orr-modell
 
@@ -1005,12 +1009,15 @@ U^{*} = 3C^{*} - 2L = L + 3 \times (C^{*} - L)
 - **Forrás:** Készpénz, 14–17. dia (Ross et al. 2021, 674–676. o.)
 - **Csapda:** a szórás négyzete (variancia) kell, és σ és r ugyanarra az időszakra vonatkozik: a 17. dián havi, a 16. dián napi
 - **Csapda:** köbgyök, nem négyzetgyök, és az L hozzáadódik
+- **Csapda:** ha a feladat a varianciát adja meg, az már σ²; ha éves kamatot és napi szórást, a kamatot napira kell váltani (lineárisan r / 365)
 - **Példa (17. dia):** L = 100 USD, F = 10 USD, havi σ = 200 USD, havi r = 1% → C\* = 411 USD, U\* = 1032 USD, átlagos pénzállomány 514 USD
 - **Példa (16. dia):** EMPEC, lengyel távhőszolgáltató (2014-es adatok, 251 nap): napi σ = 357 697 PLN, F = 10 PLN, éves kamat 2,25%, napi r = 0,0060962%, L = 350 000 PLN → C\* = 600 616 PLN, U\* = 1 101 848 PLN. 4,38 millió PLN egyenlegnél 3,78 millió PLN-t fektetnek be, és a 0,60 millió PLN célállomány marad
+- **Példa (szem. Miller–Orr 1):** napi σ = 10 000 USD, a minimum három szórásnyi (L = 30 000 USD), évi 5% lineárisan (napi r = 0,05 / 365), F = 500 USD → C\* = 94 931 USD, U\* = 224 793 USD. A szabály: ha a pénzállomány eléri a 224 793 USD-t, 129 862 USD-t befektet; ha leesik 30 000 USD-ra, 64 931 USD értékpapírt elad
+- **Példa (szem. Miller–Orr 2):** a napi cash-flow varianciája 890 000 (ez már σ², nem kell újra négyzetre emelni), APR 4% (napi r = 0,04 / 365), L = 160 000 USD, F = 300 USD → C\* = 172 226 USD, U\* = 196 677 USD
 
 ## 10. Osztalékpolitika
 
-Forrás: az Osztalékpolitika diasor (Dr. Walter György, `forras/zh2/`). Ebben a fejezetben a „dia” ennek a diasornak az oldalszáma. Az osztalékdiszkontálási modell a 7.1 Gordon-modell, a diasor jelöléseivel (DIV, r).
+Forrás: az Osztalékpolitika diasor (Dr. Walter György, `forras/zh2/`). Ebben a fejezetben a „dia” ennek a diasornak az oldalszáma. Az osztalékdiszkontálási modell a 7.1 Gordon-modell, a diasor jelöléseivel (DIV, r). A „szem. osztalék N” a szemináriumi feladatsor (VPÜ2 Div examples, Walter Gy. feladatgyűjteménye alapján) feladata; a feladatsor megoldás nélküli, az eredmények saját számítások.
 
 - **Osztalék (4. és 10. dia):** általában a nyereségből kifizetett készpénz, de különböző formájú lehet (nem csak készpénz)
 - **Formái (10. dia):** rendszeres készpénzes osztalék; rendkívüli osztalék (nem ismételhető meg); speciális osztalék (biztosan nem ismétlődik meg); likvidációs osztalék (a vállalkozás felszámolásából); osztalék (kiosztás) természetben (a vállalat termékében vagy szolgáltatásában); részvényosztalék (új részvények kibocsátása); részvény-visszavásárlás
@@ -1082,6 +1089,8 @@ P_0 = \frac{DIV_1}{r - g} \quad (g < r), \qquad r = \frac{DIV_1}{P_0} + g
 - **Kapcsolat:** ugyanaz, mint a 7.1, a diasor jelöléseivel (DIV a D, r az r\_E helyett)
 - **Forrás:** Osztalékpolitika, 4–5. és 9. dia
 - **Csapda:** a számlálóban a következő évi osztalék (DIV\_1) áll; csak g < r esetén van véges ár
+- **Szakaszonként:** (szem. osztalék 2) ha az osztalék csak később indul, az összeg alak (első LaTeX) szerint számolunk: az első osztaléktól az állandó növekedésű alak adja az árat egy évvel korábbra (a k − 1. év végi ár DIV\_k / (r − g)), és ezt k − 1 évvel diszkontáljuk
+- **Példa (szem. osztalék 2):** EPS\_0 = 100 Ft, ROE = 10%; idén és a következő három évben nincs osztalék, minden nyereséget visszaforgatnak (EPS\_4 = 100 × 1,1⁴ = 146,41); a 4. évtől a nyereség 80%-a osztalék (DIV\_4 = 117,13), utána g = 10% × 0,2 = 2%; r = 8% → P\_3 = 117,13 / 0,06 = 1952,13, P\_0 = 1952,13 / 1,08³ = 1549,67 Ft. Értelmezés: az „idén” a most lezárt év eredményéből fizetendő osztalék; ha az első osztalék az 5. évben lenne, 1578,36 Ft
 
 ### 10.2 Nyereség, ROE és kifizetési ráta
 
@@ -1131,6 +1140,8 @@ g = ROE \times (1 - dp)
 - **Kiegészítés:** a ROE a feladatokban adott adat, a visszaforgatott nyereség hozama. Ha a 6. dia szerint EPS\_1 / P\_0-ból számolnánk, a 10.1-gyel együtt ROE = r adódna, és az árfolyam nem függne a dp-től (ez a 14–15. dia irrelevanciája). A 10.1 és a 10.3 együtt azt adja, hogy ROE > r esetén a visszaforgatás, ROE < r esetén a kifizetés emeli az árfolyamot; ezt a diák nem írják ki
 - **Forrás:** Osztalékpolitika, 8–9. dia
 - **Csapda:** nem ROE × dp: a visszaforgatott hányaddal kell szorozni
+- **Csapda:** ha a feladat a most kifizetett osztalékot adja (DIV\_0), a következő évi DIV\_1 = DIV\_0 × (1 + g)
+- **Példa (szem. osztalék 1):** most fizette ki nyeresége 80%-át, ez 4 USD osztalék; ROE = 15%, r = 12% → g = 15% × 0,2 = 3%, DIV\_1 = 4,12 USD, P\_0 = 4,12 / (0,12 − 0,03) = 45,78 USD
 
 ### 10.4 Részvény-visszavásárlás és felaprózás
 
@@ -1159,6 +1170,40 @@ P_{\text{új}} = \frac{P}{k}
 - **Csapda:** a visszavásárolt részvényeket le kell vonni a darabszámból (N − N\_v); az eladó tulajdonos darabszáma is csökken
 - **Példa (17. dia):** 100 részvény (A 50, B 30, C 20), 10 db visszavásárlás B-től → 90 részvény: A 55,6%, B 22,2%, C 22,2% (szemléltető példa, nem Berkshire-adat)
 - **Példa (22. dia):** Walmart, 2024, 3:1 arányú felaprózás → 175,56 USD / 3 = 58,52 USD; a részvényesi vagyon összértéke változatlan
+
+### 10.5 Osztalék és tőkeemelés tökéletes piacon
+
+```latex
+P_{ex} = P_{cum} - DIV
+```
+
+```latex
+n_{új} = \frac{\text{forrásigény}}{P_{ex}}, \qquad \text{alaptőke} = \text{darabszám} \times \text{névérték}
+```
+
+**Magyarul:** tökéletes piacon az osztalék kifizetésekor az árfolyam az osztalékkal esik; ha az új részvényekre már nem jár osztalék, az osztalék utáni (ex) áron bocsátjuk ki őket, és a forrásigényt ezzel az árral osztjuk.
+
+| Jel | Jelentés |
+| --- | --- |
+| `P_cum` | árfolyam az osztalékkal együtt (az osztalék kifizetése előtt) |
+| `P_ex` | árfolyam az osztalék kifizetése után |
+| `DIV` | egy részvényre jutó osztalék |
+| `n_új` | a kibocsátandó új részvények száma |
+| `forrásigény` | az osztalék, a beruházás és a hiteltörlesztés együtt, amit a kibocsátásból fedezünk |
+| `alaptőke` | a részvények névértékének összege |
+| `darabszám` | a részvények száma |
+| `névérték` | egy részvény névértéke |
+
+- **Kiegészítés:** a diasor nem írja fel ezeket; a tökéletes piac irrelevanciájából (14–15. dia: a részvényesi vagyon nem változik), az ex-dividend árfolyamesésből (11. dia) és a szemináriumi feladatokból (szem. osztalék 3–6) következnek
+- **A bejelentés:** tökéletes piacon a magasabb osztalék vagy a részvényosztalék bejelentése önmagában nem változtat az árfolyamon; az árfolyam a kifizetéskor esik az osztalékkal, a részvényosztaléknál és a felaprózásnál pedig a darabszám arányában
+- **Alaptőke:** a részvényosztalék új részvényeket ad névértéken, ezért növeli az alaptőkét; a felaprózás csak a névértéket osztja, az alaptőkét nem változtatja; a saját tőke piaci értékét egyik sem változtatja
+- **Kapitalizáció és eszközérték:** a kibocsátás növeli (befolyik a pénz), a kifizetett osztalék csökkenti; a hiteltörlesztés az eszközöket csökkenti, a saját tőkét nem; nulla NPV-jű beruházás egyiket sem változtatja
+- **Csapda:** az új részvényeket nem az osztalékkal együtti áron bocsátjuk ki, ha nekik már nem jár osztalék
+- **Csapda:** a forrásigénybe minden szükséglet bekerül: a régi részvényeknek járó osztalék, a beruházás és a hiteltörlesztés
+- **Példa (szem. osztalék 3):** GTK Corp.: 200 000 db, névérték 100 USD, árfolyam 300 USD; 60 USD osztalék, utána 1:1 részvényosztalék → 300 → 240 → 120 USD. Alaptőke 20 → 40 millió USD, a saját tőke piaci értéke 60 → 48 millió USD. Ugyanezt az árfolyamot a kiindulásból 1:2,5 arányú felaprózás adná: 500 000 db, névérték 40 USD, alaptőke 20 millió USD, piaci érték 60 millió USD
+- **Példa (szem. osztalék 4):** SokSikert: alaptőke 500 millió Ft, névérték 10 000 Ft (50 000 db), kapitalizáció 750 millió Ft. Most és a hír után: 50 000 db, 15 000 Ft, 750 millió Ft, alaptőke 500 millió Ft; a 3000 Ft-os rendkívüli osztalék után: 12 000 Ft, 600 millió Ft; az 1:4 felaprózás után: 200 000 db, 3000 Ft, 600 millió Ft, alaptőke 500 millió Ft (névérték 2500 Ft)
+- **Példa (szem. osztalék 5):** BBB Corp.: 100 000 db, 1300 USD; 300 USD osztalék (30 millió) és 20 millió USD felújítás, az új részvényekre nem jár osztalék → kibocsátás 1000 USD-on, 50 000 db. Kapitalizáció: most és a hír után 130, a kibocsátáskor 180, az osztalék után és a beruházás után 150 millió USD. Ha az új részvényekre is jár osztalék: 1300 USD-on, ugyancsak 50 000 db
+- **Példa (szem. osztalék 6):** Indefault: 30 000 db, 3200 USD; 50 millió hitel, 10 millió beruházás, 200 USD osztalék (6 millió), az új részvényekre nem jár osztalék → 3000 USD-on 22 000 db. Kapitalizáció: 96 → 162 → 162 (törlesztés után) → 156 millió USD; az eszközök piaci értéke: 146 → 212 → 162 → 156 millió USD
 
 ## Feladattípus-felismerő
 
@@ -1192,6 +1237,8 @@ A feladat elolvasása után először azt döntsd el, melyik sorba tartozik: a m
 | ingadozó pénzáramlás szórása, tranzakciós költség, hozam, alsó korlát | célérték, felső korlát, átlagos pénzállomány | 9.2 |
 | sajáttőke-arányos nyereség, kifizetési ráta, elvárt hozam, EPS | növekedési ütem, részvényárfolyam | 10.3 → 10.1 |
 | részvényszámok, visszavásárlás vagy felaprózási arány, árfolyam | tulajdoni hányad, új árfolyam | 10.4 |
+| néhány évig teljes visszaforgatás, utána kifizetési ráta, ROE, elvárt hozam | részvényárfolyam | 10.3 → 10.1 szakaszonként |
+| tökéletes piac, osztalék, részvényosztalék, tőkeemelés, árfolyam | új árfolyam, kibocsátandó részvények száma és ára | 10.5 |
 
 **A leghosszabb lánc:** β → CAPM → r\_E → (+ YTM → adózás utáni r\_D) → piaci értékű súlyok → WACC → NPV diszkontrátája. Ha egy feladat ennek csak egy darabját kérdezi, a többi adat zavaró is lehet.
 
@@ -1216,5 +1263,7 @@ A diák minden kidolgozott példáját újraszámoltam. Az NPV (12 627,41), az I
 | Osztalékpolitika, 23. és 17. dia | a 23. dia táblája szerint a visszavásárlás a tulajdonosi szerkezetet nem változtatja | a 17. dia szerint a megtartók hányada nőhet (A: 50% → 55,6%) | nyitott – kérdezd meg az oktatót: valószínűleg a sor utolsó két cellája felcserélődött (visszavásárlásnál változhat, osztalékrészvénynél és felaprózásnál nem) | 2 |
 | Osztalékpolitika, 24. és 25. dia | a 24. dián „radikális jobboldali” irányzat | a 25. dián „jobboldaliak” (magas osztalék) és „radikális baloldal” (minimális osztalék) | nyitott – kérdezd meg az oktatót: a két dia megnevezése eltér | 2 |
 | Osztalékpolitika, 12. dia | „Hitel – saját tőle volumenét” | „saját tőke” | számítással igazolva: elírás | 2 |
+| Osztalék-feladatsor, 5. feladat c) | „300 Ft-os részvényenkénti osztalékot” | 300 dolláros (a feladat dollárban adott) | számítással igazolva: elírás, a végeredményt nem változtatja | 2 |
+| Készpénz-feladatsor, Miller–Orr 2. feladat | „napi cash-flowjának varianciája 890 ezer dollár” | a variancia mértékegysége dollár²; nem egyértelmű, hogy a 890 000 a variancia vagy a szórás | nyitott – kérdezd meg az oktatót: varianciaként C\* = 172 226, U\* = 196 677; szórásként C\* ≈ 1 335 976, U\* ≈ 3 687 928 USD | 2 |
 
 A számítási különbségek: a 4. ea 29. diája, a Gordon-példa, és a 2. ZH-nál a Miller–Orr- és a Baumol-példa kerekítése; a többi elírás, a végeredményt nem változtatja. Nyitott tételből több is van: a 4. ea 29. diájánál a gyakorlásban és a ZH-szimulációban mindkét értéket elfogadjuk, és a kiértékelés jelzi, hogy a dia mást mutat. A 2. ZH két nyitott tétele fogalmi (osztalékpolitika, 23–25. dia), ezekre nem épül kérdés.

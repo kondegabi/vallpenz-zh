@@ -846,6 +846,63 @@ export const ALLITASOK: Allitas[] = [
     hamis: 'Ha nincs növekedési lehetőség, a vállalat visszatartja az eredményt.',
     kulcs: 'ha nincs növekedési lehetőség, és a vállalat kifizeti az eredményt'
   },
+  // ---- 2. ZH: a 9–10. fejezet szemináriumi feladataiból ----
+  {
+    id: 'bejelentes-tokeletes-piac',
+    forras: '10.5',
+    igaz: 'Tökéletes piacon a magasabb osztalék bejelentése önmagában nem változtat az árfolyamon.',
+    hamis: 'Tökéletes piacon a magasabb osztalék bejelentése önmagában emeli az árfolyamot.',
+    kulcs: 'a magasabb osztalék vagy a részvényosztalék bejelentése önmagában nem változtat az árfolyamon',
+  },
+  {
+    id: 'ex-arfolyam-osztalekkal',
+    forras: '10.5',
+    igaz: 'Tökéletes piacon az osztalék kifizetésekor az árfolyam az osztalékkal csökken.',
+    hamis: 'Tökéletes piacon az osztalék kifizetésekor az árfolyam az osztalék felével csökken.',
+    kulcs: 'az árfolyam a kifizetéskor esik az osztalékkal',
+  },
+  {
+    id: 'reszvenyosztalek-alaptoke',
+    forras: '10.5',
+    igaz: 'A részvényosztalék növeli az alaptőkét.',
+    hamis: 'A részvényosztalék nem változtatja az alaptőkét.',
+    kulcs: 'ezért növeli az alaptőkét',
+  },
+  {
+    id: 'felaprozas-alaptoke',
+    forras: '10.5',
+    igaz: 'A felaprózás az alaptőkét nem változtatja.',
+    hamis: 'A felaprózás az alaptőkét növeli.',
+    kulcs: 'a felaprózás csak a névértéket osztja, az alaptőkét nem változtatja',
+  },
+  {
+    id: 'uj-reszveny-ex-aron',
+    forras: '10.5',
+    igaz: 'Ha az új részvényekre nem jár osztalék, osztalék utáni áron bocsátják ki őket.',
+    hamis: 'Ha az új részvényekre nem jár osztalék, osztalékkal együtti áron bocsátják ki őket.',
+    kulcs: 'az osztalék utáni (ex) áron bocsátjuk ki őket',
+  },
+  {
+    id: 'torlesztes-eszkozok',
+    forras: '10.5',
+    igaz: 'A hiteltörlesztés a vállalat eszközeit csökkenti, a saját tőkéjét nem.',
+    hamis: 'A hiteltörlesztés a vállalat saját tőkéjét csökkenti, az eszközeit nem.',
+    kulcs: 'a hiteltörlesztés az eszközöket csökkenti, a saját tőkét nem',
+  },
+  {
+    id: 'baumol-tranzakcios-koltseg',
+    forras: '9.1',
+    igaz: 'A Baumol-modellben nagyobb tranzakciós költség mellett ritkábban érdemes pénzt felvenni.',
+    hamis: 'A Baumol-modellben nagyobb tranzakciós költség mellett gyakrabban érdemes pénzt felvenni.',
+    kulcs: 'nagyobb tranzakciós költség (F) → nagyobb C',
+  },
+  {
+    id: 'miller-orr-variancia',
+    forras: '9.2',
+    igaz: 'Ha a feladat a pénzáramlás varianciáját adja meg, azt a Miller–Orr-modellben nem kell újra négyzetre emelni.',
+    hamis: 'Ha a feladat a pénzáramlás varianciáját adja meg, azt a Miller–Orr-modellben újra négyzetre kell emelni.',
+    kulcs: 'ha a feladat a varianciát adja meg, az már σ²',
+  },
 ]
 
 /** Az állítás ZH-ja a forrás fejezetéből. */

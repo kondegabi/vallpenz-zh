@@ -62,7 +62,7 @@ describe('A képlettár beolvasása', () => {
   it('a fő szakaszok és a felismerő tábla sorai (14 az 1. ZH-é)', () => {
     expect(KT.cim).toBe('Vállalati pénzügyek II – ZH képlettár')
     expect(KT.terkep.blokkok[0].tipus).toBe('kod')
-    expect(KT.felismero.sorok).toHaveLength(26)
+    expect(KT.felismero.sorok).toHaveLength(28)
     for (const s of KT.felismero.sorok) expect(s.kepletek.length, s.lanc).toBeGreaterThan(0)
     expect(KT.felismero.sorok[13].kepletek).toEqual(['5.1', '7.5'])
     expect(KT.hibak.blokkok.some((b) => b.tipus === 'tabla')).toBe(true)

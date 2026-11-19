@@ -39,6 +39,8 @@ const KERDEZETT: Record<string, string[]> = {
   F24: ['célérték', 'felső korlát', 'átlagos pénzállomány'],
   F25: ['növekedési ütem', 'árfolyam', 'részvény értéke'],
   F26: ['tulajdoni hányad', 'új árfolyam', 'után'],
+  F27: ['árfolyam', 'részvény értéke'],
+  F28: ['hány darab', 'milyen áron', 'végső árfolyam'],
 }
 
 function szovegbol(sz: FeladatSzoveg): string {

@@ -46,8 +46,10 @@ export const baumolSablon: Sablon<Baumol> = {
   felismeresek: [{ elott: '', helyes: 'F23', zavarok: ['F24', 'F25', 'F20'] }],
   general: (r) => {
     const mod = r.valaszt(['napi', 'napi', 'heti', 'havi', 'eves'] as const)
-    const osszeg = mod === 'napi' ? r.lepeskoz(50, 800, 10) : mod === 'heti' ? r.lepeskoz(500, 5000, 100) : mod === 'havi' ? r.lepeskoz(2000, 20000, 500) : r.lepeskoz(20000, 300000, 5000)
-    return { ceg: r.valaszt(CEGEK), mod, osszeg, r: r.lepeskoz(0.02, 0.1, 0.005), F: r.lepeskoz(5, 60, 5), kerdes: r.esely(0.6) ? 'C' : 'L' }
+    // a szemináriumi feladatok nagyságrendje (napi több tízezer, tranzakciónként néhány száz USD) is előfordul
+    const nagy = mod === 'napi' && r.esely(0.5)
+    const osszeg = nagy ? r.lepeskoz(10000, 300000, 10000) : mod === 'napi' ? r.lepeskoz(50, 800, 10) : mod === 'heti' ? r.lepeskoz(500, 5000, 100) : mod === 'havi' ? r.lepeskoz(2000, 20000, 500) : r.lepeskoz(20000, 300000, 5000)
+    return { ceg: r.valaszt(CEGEK), mod, osszeg, r: r.lepeskoz(0.02, 0.1, 0.005), F: nagy ? r.lepeskoz(100, 1000, 50) : r.lepeskoz(5, 60, 5), kerdes: r.esely(0.6) ? 'C' : 'L' }
   },
   ervenyes: (p) => baumolL(eviT(p), p.F, p.r) * 365 > 2,
   szoveg: (p, r) => {
@@ -143,12 +145,28 @@ export const baumolSablon: Sablon<Baumol> = {
   ],
   diasPeldak: [
     { forras: '9.1 Példa (13. dia)', p: { mod: 'napi', osszeg: 100, r: 0.05, F: 10, kerdes: 'L' }, vart: { T: '36500', C: '3821', L: '0,1047', Lnap: '38,2' } },
+    { forras: '9.1 Példa (szem. Baumol 1)', p: { mod: 'napi', osszeg: 200000, r: 0.05, F: 500, kerdes: 'L' }, vart: { C: '1208305', Lnap: '6,04' } },
+    { forras: '9.1 Példa (szem. Baumol 2)', p: { mod: 'napi', osszeg: 50000, r: 0.02, F: 100, kerdes: 'L' }, vart: { C: '427200', Lnap: '8,54' } },
   ],
 }
 
 // ---------- 9.2 Miller–Orr ----------
 
-type MillerOrr = { ceg: string; idoszak: 'napi' | 'heti' | 'havi'; L: number; F: number; sigma: number; r: number; kerdes: 'C' | 'U' | 'atlag' }
+type MillerOrr = {
+  ceg: string
+  idoszak: 'napi' | 'heti' | 'havi'
+  L: number
+  F: number
+  sigma: number
+  r: number
+  kerdes: 'C' | 'U' | 'atlag'
+  /** a szövegben a szórás vagy a variancia szerepel */
+  adat?: 'szoras' | 'variancia'
+  /** napi adatoknál éves névleges kamat (APR), a napi r = APR / 365 */
+  apr?: number
+  /** ha a minimum k szórásnyi összeg (L = k·σ) */
+  kSzoras?: number
+}
 
 function moC(p: MillerOrr): number {
   return millerOrrC(p.L, p.F, p.sigma, p.r)
@@ -161,15 +179,23 @@ export const millerOrrSablon: Sablon<MillerOrr> = {
   felismeresek: [{ elott: '', helyes: 'F24', zavarok: ['F23', 'F26', 'F19'] }],
   general: (r) => {
     const idoszak = r.valaszt(['havi', 'havi', 'heti', 'napi'] as const)
-    const rr = idoszak === 'havi' ? r.lepeskoz(0.005, 0.02, 0.001) : idoszak === 'heti' ? r.lepeskoz(0.0005, 0.003, 0.0001) : r.lepeskoz(0.0001, 0.0004, 0.00001)
+    const apr = idoszak === 'napi' && r.esely(0.6) ? r.lepeskoz(0.02, 0.08, 0.005) : undefined
+    const rr = apr !== undefined ? apr / 365 : idoszak === 'havi' ? r.lepeskoz(0.005, 0.02, 0.001) : idoszak === 'heti' ? r.lepeskoz(0.0005, 0.003, 0.0001) : r.lepeskoz(0.0001, 0.0004, 0.00001)
+    // a szemináriumi feladatok: néha a variancia adott (az már σ²), néha a minimum k szórásnyi összeg
+    const adat = r.esely(0.3) ? 'variancia' : 'szoras'
+    const sigma = adat === 'variancia' ? Math.sqrt(r.lepeskoz(10000, 2000000, 10000)) : r.lepeskoz(100, 3000, 50)
+    const kSzoras = adat === 'szoras' && r.esely(0.3) ? r.valaszt([2, 3]) : undefined
     return {
       ceg: r.valaszt(CEGEK),
       idoszak,
-      L: r.lepeskoz(50, 2000, 50),
+      L: kSzoras !== undefined ? kSzoras * sigma : r.lepeskoz(50, 2000, 50),
       F: r.lepeskoz(5, 50, 5),
-      sigma: r.lepeskoz(100, 3000, 50),
+      sigma,
       r: rr,
       kerdes: r.valaszt(['C', 'C', 'U', 'atlag'] as const),
+      adat,
+      apr,
+      kSzoras,
     }
   },
   ervenyes: (p) => moC(p) - p.L > 20,
@@ -179,9 +205,12 @@ export const millerOrrSablon: Sablon<MillerOrr> = {
       valtozat: `k${v}`,
       bekezdesek: [
         keretbe(v, bevezetok(p.ceg), [
-          `A vállalat minimális pénzállománya ${sz(p.L)} USD.`,
+          p.kSzoras !== undefined
+            ? `A vállalat ${p.kSzoras} szórásnyi összeget szeretne minimálisan tartani.`
+            : `A vállalat minimális pénzállománya ${sz(p.L)} USD.`,
           `Az értékpapír eladásának tranzakciós költsége ${sz(p.F)} USD.`,
-          `A pénzáramlás ${p.idoszak} szórása ${sz(p.sigma)} USD, a ${p.idoszak} hozam ${pct(p.r, 3)}.`,
+          p.adat === 'variancia' ? `A pénzáramlás ${p.idoszak} varianciája ${sz(p.sigma * p.sigma, 0)}.` : `A pénzáramlás ${p.idoszak} szórása ${sz(p.sigma)} USD.`,
+          p.apr !== undefined ? `A bankbetét kamata évi ${pct(p.apr)} (névleges, lineáris kamatozás).` : `A ${p.idoszak} hozam ${pct(p.r, 3)}.`,
           v === 3 ? zavaroAdat(r) : undefined,
         ]),
       ],
@@ -200,6 +229,17 @@ export const millerOrrSablon: Sablon<MillerOrr> = {
   lepesek: [
     {
       tipus: 'szam',
+      key: 'Lmin',
+      formulaId: '9.2',
+      kerdes: 'Mekkora az alsó korlát (L)?',
+      egyseg: 'USD',
+      mikor: (p) => p.kSzoras !== undefined,
+      ertek: (p) => p.L,
+      tipikusHibak: (p) => [{ ertek: p.sigma, uzenet: `Egy szórásnyi helyett ${p.kSzoras} szórásnyi összeg kell.` }],
+      levezetes: (p) => `L = ${p.kSzoras} × ${sz(p.sigma)} = ${sz(p.L)} USD`,
+    },
+    {
+      tipus: 'szam',
       key: 'C',
       formulaId: '9.2',
       kerdes: 'Mekkora a pénzállomány célértéke (C*)?',
@@ -213,9 +253,16 @@ export const millerOrrSablon: Sablon<MillerOrr> = {
           { ertek: p.L + Math.sqrt(resz), uzenet: 'Köbgyök kell, nem négyzetgyök.' },
           { ertek: p.L + Math.cbrt((3 * p.F * p.sigma) / (4 * p.r)), uzenet: 'A szórás négyzete (σ²) kell, nem a szórás.' },
           { ertek: p.L + Math.cbrt((4 * p.F * p.sigma * p.sigma) / (3 * p.r)), uzenet: 'A 3 és a 4 helyet cserélt: ∛(3Fσ² / (4r)).' },
+          ...(p.adat === 'variancia'
+            ? [{ ertek: p.L + Math.cbrt((3 * p.F * Math.pow(p.sigma, 4)) / (4 * p.r)), uzenet: 'A variancia már σ², nem kell újra négyzetre emelni.' }]
+            : []),
+          ...(p.apr !== undefined
+            ? [{ ertek: p.L + Math.cbrt((3 * p.F * p.sigma * p.sigma) / (4 * p.apr)), uzenet: 'Az éves kamattal számoltál; napi szóráshoz napi kamat kell: r = APR / 365.' }]
+            : []),
         ]
       },
-      levezetes: (p) => `C* = ${sz(p.L)} + ∛(3 × ${sz(p.F)} × ${sz(p.sigma)}² / (4 × ${sz(p.r, 5)})) = ${sz(moC(p), 2)} USD`,
+      levezetes: (p) =>
+        `${p.apr !== undefined ? `r = ${pct(p.apr)} / 365 = ${sz(p.r, 7)}; ` : ''}C* = ${sz(p.L)} + ∛(3 × ${sz(p.F)} × ${p.adat === 'variancia' ? sz(p.sigma * p.sigma, 0) : `${sz(p.sigma)}²`} / (4 × ${sz(p.r, 7)})) = ${sz(moC(p), 2)} USD`,
     },
     {
       tipus: 'szam',
@@ -263,5 +310,7 @@ export const millerOrrSablon: Sablon<MillerOrr> = {
   diasPeldak: [
     { forras: '9.2 Példa (17. dia)', p: { idoszak: 'havi', L: 100, F: 10, sigma: 200, r: 0.01, kerdes: 'U' }, vart: { C: '411', U: '1032' } },
     { forras: '9.2 Példa (17. dia), átlag', p: { idoszak: 'havi', L: 100, F: 10, sigma: 200, r: 0.01, kerdes: 'atlag' }, vart: { atlag: '514' } },
+    { forras: '9.2 Példa (szem. Miller–Orr 1)', p: { idoszak: 'napi', kSzoras: 3, L: 30000, F: 500, sigma: 10000, apr: 0.05, r: 0.05 / 365, kerdes: 'U' }, vart: { Lmin: '30000', C: '94931', U: '224793' } },
+    { forras: '9.2 Példa (szem. Miller–Orr 2)', p: { idoszak: 'napi', adat: 'variancia', L: 160000, F: 300, sigma: Math.sqrt(890000), apr: 0.04, r: 0.04 / 365, kerdes: 'U' }, vart: { C: '172226', U: '196677' } },
   ],
 }
