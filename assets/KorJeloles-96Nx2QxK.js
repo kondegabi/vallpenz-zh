@@ -1,0 +1,1 @@
+import{c as e,t}from"./index-BeNO5uWK.js";var n=t();function r({kor:e}){return(0,n.jsxs)(`span`,{className:`kor-cimke kor-${e}`,children:[e,`. ZH`]})}function i({kor:t,valasztas:r}){return r===`mind`?(0,n.jsx)(`h2`,{className:`kor-fejlec kor-${t}`,children:e[t]}):null}export{i as n,r as t};
