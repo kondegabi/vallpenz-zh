@@ -132,3 +132,19 @@ describe('képlettár és lecke: pontos szöveg', () => {
     expect(3 * Math.floor(e.C) - 2 * MO_EMPEC.L).toBe(1101848)
   })
 })
+
+describe('Miller–Orr 2. szemináriumi feladat: a 890 000 a σ', () => {
+  it('a képlettár példája és a Hibák sora a σ-s értelmezést adja', () => {
+    const sor = md.split(/\r?\n/).find((s) => s.startsWith('- **Példa (szem. Miller–Orr 2):**'))!
+    expect(sor).toContain('= 1 335 976 USD, U\* = 3 687 928 USD')
+    expect(sor).not.toContain('ez már σ²')
+    const hiba = md.split(/\r?\n/).find((s) => s.startsWith('| Készpénz-feladatsor, Miller–Orr 2. feladat'))!
+    expect(hiba).not.toMatch(/nyitott/)
+  })
+
+  it('a gyakorló sablon diás példája is σ = 890 000-rel számol', () => {
+    const d = sablon('miller-orr').diasPeldak.find((x) => x.forras === '9.2 Példa (szem. Miller–Orr 2)')!
+    expect(d.p.sigma).toBe(890000)
+    expect(d.vart.C).toBe('1335976')
+  })
+})

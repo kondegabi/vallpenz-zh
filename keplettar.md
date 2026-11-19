@@ -1013,7 +1013,7 @@ U^{*} = 3C^{*} - 2L = L + 3 \times (C^{*} - L)
 - **Példa (17. dia):** L = 100 USD, F = 10 USD, havi σ = 200 USD, havi r = 1% → C\* = 411 USD, U\* = 1032 USD, átlagos pénzállomány 514 USD
 - **Példa (16. dia):** EMPEC, lengyel távhőszolgáltató (2014-es adatok, 251 nap): napi σ = 357 697 PLN, F = 10 PLN, éves kamat 2,25%, napi r = 0,0060962%, L = 350 000 PLN → C\* = 600 616 PLN, U\* = 1 101 848 PLN. 4,38 millió PLN egyenlegnél 3,78 millió PLN-t fektetnek be, és a 0,60 millió PLN célállomány marad
 - **Példa (szem. Miller–Orr 1):** napi σ = 10 000 USD, a minimum három szórásnyi (L = 30 000 USD), évi 5% lineárisan (napi r = 0,05 / 365), F = 500 USD → C\* = 94 931 USD, U\* = 224 793 USD. A szabály: ha a pénzállomány eléri a 224 793 USD-t, 129 862 USD-t befektet; ha leesik 30 000 USD-ra, 64 931 USD értékpapírt elad
-- **Példa (szem. Miller–Orr 2):** a napi cash-flow varianciája 890 000 (ez már σ², nem kell újra négyzetre emelni), APR 4% (napi r = 0,04 / 365), L = 160 000 USD, F = 300 USD → C\* = 172 226 USD, U\* = 196 677 USD
+- **Példa (szem. Miller–Orr 2):** a feladat a napi cash-flow „varianciáját” adja meg 890 000 dollárban, de ez a σ: a képletben csak ez kerül négyzetre. APR 4% (napi r = 0,04 / 365), L = 160 000 USD, F = 300 USD → C* = 160 000 + ∛(3 × 300 × 890 000² / (4 × 0,04 / 365)) = 1 335 976 USD, U* = 3 687 928 USD
 
 ## 10. Osztalékpolitika
 
@@ -1264,6 +1264,6 @@ A diák minden kidolgozott példáját újraszámoltam. Az NPV (12 627,41), az I
 | Osztalékpolitika, 24. és 25. dia | a 24. dián „radikális jobboldali” irányzat | a 25. dián „jobboldaliak” (magas osztalék) és „radikális baloldal” (minimális osztalék) | nyitott – kérdezd meg az oktatót: a két dia megnevezése eltér | 2 |
 | Osztalékpolitika, 12. dia | „Hitel – saját tőle volumenét” | „saját tőke” | számítással igazolva: elírás | 2 |
 | Osztalék-feladatsor, 5. feladat c) | „300 Ft-os részvényenkénti osztalékot” | 300 dolláros (a feladat dollárban adott) | számítással igazolva: elírás, a végeredményt nem változtatja | 2 |
-| Készpénz-feladatsor, Miller–Orr 2. feladat | „napi cash-flowjának varianciája 890 ezer dollár” | a variancia mértékegysége dollár²; nem egyértelmű, hogy a 890 000 a variancia vagy a szórás | nyitott – kérdezd meg az oktatót: varianciaként C\* = 172 226, U\* = 196 677; szórásként C\* ≈ 1 335 976, U\* ≈ 3 687 928 USD | 2 |
+| Készpénz-feladatsor, Miller–Orr 2. feladat | „napi cash-flowjának varianciája 890 ezer dollár” | a 890 000 a σ (szórás), csak ez kerül négyzetre | számítással igazolva: σ = 890 000 → C* = 1 335 976, U* = 3 687 928 USD (ha a 890 000 a variancia lenne, C* = 172 226 jönne ki) | 2 |
 
 A számítási különbségek: a 4. ea 29. diája, a Gordon-példa, és a 2. ZH-nál a Miller–Orr- és a Baumol-példa kerekítése; a többi elírás, a végeredményt nem változtatja. Nyitott tételből több is van: a 4. ea 29. diájánál a gyakorlásban és a ZH-szimulációban mindkét értéket elfogadjuk, és a kiértékelés jelzi, hogy a dia mást mutat. A 2. ZH két nyitott tétele fogalmi (osztalékpolitika, 23–25. dia), ezekre nem épül kérdés.

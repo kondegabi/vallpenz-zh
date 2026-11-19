@@ -311,6 +311,6 @@ export const millerOrrSablon: Sablon<MillerOrr> = {
     { forras: '9.2 Példa (17. dia)', p: { idoszak: 'havi', L: 100, F: 10, sigma: 200, r: 0.01, kerdes: 'U' }, vart: { C: '411', U: '1032' } },
     { forras: '9.2 Példa (17. dia), átlag', p: { idoszak: 'havi', L: 100, F: 10, sigma: 200, r: 0.01, kerdes: 'atlag' }, vart: { atlag: '514' } },
     { forras: '9.2 Példa (szem. Miller–Orr 1)', p: { idoszak: 'napi', kSzoras: 3, L: 30000, F: 500, sigma: 10000, apr: 0.05, r: 0.05 / 365, kerdes: 'U' }, vart: { Lmin: '30000', C: '94931', U: '224793' } },
-    { forras: '9.2 Példa (szem. Miller–Orr 2)', p: { idoszak: 'napi', adat: 'variancia', L: 160000, F: 300, sigma: Math.sqrt(890000), apr: 0.04, r: 0.04 / 365, kerdes: 'U' }, vart: { C: '172226', U: '196677' } },
+    { forras: '9.2 Példa (szem. Miller–Orr 2)', p: { idoszak: 'napi', L: 160000, F: 300, sigma: 890000, apr: 0.04, r: 0.04 / 365, kerdes: 'U' }, vart: { C: '1335976', U: '3687928' } },
   ],
 }

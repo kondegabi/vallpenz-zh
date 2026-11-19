@@ -23,20 +23,24 @@ function linkesit(szoveg: string, kulcs: string): ReactNode[] {
   return ki
 }
 
+/** A \* escape-elt csillag helye a félkövér-jelölés keresése alatt (hogy ne legyen belőle **). */
+const CSILLAG = ''
+
 export function Inline({ szoveg, linkek = true }: { szoveg: string; linkek?: boolean }) {
-  const t = szoveg.replace(/\\_/g, '_')
+  const t = szoveg.replace(/\\_/g, '_').replace(/\\\*/g, CSILLAG)
+  const vissza = (s: string) => s.replaceAll(CSILLAG, '*')
   const darabok: ReactNode[] = []
   let poz = 0
   let n = 0
   for (const m of t.matchAll(/\*\*(.+?)\*\*|`([^`]+)`/g)) {
     const i = m.index!
-    const elotte = t.slice(poz, i)
+    const elotte = vissza(t.slice(poz, i))
     darabok.push(<Fragment key={n++}>{linkek ? linkesit(elotte, `t${n}`) : elotte}</Fragment>)
-    if (m[1] !== undefined) darabok.push(<strong key={n++}>{linkek ? linkesit(m[1], `b${n}`) : m[1]}</strong>)
-    else darabok.push(<code key={n++}>{m[2]}</code>)
+    if (m[1] !== undefined) darabok.push(<strong key={n++}>{linkek ? linkesit(vissza(m[1]), `b${n}`) : vissza(m[1])}</strong>)
+    else darabok.push(<code key={n++}>{vissza(m[2])}</code>)
     poz = i + m[0].length
   }
-  const vege = t.slice(poz)
+  const vege = vissza(t.slice(poz))
   darabok.push(<Fragment key={n++}>{linkek ? linkesit(vege, `v${n}`) : vege}</Fragment>)
   return <>{darabok}</>
 }

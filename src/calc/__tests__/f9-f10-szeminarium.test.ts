@@ -43,10 +43,11 @@ describe('9.2 Miller–Orr, szeminárium', () => {
   })
 
   it('9.2 Példa (szem. Miller–Orr 2)', () => {
-    // a 890 ezer a variancia (σ² = 890 000), napi r = 4% / 365, L = 160 000, F = 300
-    const C = millerOrrC(160_000, 300, Math.sqrt(890_000), 0.04 / 365)
-    dia(C, '172226')
-    dia(millerOrrU(C, 160_000), '196677')
+    // a 890 ezer a σ (a feladat „varianciát” ír, de a szám a σ, és csak ez kerül négyzetre), napi r = 4% / 365,
+    // L = 160 000, F = 300
+    const C = millerOrrC(160_000, 300, 890_000, 0.04 / 365)
+    dia(C, '1335976')
+    dia(millerOrrU(C, 160_000), '3687928')
   })
 })
 
