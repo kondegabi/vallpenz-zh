@@ -631,6 +631,7 @@ A táblázat azt mutatja, miért hibás minden projektet a céges WACC-cal mérn
 
 Az alapkérdés: teremt-e többletértéket a forrásoldal megváltoztatása, a tőkeszerkezet kialakítása? Forrás: a Tőkeszerkezeti politika diasor (Dr. Walter György, \`forras/zh2/\`) és a hozzá tartozó szemináriumi példák megoldásokkal. A „dia” a diasor oldalszáma, a „szem. N” a tökéletes piaci, a „szem. adó N” az adós példák sorszáma.
 
+- **A 2. ZH videós összefoglalója:** a tőkeszerkezetből a tökéletes piacot, az alapkérdést, az MM I. és II. tételt (a szem. 6, 7, 8 és 9 feladattal), a tökéletlenségeket, a társasági adó hatását (8.4), a három értékelési megközelítést (8.6–8.8), valamint a szem. adó 2, 3 és 4 feladatot veszi újra
 - **Alapkérdés (6. dia):** az alapértelmezés a 100% saját tőke; a hozzáadott érték a meglévő saját tőke növekedése; a kérdés, hogy az ettől eltérő finanszírozási helyzet növeli-e a részvényesek vagyonát: PV(finanszírozás) = NPV(finanszírozás megváltoztatása)
 - **Hagyományos nézet (7. dia):** a vállalkozás értéke a jövőbeni szabad cash flow-inak jelenértéke, a diszkontráta az eszközök várható hozama; eszerint a WACC csökkentésével növelhető a vállalati érték
 - **Tökéletes piac (8. dia):** nincsenek adók és tranzakciós költségek, nincsenek intézményi korlátok, nyilvános a kereskedés; az értékpapírok korlátlanul oszthatók és korlátozott felelősséget testesítenek meg; sok, de véges számú racionális befektető van, mindenki árelfogadó és egyformán informált
@@ -907,8 +908,9 @@ V = V_U + PV(\\text{adómegtakarítás}) - PV(\\text{pénzügyi nehézségek})
 
 ## 9. Készpénz- és likviditásmenedzsment
 
-Forrás: a Készpénz- és likviditásmenedzsment diasor (Dr. Walter György, \`forras/zh2/\`). Ebben a fejezetben a „dia” ennek a diasornak az oldalszáma. A „szem. Baumol N” és „szem. Miller–Orr N” a szemináriumi feladatsor (VPÜ2 cash\\_examples) feladatai; a feladatsor megoldás nélküli, az eredmények saját számítások a képlettár képleteivel.
+Forrás: a Készpénz- és likviditásmenedzsment diasor (Dr. Walter György, \`forras/zh2/\`). Ebben a fejezetben a „dia” ennek a diasornak az oldalszáma. A „szem. Baumol N” és „szem. Miller–Orr N” a szemináriumi feladatsor (VPÜ2 cash\\_examples) feladatai; a megoldások a hivatalos megoldókulcsból (VPÜ2 cash\\_examples\\_mego) valók, saját számítással ellenőrizve; ahol a kulcs lefelé kerekít, a példa jelzi.
 
+- **A 2. ZH videós összefoglalója:** a likviditásmenedzsment és a készpénzgazdálkodás fogalmát, a pénztartás motivációit, a teljes költséggörbét, a Baumol-modellt (a 13. dia példája és a szem. Baumol 2) és a Miller–Orr-modellt (a 17. dia példája és a szem. Miller–Orr 2) veszi újra
 - **Vállalati likviditás (3. dia):** a vállalat azon képessége, hogy rendelkezésére állnak-e likvid eszközök; képes-e adott összegű pénzhez jutni adott (rövid) időtávon, adott (csekély) veszteség mellett; képes-e a pénzt külföldi pénznemre váltani és abban fizetni. Mérése likviditási mutatókkal
 - **Eszközoldali (piaci) likviditás (4. dia):** az eszközök értékesíthetősége; az eszközök másodlagos piacaitól függ (pl. ingatlan, gépek, készletek)
 - **Forrásoldali (finanszírozási) likviditás (4. dia):** finanszírozási források bevonása, rövid távú pénzhez jutás forrásbevonással (hitel, saját tőke, egyéb); a pénz- és tőkepiacoktól való függés
@@ -976,8 +978,8 @@ L_{opt} = \\sqrt{\\frac{2F}{r \\times T}}
 - **Napi adatokkal:** (szem. Baumol 1) napi pénzigénnyel és a napi kamatra lineárisan átszámolt éves kamatlábbal (r / 365) ugyanaz a C\\_opt jön ki, mint éves T-vel és éves r-rel; a C\\_opt / napi összeg ekkor közvetlenül napokban adja az időközt
 - **A paraméterek hatása:** (szem. Baumol 1b, a képletből) nagyobb pénzigény (T) → nagyobb C\\_opt, rövidebb időköz; nagyobb tranzakciós költség (F) → nagyobb C\\_opt, hosszabb időköz; nagyobb hozam (r) → kisebb C\\_opt, rövidebb időköz
 - **Példa (13. dia):** Vulcan Corporation: napi kiáramlás 100 USD, r = 5%, F = 10 USD → T = 36 500, C\\_opt = 3821 USD, L\\_opt = 0,1047 év (a dián levágva 0,104) = 38,2 nap
-- **Példa (szem. Baumol 1):** napi 200 000 USD kifizetés, APR 5%, F = 500 USD → C\\_opt = √(2 × 200 000 × 500 / (0,05 / 365)) = 1 208 305 USD, 6,04 naponként (évente kb. 60-szor)
-- **Példa (szem. Baumol 2):** napi 50 000 USD, APR 2%, F = 100 USD → C\\_opt = 427 200 USD, 8,54 naponként
+- **Példa (szem. Baumol 1):** napi 200 000 USD kifizetés, APR 5%, F = 500 USD → C\\_opt = √(2 × 200 000 × 500 / (0,05 / 365)) = 1 208 305 USD, 6,04 naponként (évente kb. 60-szor); a megoldókulcsban 1 208 304 USD, „6 napig elég”
+- **Példa (szem. Baumol 2):** napi 50 000 USD, APR 2%, F = 100 USD → C\\_opt = 427 200 USD, 8,54 naponként (a megoldókulcsban 8,5 nap)
 
 ### 9.2 Miller–Orr-modell
 
@@ -1012,13 +1014,14 @@ U^{*} = 3C^{*} - 2L = L + 3 \\times (C^{*} - L)
 - **Csapda:** ha a feladat a varianciát adja meg, az már σ²; ha éves kamatot és napi szórást, a kamatot napira kell váltani (lineárisan r / 365)
 - **Példa (17. dia):** L = 100 USD, F = 10 USD, havi σ = 200 USD, havi r = 1% → C\\* = 411 USD, U\\* = 1032 USD, átlagos pénzállomány 514 USD
 - **Példa (16. dia):** EMPEC, lengyel távhőszolgáltató (2014-es adatok, 251 nap): napi σ = 357 697 PLN, F = 10 PLN, éves kamat 2,25%, napi r = 0,0060962%, L = 350 000 PLN → C\\* = 600 616 PLN, U\\* = 1 101 848 PLN. 4,38 millió PLN egyenlegnél 3,78 millió PLN-t fektetnek be, és a 0,60 millió PLN célállomány marad
-- **Példa (szem. Miller–Orr 1):** napi σ = 10 000 USD, a minimum három szórásnyi (L = 30 000 USD), évi 5% lineárisan (napi r = 0,05 / 365), F = 500 USD → C\\* = 94 931 USD, U\\* = 224 793 USD. A szabály: ha a pénzállomány eléri a 224 793 USD-t, 129 862 USD-t befektet; ha leesik 30 000 USD-ra, 64 931 USD értékpapírt elad
-- **Példa (szem. Miller–Orr 2):** a feladat a napi cash-flow „varianciáját” adja meg 890 000 dollárban, de ez a σ: a képletben csak ez kerül négyzetre. APR 4% (napi r = 0,04 / 365), L = 160 000 USD, F = 300 USD → C* = 160 000 + ∛(3 × 300 × 890 000² / (4 × 0,04 / 365)) = 1 335 976 USD, U* = 3 687 928 USD
+- **Példa (szem. Miller–Orr 1):** napi σ = 10 000 USD, a minimum három szórásnyi (L = 30 000 USD), évi 5% lineárisan (napi r = 0,05 / 365), F = 500 USD → C\\* = 94 931 USD, U\\* = 224 793 USD (a megoldókulcs a köbgyökös tagot 64 930-ra vágja: C\\* = 94 930, U\\* = L + 3 × 64 930 = 224 790 USD). A szabály: ha a pénzállomány eléri a 224 793 USD-t, 129 862 USD-t befektet; ha leesik 30 000 USD-ra, 64 931 USD értékpapírt elad
+- **Példa (szem. Miller–Orr 2):** a napi cash-flow varianciája 890 000, a megoldókulcs szerint σ = √890 000 (ez már σ², nem kell újra négyzetre emelni), APR 4% (napi r = 0,04 / 365), L = 160 000 USD, F = 300 USD → C\\* = 160 000 + ∛(3 × 300 × 890 000 / (4 × 0,04 / 365)) = 160 000 + 12 226 = 172 226 USD, U\\* = 160 000 + 3 × 12 226 = 196 677 USD
 
 ## 10. Osztalékpolitika
 
-Forrás: az Osztalékpolitika diasor (Dr. Walter György, \`forras/zh2/\`). Ebben a fejezetben a „dia” ennek a diasornak az oldalszáma. Az osztalékdiszkontálási modell a 7.1 Gordon-modell, a diasor jelöléseivel (DIV, r). A „szem. osztalék N” a szemináriumi feladatsor (VPÜ2 Div examples, Walter Gy. feladatgyűjteménye alapján) feladata; a feladatsor megoldás nélküli, az eredmények saját számítások; a 3. és a 4. feladat táblázatos megoldását a szemináriumon is bemutatták, mindkettő egyezik a saját számítással.
+Forrás: az Osztalékpolitika diasor (Dr. Walter György, \`forras/zh2/\`). Ebben a fejezetben a „dia” ennek a diasornak az oldalszáma. Az osztalékdiszkontálási modell a 7.1 Gordon-modell, a diasor jelöléseivel (DIV, r). A „szem. osztalék N” a szemináriumi feladatsor (VPÜ2 Div examples, Walter Gy. feladatgyűjteménye alapján) feladata; a megoldások a hivatalos megoldókulcsból (VPÜ2 Div examples\\_mego) valók, saját számítással ellenőrizve; ahol a kulcs kerekít, a példa jelzi.
 
+- **A 2. ZH videós összefoglalója:** az osztalékdiszkontálási modellt a g = ROE × (1 − dp) növekedéssel, az osztalék formáit, az osztalékpolitika fogalmát és a szem. osztalék 1, 4, 5 és 6 feladatot veszi újra
 - **Osztalék (4. és 10. dia):** általában a nyereségből kifizetett készpénz, de különböző formájú lehet (nem csak készpénz)
 - **Formái (10. dia):** rendszeres készpénzes osztalék; rendkívüli osztalék (nem ismételhető meg); speciális osztalék (biztosan nem ismétlődik meg); likvidációs osztalék (a vállalkozás felszámolásából); osztalék (kiosztás) természetben (a vállalat termékében vagy szolgáltatásában); részvényosztalék (új részvények kibocsátása); részvény-visszavásárlás
 - **Kronológia (11. dia):** nyilatkozat dátuma; ex-dividend date, egy üzleti nappal a bejegyzés előtt (ekkor esik az árfolyam: ex-dividend price drop); bejegyzés: akiről úgy gondolják, hogy részvényes, jogosulttá válik; a fizetés dátuma
@@ -1090,7 +1093,7 @@ P_0 = \\frac{DIV_1}{r - g} \\quad (g < r), \\qquad r = \\frac{DIV_1}{P_0} + g
 - **Forrás:** Osztalékpolitika, 4–5. és 9. dia
 - **Csapda:** a számlálóban a következő évi osztalék (DIV\\_1) áll; csak g < r esetén van véges ár
 - **Szakaszonként:** (szem. osztalék 2) ha az osztalék csak később indul, az összeg alak (első LaTeX) szerint számolunk: az első osztaléktól az állandó növekedésű alak adja az árat egy évvel korábbra (a k − 1. év végi ár DIV\\_k / (r − g)), és ezt k − 1 évvel diszkontáljuk
-- **Példa (szem. osztalék 2):** EPS\\_0 = 100 Ft, ROE = 10%; idén és a következő három évben nincs osztalék, minden nyereséget visszaforgatnak (EPS\\_4 = 100 × 1,1⁴ = 146,41); a 4. évtől a nyereség 80%-a osztalék (DIV\\_4 = 117,13), utána g = 10% × 0,2 = 2%; r = 8% → P\\_3 = 117,13 / 0,06 = 1952,13, P\\_0 = 1952,13 / 1,08³ = 1549,67 Ft. Értelmezés: az „idén” a most lezárt év eredményéből fizetendő osztalék; ha az első osztalék az 5. évben lenne, 1578,36 Ft
+- **Példa (szem. osztalék 2):** EPS\\_0 = 100 Ft, ROE = 10%; idén és a következő három évben nincs osztalék, minden nyereséget visszaforgatnak (EPS\\_4 = 100 × 1,1⁴ = 146,41); a 4. évtől a nyereség 80%-a osztalék (DIV\\_4 = 117,13), utána g = 10% × 0,2 = 2%; r = 8% → P\\_3 = 117,13 / 0,06 = 1952,13, P\\_0 = 1952,13 / 1,08³ = 1549,67 Ft (a megoldókulcsban kerekítve 1550 Ft; a kulcs szerint DIV\\_0 … DIV\\_3 = 0, az első osztalék a 4. évben)
 
 ### 10.2 Nyereség, ROE és kifizetési ráta
 
@@ -1141,7 +1144,7 @@ g = ROE \\times (1 - dp)
 - **Forrás:** Osztalékpolitika, 8–9. dia
 - **Csapda:** nem ROE × dp: a visszaforgatott hányaddal kell szorozni
 - **Csapda:** ha a feladat a most kifizetett osztalékot adja (DIV\\_0), a következő évi DIV\\_1 = DIV\\_0 × (1 + g)
-- **Példa (szem. osztalék 1):** most fizette ki nyeresége 80%-át, ez 4 USD osztalék; ROE = 15%, r = 12% → g = 15% × 0,2 = 3%, DIV\\_1 = 4,12 USD, P\\_0 = 4,12 / (0,12 − 0,03) = 45,78 USD
+- **Példa (szem. osztalék 1):** most fizette ki nyeresége 80%-át, ez 4 USD osztalék; ROE = 15%, r = 12% → g = 15% × 0,2 = 3%, DIV\\_1 = 4,12 USD, P\\_0 = 4,12 / (0,12 − 0,03) = 45,78 USD (a megoldókulcsban levágva 45,77)
 
 ### 10.4 Részvény-visszavásárlás és felaprózás
 
@@ -1202,8 +1205,8 @@ n_{új} = \\frac{\\text{forrásigény}}{P_{ex}}, \\qquad \\text{alaptőke} = \\t
 - **Csapda:** a forrásigénybe minden szükséglet bekerül: a régi részvényeknek járó osztalék, a beruházás és a hiteltörlesztés
 - **Példa (szem. osztalék 3):** GTK Corp.: 200 000 db, névérték 100 USD, árfolyam 300 USD; 60 USD osztalék, utána 1:1 részvényosztalék → 300 → 240 → 120 USD. Alaptőke 20 → 40 millió USD, a saját tőke piaci értéke 60 → 48 millió USD. Ugyanezt az árfolyamot a kiindulásból 120 / 300, vagyis 2:5 aprózás adná: 500 000 db, névérték 40 USD, alaptőke 20 millió USD, piaci érték 60 millió USD; mindez a szemináriumi megoldás táblázatával egyezik (a névérték a részvényosztalék után is 100 USD)
 - **Példa (szem. osztalék 4):** SokSikert: alaptőke 500 millió Ft, névérték 10 000 Ft (50 000 db), kapitalizáció 750 millió Ft. Most és a hír után: 50 000 db, 15 000 Ft, 750 millió Ft, alaptőke 500 millió Ft; a 3000 Ft-os rendkívüli osztalék után: 12 000 Ft, 600 millió Ft; az 1:4 felaprózás után: 200 000 db, 3000 Ft, 600 millió Ft, alaptőke 500 millió Ft (névérték 2500 Ft); ez a szemináriumi megoldás táblázatával egyezik
-- **Példa (szem. osztalék 5):** BBB Corp.: 100 000 db, 1300 USD; 300 USD osztalék (30 millió) és 20 millió USD felújítás, az új részvényekre nem jár osztalék → kibocsátás 1000 USD-on, 50 000 db. Kapitalizáció: most és a hír után 130, a kibocsátáskor 180, az osztalék után és a beruházás után 150 millió USD. Ha az új részvényekre is jár osztalék: 1300 USD-on, ugyancsak 50 000 db
-- **Példa (szem. osztalék 6):** Indefault: 30 000 db, 3200 USD; 50 millió hitel, 10 millió beruházás, 200 USD osztalék (6 millió), az új részvényekre nem jár osztalék → 3000 USD-on 22 000 db. Kapitalizáció: 96 → 162 → 162 (törlesztés után) → 156 millió USD; az eszközök piaci értéke: 146 → 212 → 162 → 156 millió USD
+- **Példa (szem. osztalék 5):** BBB Corp.: 100 000 db, 1300 USD; 300 USD osztalék (30 millió) és 20 millió USD felújítás, az új részvényekre nem jár osztalék → kibocsátás 1000 USD-on, 50 000 db. Kapitalizáció: most és a hír után 130, a kibocsátáskor 180, az osztalék után és a beruházás után 150 millió USD. Ha az új részvényekre is jár osztalék: 1300 USD-on, ugyancsak 50 000 db; mindez a megoldókulccsal egyezik
+- **Példa (szem. osztalék 6):** Indefault: 30 000 db, 3200 USD; 50 millió hitel, 10 millió beruházás, 200 USD osztalék (6 millió), az új részvényekre nem jár osztalék → 3000 USD-on 22 000 db. Kapitalizáció: 96 → 162 → 162 (törlesztés után) → 156 millió USD; az eszközök piaci értéke: 146 → 212 → 162 → 156 millió USD; mindez a megoldókulccsal egyezik
 
 ## Feladattípus-felismerő
 
@@ -1258,13 +1261,13 @@ A diák minden kidolgozott példáját újraszámoltam. Az NPV (12 627,41), az I
 | Szeminárium, adós 4. példa (8.7, 8.8) | r\\_E = 12,7%, WACC* = 11,2% | **12,65%** és **11,16%** (a megoldás kerekít) | számítással igazolva: 12% + 4% × 0,25 × 0,65 = 12,65%; 0,2 × 5,2% + 0,8 × 12,65% = 11,16% | 2 |
 | Szeminárium, 6. példa | az a) kérdés megoldása „b)” jelöléssel kezdődik | a) | számítással igazolva: az eredmény (r\\_A = 15%) az a) kérdésre felel, a végeredményt nem érinti | 2 |
 | Tőkeszerkezet, 30. dia | „mindegyik ágazatnak már az adómegtakarítási potenciálja” | „más” | számítással igazolva: elírás, a mondat értelme csak így kerek | 2 |
-| Készpénz, 17. dia (Miller–Orr) | U\\* = 3 × 411 − 2 × 100 = 1032 | 3 × 411 − 200 = **1033**; az 1032 a kerekítetlen C\\* = 410,7-ből jön | számítással igazolva: 3 × 410,72 − 200 = 1032,2; ugyanígy az átlag (4 × 411 − 100) / 3 = 514,67 lenne, a dia 514-e a 410,7-ből jön (514,3) | 2 |
+| Készpénz, 17. dia (Miller–Orr) | U\\* = 3 × 411 − 2 × 100 = 1032 | 3 × 411 − 200 = **1033**; az 1032 a kerekítetlen C\\* = 410,7-ből jön | számítással igazolva: 3 × 410,72 − 200 = 1032,2; ugyanígy az átlag (4 × 411 − 100) / 3 = 514,67 lenne, a dia 514-e a 410,7-ből jön (514,3). A 2. ZH videós összefoglalójának 32. diáján már 1033 áll (a 411-ből), a képletsorban elírással („100 + 3 × 311 – 2”), és az adatoknál σ = 20 a 200 helyett | 2 |
 | Készpénz, 13. dia (Baumol) | L\\_opt = 0,104 év | 0,1047 év (kerekítve **0,105**); a 38,2 nap jó | számítással igazolva: √(20 / 1825) = 0,10468 | 2 |
 | Osztalékpolitika, 23. és 17. dia | a 23. dia táblája szerint a visszavásárlás a tulajdonosi szerkezetet nem változtatja | a 17. dia szerint a megtartók hányada nőhet (A: 50% → 55,6%) | nyitott – kérdezd meg az oktatót: valószínűleg a sor utolsó két cellája felcserélődött (visszavásárlásnál változhat, osztalékrészvénynél és felaprózásnál nem) | 2 |
 | Osztalékpolitika, 24. és 25. dia | a 24. dián „radikális jobboldali” irányzat | a 25. dián „jobboldaliak” (magas osztalék) és „radikális baloldal” (minimális osztalék) | nyitott – kérdezd meg az oktatót: a két dia megnevezése eltér | 2 |
 | Osztalékpolitika, 12. dia | „Hitel – saját tőle volumenét” | „saját tőke” | számítással igazolva: elírás | 2 |
 | Osztalék-feladatsor, 5. feladat c) | „300 Ft-os részvényenkénti osztalékot” | 300 dolláros (a feladat dollárban adott) | számítással igazolva: elírás, a végeredményt nem változtatja | 2 |
-| Készpénz-feladatsor, Miller–Orr 2. feladat | „napi cash-flowjának varianciája 890 ezer dollár” | a 890 000 a σ (szórás), csak ez kerül négyzetre | számítással igazolva: σ = 890 000 → C* = 1 335 976, U* = 3 687 928 USD (ha a 890 000 a variancia lenne, C* = 172 226 jönne ki) | 2 |
+| Készpénz-feladatsor, Miller–Orr 2. feladat | „napi cash-flowjának varianciája 890 ezer dollár” | a variancia mértékegysége dollár², nem dollár; a megoldókulcs varianciaként kezeli (σ = √890 000) | számítással igazolva: C\\* = 172 226, U\\* = 196 677 USD a megoldókulcs szerint | 2 |
 | Osztalék-feladatsor, 4. feladat megoldása (szeminárium) | a lábjegyzet szerint a felaprózás után „a részvények névértéke 250 Ft-ra esik” | 10 000 / 4 = **2500 Ft** | számítással igazolva: csak így marad 500 millió Ft az alaptőke: 200 000 × 2500 = 500 millió (250 Ft-tal 50 millió lenne) | 2 |
 
 A számítási különbségek: a 4. ea 29. diája, a Gordon-példa, és a 2. ZH-nál a Miller–Orr- és a Baumol-példa kerekítése; a többi elírás, a végeredményt nem változtatja. Nyitott tételből több is van: a 4. ea 29. diájánál a gyakorlásban és a ZH-szimulációban mindkét értéket elfogadjuk, és a kiértékelés jelzi, hogy a dia mást mutat. A 2. ZH két nyitott tétele fogalmi (osztalékpolitika, 23–25. dia), ezekre nem épül kérdés.
