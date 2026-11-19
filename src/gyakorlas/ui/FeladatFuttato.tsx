@@ -27,7 +27,7 @@ type LepesAllapot = {
   uzenet?: string
 }
 
-const EGYSEG_FELIRAT = { '%': '%', tizedes: '', USD: 'USD', 'M USD': 'M USD' } as const
+const EGYSEG_FELIRAT = { '%': '%', tizedes: '', USD: 'USD', 'M USD': 'M USD', db: 'db' } as const
 
 function helyesSzoveg(l: Lepes<unknown>, v: number | string): string {
   return l.tipus === 'szam' ? kiir(v as number, l.egyseg) : String(v)
@@ -298,6 +298,11 @@ export function FeladatFuttato({
 
   const elsoreJo = lepesek.filter((a) => a.statusz === 'jo' && a.probak === 1).length
   let lepesSorszam = 0
+  // a kitöltendő táblázat: a lezárt lépések értéke a cellában, a soron következő kiemelve
+  const kitoltott = Object.fromEntries(
+    feladat.lepesek.flatMap((l, i) => (lepesek[i].statusz === 'nyitott' ? [] : [[l.key, helyesSzoveg(l, feladat.ertekek[l.key])]])),
+  )
+  const aktivKulcs = aktivElem?.tipus === 'lepes' ? feladat.lepesek[aktivElem.i].key : undefined
 
   return (
     <div className="futtato">
@@ -308,6 +313,8 @@ export function FeladatFuttato({
           <FeladatSzoveg
             szoveg={latottSzoveg}
             rejtettKerdes={nyitottFelismeres ? 'A feladat (további) kérdése a felismerés után jelenik meg.' : undefined}
+            kitoltott={kitoltott}
+            aktivKulcs={aktivKulcs}
           />
         </div>
       </div>

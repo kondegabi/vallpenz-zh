@@ -6,6 +6,7 @@ const ALAP_TURES: Record<Egyseg, Tures> = {
   tizedes: { abs: 0.005 },
   USD: { abs: 0.01, rel: 0.001 },
   'M USD': { abs: 0.005, rel: 0.001 },
+  db: { abs: 0.5 },
 }
 
 /** Az elfogadott eltérés egy helyes értéktől (a lépés tűrésével, ennek hiányában az egység alaptűrésével). */

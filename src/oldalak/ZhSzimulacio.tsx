@@ -19,7 +19,7 @@ import { feltetelezettSzabalyok, SZABALYOK } from '../zh/szabalyok.ts'
 import { idoJovair, kerdesKulcs, type Resz, tempoOsszesit } from '../zh/tempo.ts'
 
 const BETUK = ['A', 'B', 'C', 'D']
-const EGYSEG: Record<Egyseg, string> = { '%': '%', tizedes: '', USD: 'USD', 'M USD': 'M USD' }
+const EGYSEG: Record<Egyseg, string> = { '%': '%', tizedes: '', USD: 'USD', 'M USD': 'M USD', db: 'db' }
 
 function ido(mp: number): string {
   const m = Math.floor(mp / 60)

@@ -1,9 +1,9 @@
 // 2. ZH, 10. fejezet: osztalékpolitika. Az árfolyamos feladat a 10.1 és 10.3 képletét köti össze (a diasoron
 // nincs rá számpélda); a részvényműveletes a 17. és a 22. dia példáinak mintájára készült.
 
-import { exDividendAr, felaprozottAr, fenntarthatoNovekedes, kibocsatandoDarab, kifizetesiRata, osztalekModellAr, tulajdoniHanyadVisszavasarlasUtan } from '../../calc/osztalek.ts'
+import { alaptoke, exDividendAr, felaprozottAr, fenntarthatoNovekedes, kibocsatandoDarab, kifizetesiRata, osztalekModellAr, tulajdoniHanyadVisszavasarlasUtan } from '../../calc/osztalek.ts'
 import { pct, sz } from '../formaz.ts'
-import type { Rng, Sablon, TipikusHiba } from '../tipusok.ts'
+import type { Lepes, Rng, Sablon, TipikusHiba } from '../tipusok.ts'
 import { keretbe } from './kozos.ts'
 
 const CEGEK = [
@@ -212,7 +212,7 @@ export const reszvenyMuveletek: Sablon<Muvelet> = {
       key: 'maradek',
       formulaId: '10.4',
       kerdes: 'Hány részvény marad forgalomban?',
-      egyseg: 'tizedes',
+      egyseg: 'db',
       mikor: (p) => p.mod === 'visszavasarlas',
       ertek: (p) => p.N - p.Nv,
       tipikusHibak: (p) => [{ ertek: p.N, uzenet: 'A visszavásárolt részvényeket le kell vonni: N − Nv.' }],
@@ -503,8 +503,7 @@ export const tokeletesPiaciMuveletek: Sablon<TokeletesPiac> = {
       formulaId: '10.5',
       latexIdx: 1,
       kerdes: 'Hány darab részvényt kell kibocsátani?',
-      egyseg: 'tizedes',
-      tures: { abs: 0.5 },
+      egyseg: 'db',
       mikor: (p) => p.mod === 'kibocsatas',
       ertek: (p) => (p.mod === 'kibocsatas' ? kibocsatandoDarab(igeny(p), exDividendAr(p.P, p.DIV)) : 0),
       tipikusHibak: (p) => {
@@ -526,4 +525,212 @@ export const tokeletesPiaciMuveletek: Sablon<TokeletesPiac> = {
     { forras: '10.5 Példa (szem. osztalék 5)', p: { mod: 'kibocsatas', N: 100000, P: 1300, DIV: 300, I: 20e6, B: 0 }, vart: { igeny: '50000000', Pkib: '1000', n: '50000' } },
     { forras: '10.5 Példa (szem. osztalék 6)', p: { mod: 'kibocsatas', N: 30000, P: 3200, DIV: 200, I: 10e6, B: 50e6 }, vart: { igeny: '66000000', Pkib: '3000', n: '22000' } },
   ],
+}
+
+// ---------- 10.5 táblázatkiegészítés (szem. osztalék 3–4) ----------
+
+/** A0 és kap millió USD-ban; k: felaprózás 1:k, vagy részvényosztaléknál részvényenként k − 1 új részvény */
+type Tablazat = { ceg: string; A0: number; nevertek: number; kap: number; DIV: number; k: number; reszvenyosztalek: boolean }
+
+const OSZLOPOK = ['H', 'O', 'V'] as const
+
+function tablaErtekek(p: Tablazat) {
+  const db0 = (p.A0 * 1e6) / p.nevertek
+  const P0 = (p.kap * 1e6) / db0
+  const PO = exDividendAr(P0, p.DIV)
+  const dbV = db0 * p.k
+  return {
+    db0,
+    P0,
+    dbH: db0,
+    PH: P0,
+    NH: p.nevertek,
+    EH: p.kap,
+    AH: p.A0,
+    dbO: db0,
+    PO,
+    NO: p.nevertek,
+    EO: (PO * db0) / 1e6,
+    AO: p.A0,
+    dbV,
+    PV: felaprozottAr(PO, p.k),
+    // a részvényosztalék névértéken jár (a névérték marad), a felaprózás a névértéket is osztja
+    NV: p.reszvenyosztalek ? p.nevertek : p.nevertek / p.k,
+    EV: (PO * db0) / 1e6,
+    // a részvényosztalék névértéken ad új részvényeket, a felaprózás csak a névértéket osztja
+    AV: p.reszvenyosztalek ? alaptoke(dbV, p.nevertek) / 1e6 : p.A0,
+  }
+}
+
+type Kulcs = keyof ReturnType<typeof tablaErtekek>
+
+const OSZLOPNEV: Record<string, string> = { 0: 'Most', H: 'A hír után', O: 'Osztalékfizetés után', V: 'A végén' }
+
+export const osztalekTablazat: Sablon<Tablazat> = {
+  id: 'osztalek-tablazat',
+  csalad: 'osztalek',
+  cim: 'Táblázatkiegészítés: osztalék, felaprózás, részvényosztalék',
+  felismeresek: [{ elott: '', helyes: 'F28', zavarok: ['F26', 'F27', 'F24'] }],
+  general: (r) => {
+    const nevertek = r.valaszt([10, 50, 100, 1000] as const)
+    const db0 = r.lepeskoz(20000, 500000, 10000)
+    const P0 = nevertek * r.lepeskoz(1.5, 6, 0.5)
+    const reszvenyosztalek = r.esely(0.5)
+    return {
+      ceg: r.valaszt(CEGEK),
+      A0: (db0 * nevertek) / 1e6,
+      nevertek,
+      kap: (db0 * P0) / 1e6,
+      DIV: Math.round((P0 * r.lepeskoz(0.1, 0.3, 0.05)) / 10) * 10,
+      k: reszvenyosztalek ? r.valaszt([2, 3]) : r.valaszt([2, 4, 5]),
+      reszvenyosztalek,
+    }
+  },
+  ervenyes: (p) => p.DIV > 0 && p.DIV < (p.kap * 1e6) / ((p.A0 * 1e6) / p.nevertek) / 2,
+  szoveg: (p, r) => {
+    const v = r.egesz(0, 3)
+    const vegso = p.reszvenyosztalek ? 'Részvényosztalék után' : 'Felaprózás után'
+    const kulcs = (k: Kulcs) => ({ kulcs: k })
+    return {
+      valtozat: `k${v}`,
+      bekezdesek: [
+        keretbe(v, bevezetok(p.ceg), [
+          `A társaság alaptőkéje ${sz(p.A0)} millió USD, melyet ${sz(p.nevertek)} USD névértékű részvények alkotnak.`,
+          `A társaság piaci kapitalizációja ${sz(p.kap)} millió USD.`,
+          `A kisbefektetők még nem tudják, hogy a nagytulajdonosok megegyeztek: részvényenként ${sz(p.DIV)} USD rendkívüli osztalékot fizetnek, utána ${p.reszvenyosztalek ? `minden részvény után ${p.k - 1} ingyenes, névértékű osztalékrészvényt adnak` : `a részvényeket 1:${p.k} arányban felaprózzák`}.`,
+          'Minden egyébben a tökéletes piac feltételezései fennállnak.',
+          v === 3 ? zavaroAdat(r) : undefined,
+        ]),
+      ],
+      kitoltendo: {
+        fejlec: ['', 'Most', 'A hír után', 'Osztalékfizetés után', vegso],
+        sorok: [
+          { cimke: 'Darabszám', cellak: [kulcs('db0'), kulcs('dbH'), kulcs('dbO'), kulcs('dbV')] },
+          { cimke: 'Árfolyam', cellak: [kulcs('P0'), kulcs('PH'), kulcs('PO'), kulcs('PV')] },
+          { cimke: 'Névérték', cellak: [`${sz(p.nevertek)} USD`, kulcs('NH'), kulcs('NO'), kulcs('NV')] },
+          { cimke: 'Saját tőke értéke', cellak: [`${sz(p.kap)} M USD`, kulcs('EH'), kulcs('EO'), kulcs('EV')] },
+          { cimke: 'Alaptőke', cellak: [`${sz(p.A0)} M USD`, kulcs('AH'), kulcs('AO'), kulcs('AV')] },
+        ],
+      },
+      kerdesek: ['Töltse ki a táblázatot!'],
+    }
+  },
+  zh: (p) => ({
+    kulcsok: ['dbV', 'PV', 'EV', 'AV'],
+    kerdesek: [`Mi lesz a darabszám, az árfolyam, a saját tőke értéke és az alaptőke a ${p.reszvenyosztalek ? 'részvényosztalék' : 'felaprózás'} után (millió USD-ban, ahol érték)?`],
+  }),
+  lepesek: [
+    {
+      tipus: 'szam',
+      key: 'db0',
+      formulaId: '10.5',
+      latexIdx: 1,
+      kerdes: 'Most: hány részvény van?',
+      egyseg: 'db',
+      ertek: (p) => tablaErtekek(p).db0,
+      tipikusHibak: (p) => [{ ertek: (p.kap * 1e6) / p.nevertek, uzenet: 'A darabszám az alaptőke osztva a névértékkel, nem a piaci értékkel.' }],
+      levezetes: (p) => `${sz(p.A0)} millió / ${sz(p.nevertek)} = ${sz(tablaErtekek(p).db0)} db`,
+    },
+    {
+      tipus: 'szam',
+      key: 'P0',
+      formulaId: '10.5',
+      kerdes: 'Most: mekkora az árfolyam?',
+      egyseg: 'USD',
+      ertek: (p) => tablaErtekek(p).P0,
+      tipikusHibak: (p) => [{ ertek: p.nevertek, uzenet: 'Ez a névérték; az árfolyam a kapitalizáció osztva a darabszámmal.' }],
+      levezetes: (p) => `${sz(p.kap)} millió / ${sz(tablaErtekek(p).db0)} = ${sz(tablaErtekek(p).P0, 2)} USD`,
+    },
+    ...(['H', 'O', 'V'] as const).flatMap((o) => oszlopLepesek(o)),
+  ],
+  diasPeldak: [
+    { forras: '10.5 Példa (szem. osztalék 3)', p: { A0: 20, nevertek: 100, kap: 60, DIV: 60, k: 2, reszvenyosztalek: true }, vart: { db0: '200000', P0: '300', PO: '240', EO: '48', PV: '120', dbV: '400000', AV: '40' } },
+    { forras: '10.5 Példa (szem. osztalék 4)', p: { A0: 500, nevertek: 10000, kap: 750, DIV: 3000, k: 4, reszvenyosztalek: false }, vart: { db0: '50000', P0: '15000', PO: '12000', EO: '600', dbV: '200000', PV: '3000', EV: '600', AV: '500' } },
+  ],
+}
+
+/** Egy időpont négy cellája (darabszám, árfolyam, saját tőke, alaptőke) lépésként, a tipikus tévedésekkel. */
+function oszlopLepesek(o: (typeof OSZLOPOK)[number]): Lepes<Tablazat>[] {
+  const nev = OSZLOPNEV[o]
+  const e = (k: Kulcs) => (p: Tablazat) => tablaErtekek(p)[k]
+  const osztalekOsszes = (p: Tablazat) => (p.DIV * tablaErtekek(p).db0) / 1e6
+  const hibak: Record<string, (p: Tablazat) => TipikusHiba[]> = {
+    dbH: () => [],
+    PH: (p) => [{ ertek: tablaErtekek(p).P0 - p.DIV, uzenet: 'Tökéletes piacon a bejelentés nem mozdítja az árfolyamot; az osztalékkal a kifizetéskor esik.' }],
+    NH: () => [],
+    NO: () => [],
+    NV: (p) =>
+      p.reszvenyosztalek
+        ? [{ ertek: p.nevertek / p.k, uzenet: 'Az osztalékrészvény névértéken jár, a névérték nem változik; a felaprózás osztaná.' }]
+        : [
+            { ertek: p.nevertek, uzenet: 'A felaprózás a névértéket is osztja: névérték / k.' },
+            { ertek: p.nevertek * p.k, uzenet: '1:k felaprózásnál egy részvényből k lesz, a névérték a k-ad része.' },
+          ],
+    EH: (p) => [{ ertek: p.kap - osztalekOsszes(p), uzenet: 'A bejelentés még nem visz ki pénzt: a saját tőke értéke a kifizetéskor csökken.' }],
+    AH: () => [],
+    dbO: () => [],
+    PO: (p) => [{ ertek: tablaErtekek(p).P0, uzenet: 'A kifizetéskor az árfolyam az osztalékkal esik: P − DIV.' }],
+    EO: (p) => [{ ertek: p.kap, uzenet: 'Az osztalékként kifizetett pénz kikerül a vállalatból: a saját tőke értéke ennyivel csökken.' }],
+    AO: (p) => [{ ertek: p.A0 - osztalekOsszes(p), uzenet: 'Az osztalék nem az alaptőkét csökkenti; az alaptőke a névértékek összege, az nem változik.' }],
+    dbV: (p) => [
+      { ertek: tablaErtekek(p).db0 / p.k, uzenet: p.reszvenyosztalek ? 'A részvényosztalék új részvényeket ad, a darabszám nő.' : '1:k arányú felaprózásnál egy részvényből k lesz, a darabszám nő.' },
+      ...(p.reszvenyosztalek ? [{ ertek: tablaErtekek(p).db0 * (p.k - 1), uzenet: 'Ez csak az új részvények száma; a régiek is megmaradnak.' }] : []),
+    ],
+    PV: (p) => {
+      const t = tablaErtekek(p)
+      return [
+        { ertek: t.PO * p.k, uzenet: 'A darabszám nő, az árfolyam ugyanannyi vagyon mellett a k-ad részére csökken.' },
+        { ertek: t.P0 / p.k, uzenet: 'Az osztalék kifizetése kimaradt: az osztalék utáni árat kell osztani.' },
+        { ertek: t.PO, uzenet: 'Ez az osztalék utáni ár; a darabszám változása után ennek k-ad része.' },
+      ]
+    },
+    EV: (p) => {
+      const t = tablaErtekek(p)
+      return [
+        { ertek: t.EO / p.k, uzenet: 'A saját tőke értéke a darabszám változásától nem változik (tökéletes piac).' },
+        { ertek: t.EO * p.k, uzenet: 'A saját tőke értéke a darabszám változásától nem változik (tökéletes piac).' },
+        { ertek: p.kap, uzenet: 'Az osztalék kifizetése már csökkentette a saját tőke értékét.' },
+      ]
+    },
+    AV: (p) =>
+      p.reszvenyosztalek
+        ? [
+            { ertek: p.A0, uzenet: 'A részvényosztalék névértéken ad új részvényeket, ezért az alaptőke is nő: darabszám × névérték.' },
+            { ertek: p.A0 * (p.k - 1), uzenet: 'Ez csak az új részvények névértéke; az alaptőkébe a régiek is beletartoznak.' },
+            { ertek: p.A0 - osztalekOsszes(p), uzenet: 'Az osztalék nem az alaptőkét csökkenti.' },
+          ]
+        : [
+            { ertek: p.A0 * p.k, uzenet: 'A felaprózás a névértéket osztja, az alaptőke nem változik.' },
+            { ertek: p.A0 / p.k, uzenet: 'A felaprózás a névértéket osztja, az alaptőke nem változik.' },
+            { ertek: p.A0 - osztalekOsszes(p), uzenet: 'Az osztalék nem az alaptőkét csökkenti.' },
+          ],
+  }
+  const sorok: [Kulcs, string, 'db' | 'USD' | 'M USD'][] = [
+    [`db${o}` as Kulcs, 'hány részvény van?', 'db'],
+    [`P${o}` as Kulcs, 'mekkora az árfolyam?', 'USD'],
+    [`N${o}` as Kulcs, 'mekkora egy részvény névértéke?', 'USD'],
+    [`E${o}` as Kulcs, 'mekkora a saját tőke értéke (millió USD)?', 'M USD'],
+    [`A${o}` as Kulcs, 'mekkora az alaptőke (millió USD)?', 'M USD'],
+  ]
+  return sorok.map(([k, kerdes, egyseg]) => ({
+    tipus: 'szam' as const,
+    key: k,
+    formulaId: k.startsWith('A') ? '10.5' : k.startsWith('P') && o === 'V' ? '10.4' : '10.5',
+    latexIdx: k.startsWith('A') || k.startsWith('db') ? 1 : k.startsWith('P') && o === 'V' ? 1 : 0,
+    kerdes: `${nev}: ${kerdes}`,
+    egyseg,
+    ertek: e(k),
+    tipikusHibak: hibak[k],
+    levezetes: (p: Tablazat) => {
+      const t = tablaErtekek(p)
+      const ki = egyseg === 'USD' ? `${sz(t[k], 2)} USD` : egyseg === 'M USD' ? `${sz(t[k], 3)} millió USD` : `${sz(t[k])} db`
+      if (k === 'PO') return `${sz(t.P0, 2)} − ${sz(p.DIV)} = ${ki}`
+      if (k === 'PV') return `${sz(t.PO, 2)} / ${p.k} = ${ki}`
+      if (k === 'dbV') return `${sz(t.db0)} × ${p.k} = ${ki}`
+      if (k === 'EO') return `${sz(t.PO, 2)} × ${sz(t.db0)} = ${ki}`
+      if (k === 'NV') return p.reszvenyosztalek ? `az osztalékrészvény névértéken jár: ${ki}` : `${sz(p.nevertek)} / ${p.k} = ${ki}`
+      if (k === 'AV') return p.reszvenyosztalek ? `${sz(t.dbV)} × ${sz(p.nevertek)} = ${ki}` : `a felaprózás nem változtatja: ${ki}`
+      return `változatlan: ${ki}`
+    },
+  }))
 }

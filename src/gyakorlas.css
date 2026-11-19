@@ -1309,3 +1309,27 @@ details summary {
   font-size: 18px;
   margin: 0 0 6px;
 }
+
+/* kitöltendő táblázat: a még nyitott cellák kérdőjellel, a soron következő kiemelve */
+.kitoltendo-tabla th[scope='row'] {
+  text-align: left;
+  font-weight: 600;
+}
+
+.kitoltendo-tabla td.kitoltendo {
+  color: var(--szoveg-3);
+  text-align: center;
+}
+
+.kitoltendo-tabla td.kitoltendo.aktiv {
+  background: var(--akcent-halvany);
+  color: var(--akcent-szoveg);
+  font-weight: 700;
+  outline: 2px solid var(--akcent);
+  outline-offset: -2px;
+}
+
+.kitoltendo-tabla td.kitoltve {
+  color: var(--szoveg);
+  font-weight: 600;
+}

@@ -30,6 +30,8 @@ export function eredmeny(x: number, egyseg: Egyseg): string {
       return formatSzam(x, 4)
     case 'USD':
       return `${formatPenz(x, 2)} USD`
+    case 'db':
+      return sz(x, 0)
     case 'M USD':
       return `${sz(x, 4)} M USD`
   }

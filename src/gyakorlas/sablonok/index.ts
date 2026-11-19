@@ -10,7 +10,7 @@ import { waccVagyCapm } from './projekt.ts'
 import { adopajzsOrok, adopajzsVeges, adosTokekoltseg, mmEszkozBeta, mmSajatToke, mmTokekoltseg, mmUjrafinanszirozas, modositottTokekoltseg } from './tokeszerkezet.ts'
 import { waccLanc } from './wacc.ts'
 import { baumolSablon, millerOrrSablon } from './likviditas.ts'
-import { osztalekNovekedes, osztalekSzakaszos, reszvenyMuveletek, tokeletesPiaciMuveletek } from './osztalek.ts'
+import { osztalekNovekedes, osztalekSzakaszos, osztalekTablazat, reszvenyMuveletek, tokeletesPiaciMuveletek } from './osztalek.ts'
 
 export const SABLONOK: AnySablon[] = [
   atlaghozamok,
@@ -42,6 +42,7 @@ export const SABLONOK: AnySablon[] = [
   reszvenyMuveletek,
   osztalekSzakaszos,
   tokeletesPiaciMuveletek,
+  osztalekTablazat,
 ]
 
 // fejezetsorrendben

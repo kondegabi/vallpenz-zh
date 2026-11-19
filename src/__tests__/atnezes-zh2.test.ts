@@ -148,3 +148,21 @@ describe('Miller–Orr 2. szemináriumi feladat: a 890 000 a σ', () => {
     expect(d.vart.C).toBe('1335976')
   })
 })
+
+describe('osztalék 3. feladat: a szemináriumi megoldás', () => {
+  it('a képlettár jelzi, hogy a 3. feladat eredménye egyezik a szemináriumi megoldással (2:5 aprózás)', () => {
+    const sor = md.split(/\r?\n/).find((s) => s.startsWith('- **Példa (szem. osztalék 3):**'))!
+    expect(sor).toContain('2:5 aprózás')
+    expect(sor).toContain('a szemináriumi megoldás táblázatával egyezik')
+  })
+})
+
+describe('osztalék 4. feladat: a szemináriumi megoldás', () => {
+  it('a képlettár jelzi az egyezést, és a megoldás lábjegyzetének névértékét (250 Ft) 2500 Ft-ra javítja', () => {
+    const sor = md.split(/\r?\n/).find((s) => s.startsWith('- **Példa (szem. osztalék 4):**'))!
+    expect(sor).toContain('a szemináriumi megoldás táblázatával egyezik')
+    const hiba = md.split(/\r?\n/).find((s) => s.startsWith('| Osztalék-feladatsor, 4. feladat megoldása'))!
+    expect(hiba).toContain('2500')
+    expect(hiba).toMatch(/számítással igazolva/)
+  })
+})

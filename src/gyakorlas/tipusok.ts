@@ -4,7 +4,7 @@ import type { Rng } from '../lib/rng.ts'
 
 export type TipikusHiba = { ertek: number; uzenet: string }
 
-export type Egyseg = '%' | 'tizedes' | 'USD' | 'M USD'
+export type Egyseg = '%' | 'tizedes' | 'USD' | 'M USD' | 'db'
 export type Tures = { abs?: number; rel?: number }
 
 /** Egy korábbi lépés eredménye kulcs szerint (lustán kiszámolva). */
@@ -57,6 +57,8 @@ export type FeladatSzoveg = {
   valtozat?: string
   bekezdesek: string[]
   tabla?: { fejlec: string[]; sorok: string[][] }
+  /** kitöltendő táblázat: egy cella vagy adott szöveg, vagy egy lépés kulcsa (a lépés megoldása tölti ki) */
+  kitoltendo?: { fejlec: string[]; sorok: { cimke: string; cellak: (string | { kulcs: string })[] }[] }
   kerdesek: string[]
 }
 
