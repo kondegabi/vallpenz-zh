@@ -133,19 +133,21 @@ describe('képlettár és lecke: pontos szöveg', () => {
   })
 })
 
-describe('Miller–Orr 2. szemináriumi feladat: a 890 000 a σ', () => {
-  it('a képlettár példája és a Hibák sora a σ-s értelmezést adja', () => {
+describe('Miller–Orr 2. szemináriumi feladat: a hivatalos megoldás szerint a 890 000 a variancia', () => {
+  it('a képlettár példája és a Hibák sora a hivatalos megoldást adja (σ = √890 000)', () => {
     const sor = md.split(/\r?\n/).find((s) => s.startsWith('- **Példa (szem. Miller–Orr 2):**'))!
-    expect(sor).toContain('= 1 335 976 USD, U\* = 3 687 928 USD')
-    expect(sor).not.toContain('ez már σ²')
+    expect(sor).toContain('= 160 000 + 12 226 = 172 226 USD')
+    expect(sor).toContain('U\\* = 160 000 + 3 × 12 226 = 196 677 USD')
+    expect(sor).toContain('σ = √890 000')
+    expect(sor).not.toContain('1 335 976')
     const hiba = md.split(/\r?\n/).find((s) => s.startsWith('| Készpénz-feladatsor, Miller–Orr 2. feladat'))!
     expect(hiba).not.toMatch(/nyitott/)
   })
 
-  it('a gyakorló sablon diás példája is σ = 890 000-rel számol', () => {
+  it('a gyakorló sablon diás példája is a varianciával számol', () => {
     const d = sablon('miller-orr').diasPeldak.find((x) => x.forras === '9.2 Példa (szem. Miller–Orr 2)')!
-    expect(d.p.sigma).toBe(890000)
-    expect(d.vart.C).toBe('1335976')
+    expect(d.p.sigma).toBe(Math.sqrt(890000))
+    expect(d.vart.C).toBe('172226')
   })
 })
 
@@ -164,5 +166,19 @@ describe('osztalék 4. feladat: a szemináriumi megoldás', () => {
     const hiba = md.split(/\r?\n/).find((s) => s.startsWith('| Osztalék-feladatsor, 4. feladat megoldása'))!
     expect(hiba).toContain('2500')
     expect(hiba).toMatch(/számítással igazolva/)
+  })
+})
+
+describe('a 2. ZH videós összefoglalója', () => {
+  it('mindhárom 2. ZH-s fejezet eleje megmondja, mit vesz újra az összefoglaló', () => {
+    const eleje = (cim: string) => md.slice(md.indexOf(cim), md.indexOf('\n### ', md.indexOf(cim)))
+    for (const cim of ['## 8. Tőkeszerkezet', '## 9. Készpénz- és likviditásmenedzsment', '## 10. Osztalékpolitika'])
+      expect(eleje(cim), cim).toContain('- **A 2. ZH videós összefoglalója:**')
+  })
+
+  it('a Hibák sora jelzi, hogy az összefoglaló 32. diáján 1033 áll, elírásokkal', () => {
+    const hiba = md.split(/\r?\n/).find((s) => s.startsWith('| Készpénz, 17. dia (Miller–Orr)'))!
+    expect(hiba).toContain('32. diáján már 1033')
+    expect(hiba).toContain('σ = 20')
   })
 })
