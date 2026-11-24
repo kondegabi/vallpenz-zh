@@ -1223,11 +1223,11 @@ A feladat elolvasása után először azt döntsd el, melyik sorba tartozik: a m
 | r\_f, β, E(rM) vagy MRP | elvárt hozam | 5.1 |
 | három a négy CAPM-mennyiségből | a negyedik (β, r\_f, MRP) | 5.1 átrendezve |
 | részvény várható hozama + β + piaci adatok | jól árazott-e? | 5.1 vagy 5.2 (meredekségek) |
-| két „helyesen árazott” részvény | r\_f és E(rM) | 5.3 → 5.1 |
+| két „helyesen árazott” részvény | r\_f és E(rM), vagy (ha csak a béták különbsége adott) az MRP | 5.3 → 5.1 |
 | pénzáramlások + elvárt hozam | elfogadjuk-e a projektet? | 6.1 (IRR esetén 6.2) |
 | osztalék, árfolyam, növekedés | saját tőke költsége | 7.1 (előbb D\_1 = D\_0 × (1 + g)) |
 | részvényszám, árfolyam, β, adósság névértéke + jegyzés, YTM, adókulcs | WACC | 5.1 / 7.2 → 7.3 → piaci értékek → 7.4 |
-| projektek várható hozama + bétája + céges WACC | melyik projektet fogadjuk el? | 5.1 projektenként, nem a WACC (7.5) |
+| projektek várható hozama + bétája + céges WACC (vagy a cég bétája) | melyik projektet fogadjuk el? | 5.1 projektenként, nem a WACC (7.5) |
 | forrásonként a súly és a hozam, tökéletes piac | az eszközök várható hozama, tőkeköltség | 8.1 |
 | eszközök hozama vagy WACC, hitel hozama, tőkeszerkezet | a részvények várható hozama | 8.3 |
 | a részvények és a hitel mai hozama, régi és új tőkeszerkezet | a részvények várható hozama az átalakítás után | 8.1 → 8.3 |
@@ -1238,10 +1238,12 @@ A feladat elolvasása után először azt döntsd el, melyik sorba tartozik: a m
 | piaci mérleg, r\_E, r\_D, adókulcs | tőkeköltség adóval | 8.8 |
 | állandó, előre ismert pénzigény, tranzakciós költség, hozam | felveendő összeg, a feltöltések időköze | 9.1 |
 | ingadozó pénzáramlás szórása, tranzakciós költség, hozam, alsó korlát | célérték, felső korlát, átlagos pénzállomány | 9.2 |
-| sajáttőke-arányos nyereség, kifizetési ráta, elvárt hozam, EPS | növekedési ütem, részvényárfolyam | 10.3 → 10.1 |
+| sajáttőke-arányos nyereség, kifizetési ráta, elvárt hozam, EPS vagy a most fizetett osztalék | növekedési ütem, részvényárfolyam | 10.3 → 10.1 |
 | részvényszámok, visszavásárlás vagy felaprózási arány, árfolyam | tulajdoni hányad, új árfolyam | 10.4 |
 | néhány évig teljes visszaforgatás, utána kifizetési ráta, ROE, elvárt hozam | részvényárfolyam | 10.3 → 10.1 szakaszonként |
 | tökéletes piac, osztalék, részvényosztalék, tőkeemelés, árfolyam | új árfolyam, kibocsátandó részvények száma és ára | 10.5 |
+| részvényszám, árfolyam, osztalék + növekedés, adósság névértéke + jegyzés, YTM, adókulcs | WACC | 7.1 → 7.3 → piaci értékek → 7.4 |
+| kockázatos eszköz várható hozama + bétája, r\_f, súly vagy célhozam | a keverék várható hozama, bétája, vagy a szükséges súly | 5.4 |
 
 **A leghosszabb lánc:** β → CAPM → r\_E → (+ YTM → adózás utáni r\_D) → piaci értékű súlyok → WACC → NPV diszkontrátája. Ha egy feladat ennek csak egy darabját kérdezi, a többi adat zavaró is lehet.
 
@@ -1270,4 +1272,4 @@ A diák minden kidolgozott példáját újraszámoltam. Az NPV (12 627,41), az I
 | Készpénz-feladatsor, Miller–Orr 2. feladat | „napi cash-flowjának varianciája 890 ezer dollár” | a variancia mértékegysége dollár², nem dollár; a megoldókulcs varianciaként kezeli (σ = √890 000) | számítással igazolva: C\* = 172 226, U\* = 196 677 USD a megoldókulcs szerint | 2 |
 | Osztalék-feladatsor, 4. feladat megoldása (szeminárium) | a lábjegyzet szerint a felaprózás után „a részvények névértéke 250 Ft-ra esik” | 10 000 / 4 = **2500 Ft** | számítással igazolva: csak így marad 500 millió Ft az alaptőke: 200 000 × 2500 = 500 millió (250 Ft-tal 50 millió lenne) | 2 |
 
-A számítási különbségek: a 4. ea 29. diája, a Gordon-példa, és a 2. ZH-nál a Miller–Orr- és a Baumol-példa kerekítése; a többi elírás, a végeredményt nem változtatja. Nyitott tételből több is van: a 4. ea 29. diájánál a gyakorlásban és a ZH-szimulációban mindkét értéket elfogadjuk, és a kiértékelés jelzi, hogy a dia mást mutat. A 2. ZH két nyitott tétele fogalmi (osztalékpolitika, 23–25. dia), ezekre nem épül kérdés.
+A számítási különbségek: a 4. ea 29. diája, a Gordon-példa, és a 2. ZH-nál a Miller–Orr- és a Baumol-példa kerekítése; a többi elírás, a végeredményt nem változtatja. Nyitott tételből több is van: a 4. ea 29. diájánál a gyakorlásban és a ZH-szimulációban mindkét értéket elfogadjuk, és a kiértékelés jelzi, hogy a dia mást mutat. A 2. ZH két nyitott tétele fogalmi (osztalékpolitika, 23–25. dia); a 25. dia „jobboldaliak” megnevezésére épülő két kérdés a szerzők nevével együtt is megválaszolható.

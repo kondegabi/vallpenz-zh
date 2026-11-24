@@ -27,7 +27,7 @@ type LepesAllapot = {
   uzenet?: string
 }
 
-const EGYSEG_FELIRAT = { '%': '%', tizedes: '', USD: 'USD', 'M USD': 'M USD', db: 'db' } as const
+const EGYSEG_FELIRAT = { '%': '%', tizedes: '', USD: 'USD', 'M USD': 'M USD', db: 'db', nap: 'nap', év: 'év' } as const
 
 function helyesSzoveg(l: Lepes<unknown>, v: number | string): string {
   return l.tipus === 'szam' ? kiir(v as number, l.egyseg) : String(v)

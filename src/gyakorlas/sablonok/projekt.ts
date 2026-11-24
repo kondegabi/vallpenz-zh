@@ -178,7 +178,7 @@ export const waccVagyCapm: Sablon<PR> = {
       tipikusHibak: (p) => capmHibak({ mod: p.piacMod, rf: p.rf, beta: p.betaCeg, ErM: p.ErM, MRP: p.MRP }),
       levezetes: (p) => {
         const v = aWACC(p)
-        return `WACC = rE = rf + β × MRP = ${sz(p.rf)} + ${sz(p.betaCeg)} × ${sz(aMRP(p))} = ${sz(v)} → ${pct(v)}`
+        return `WACC = rE = rf + β × MRP = ${sz(p.rf)} + ${sz(p.betaCeg)} × ${sz(aMRP(p))} = ${sz(v, 6)} → ${pct(v)}`
       },
     },
     ...projektLepesek(0),

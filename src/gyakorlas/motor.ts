@@ -114,6 +114,6 @@ export function ujFeladat(sablon: AnySablon, seed: number, beall: FeladatBeallit
     tipikusHibak,
     tipikusValaszok,
     nyitottak,
-    felismeresek: sablon.felismeresek.map((f) => ({ ...f, opciok: rk.kever([f.helyes, ...f.zavarok]) })),
+    felismeresek: sablon.felismeresek.filter((f) => !f.mikor || f.mikor(p)).map((f) => ({ ...f, opciok: rk.kever([f.helyes, ...f.zavarok]) })),
   }
 }

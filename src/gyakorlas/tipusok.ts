@@ -4,7 +4,7 @@ import type { Rng } from '../lib/rng.ts'
 
 export type TipikusHiba = { ertek: number; uzenet: string }
 
-export type Egyseg = '%' | 'tizedes' | 'USD' | 'M USD' | 'db'
+export type Egyseg = '%' | 'tizedes' | 'USD' | 'M USD' | 'db' | 'nap' | 'év'
 export type Tures = { abs?: number; rel?: number }
 
 /** Egy korábbi lépés eredménye kulcs szerint (lustán kiszámolva). */
@@ -29,6 +29,8 @@ export type SzamLepes<P> = LepesAlap<P> & {
   tipikusHibak?: (p: P, e: Getter) => TipikusHiba[]
   /** nyitott diahiba miatt szintén elfogadott értékek (a „Hibák a diákon” nyitott tételei), üzenettel */
   nyitott?: (p: P, e: Getter) => { ertek: number; uzenet: string }[]
+  /** az érték lehetséges tartománya (pl. korreláció: [−1, 1]); a ZH ezen kívül eső rossz opciót nem ad */
+  tartomany?: [number, number]
   ertek: (p: P, e: Getter) => number
 }
 
@@ -43,7 +45,9 @@ export type ValasztoLepes<P> = LepesAlap<P> & {
 export type Lepes<P> = SzamLepes<P> | ValasztoLepes<P>
 
 /** Felismerési kérdés: a felismerő tábla sorai közül kell választani (F01…F14). */
-export type Felismeres = {
+export type Felismeres<P = any> = {
+  /** ha megadott, a felismerés csak azoknál a feladatoknál van, ahol igaz (a paraméterektől függő helyes sor) */
+  mikor?: (p: P) => boolean
   /** a lépés kulcsa, amely előtt ez a felismerés jön ('' = a feladat elején) */
   elott: string
   helyes: string
@@ -68,7 +72,7 @@ export type Sablon<P> = {
   id: string
   csalad: Csalad
   cim: string
-  felismeresek: Felismeres[]
+  felismeresek: Felismeres<P>[]
   general: (r: Rng) => P
   ervenyes: (p: P) => boolean
   szoveg: (p: P, r: Rng) => FeladatSzoveg

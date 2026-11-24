@@ -4,14 +4,14 @@
 import { CheckCircleIcon, TimerIcon, XCircleIcon } from '@phosphor-icons/react'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { eredmeny } from '../gyakorlas/formaz.ts'
-import { kiertekelo } from '../gyakorlas/motor.ts'
-import type { Egyseg, Getter } from '../gyakorlas/tipusok.ts'
+import type { Egyseg } from '../gyakorlas/tipusok.ts'
 import { FeladatSzoveg } from '../gyakorlas/ui/FeladatSzoveg.tsx'
 import { LancKepletek } from '../gyakorlas/ui/LancKepletek.tsx'
 import { KOR_OPCIOK, korValasztas, type KorValasztas, useKor } from '../kor.ts'
 import { ujSeed } from '../lib/rng.ts'
 import { Inline } from '../ui/Inline.tsx'
 import { link } from '../router.ts'
+import { IgazHamisMiert, SzamitasMiert, ValasztosMiert } from './ZhMagyarazat.tsx'
 import { elozoValtozatok, valtozatokMentes, zhEredmenyRogzit } from '../zh/eredmenyek.ts'
 import { kiertekel, MAX, uresValaszok, type Kiertekeles, type Valaszok } from '../zh/pontozas.ts'
 import { IH_DB, MC_DB, SZ_DB, valtozatKulcsok, ZH_PERC, zhOsszeallit, type Zh } from '../zh/sorsolas.ts'
@@ -19,7 +19,7 @@ import { feltetelezettSzabalyok, SZABALYOK } from '../zh/szabalyok.ts'
 import { idoJovair, kerdesKulcs, type Resz, tempoOsszesit } from '../zh/tempo.ts'
 
 const BETUK = ['A', 'B', 'C', 'D']
-const EGYSEG: Record<Egyseg, string> = { '%': '%', tizedes: '', USD: 'USD', 'M USD': 'M USD', db: 'db' }
+const EGYSEG: Record<Egyseg, string> = { '%': '%', tizedes: '', USD: 'USD', 'M USD': 'M USD', db: 'db', nap: 'nap', év: 'év' }
 
 function ido(mp: number): string {
   const m = Math.floor(mp / 60)
@@ -123,9 +123,12 @@ function IgazHamisKartya({ zh, v, setV, e, ido }: { zh: Zh; v: Valaszok; setV: (
                   ))}
                 </div>
                 {e && (
-                  <p className="zh-indok">
-                    <Jel jo={!!jo} /> {k.igaz ? 'Az állítás igaz.' : <>Az állítás hamis. Helyesen: {k.allitas.igaz}</>}
-                  </p>
+                  <div className="zh-magyarazat">
+                    <p className="zh-indok">
+                      <Jel jo={!!jo} /> {k.igaz ? 'Az állítás igaz.' : 'Az állítás hamis.'}
+                    </p>
+                    <IgazHamisMiert k={k} />
+                  </div>
                 )}
               </div>
             </li>
@@ -240,9 +243,12 @@ function ValasztosKartya({ zh, v, setV, e, ido }: { zh: Zh; v: Valaszok; setV: (
                   })}
                 </div>
                 {e && (
-                  <p className="zh-indok">
-                    <Jel jo={!!jo} /> {jo ? 'Jó válasz.' : `A helyes válasz: ${BETUK[k.helyes]}.`} {k.indok && <Inline szoveg={k.indok} linkek={false} />}
-                  </p>
+                  <div className="zh-magyarazat">
+                    <p className="zh-indok">
+                      <Jel jo={!!jo} /> {jo ? 'Jó válasz.' : valasz === null ? `Nem válaszoltál. A helyes válasz: ${BETUK[k.helyes]}.` : `A helyes válasz: ${BETUK[k.helyes]}.`}
+                    </p>
+                    <ValasztosMiert k={k} valasz={valasz} />
+                  </div>
                 )}
               </div>
             </li>
@@ -261,7 +267,6 @@ function SzamitasKartya({ zh, v, setV, e, ido }: { zh: Zh; v: Valaszok; setV: (f
       </h2>
       <ol className="zh-lista">
         {zh.szamitas.map((p, i) => {
-          const get = kiertekelo(p.feladat.sablon, p.feladat.p) as Getter
           const er = e?.sz[i]
           return (
             <li key={i} className={`zh-kartya ${er ? (er.jo ? 'jo' : 'rossz') : ''}`} data-kerdes={kerdesKulcs('sz', i)}>
@@ -299,7 +304,6 @@ function SzamitasKartya({ zh, v, setV, e, ido }: { zh: Zh; v: Valaszok; setV: (f
                         {er && (
                           <p className="zh-indok">
                             <Jel jo={er.kulcsok[key]} /> Helyes: {l.tipus === 'szam' ? eredmeny(helyes as number, l.egyseg) : String(helyes)}
-                            <span className="zh-levezetes">{l.levezetes(p.feladat.p, get)}</span>
                           </p>
                         )}
                       </div>
@@ -307,6 +311,11 @@ function SzamitasKartya({ zh, v, setV, e, ido }: { zh: Zh; v: Valaszok; setV: (f
                   })}
                 </div>
                 {er?.megjegyzes && <p className="nyitott-megjegyzes">{er.megjegyzes}</p>}
+                {er && (
+                  <div className="zh-magyarazat">
+                    <SzamitasMiert p={p} />
+                  </div>
+                )}
               </div>
             </li>
           )

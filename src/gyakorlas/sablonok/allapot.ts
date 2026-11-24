@@ -28,7 +28,7 @@ const H = {
   egyszeruAtlag: 'Ez a hozamok egyszerű átlaga; a valószínűségekkel kell súlyozni.',
   nMinusz1: 'Állapotoknál a valószínűségekkel súlyozunk; az N − 1-gyel (vagy N-nel) osztás a múltbeli hozamsoré.',
   kVariancia: 'A kovarianciát a két szórás szorzatával kell osztani, nem a varianciákéval.',
-  kereszt2: 'A keresztszorzat kétszer szerepel: 2 × a1 × a2 × cov.',
+  kereszt2: 'Kimaradt a keresztszorzat előtti 2-es szorzó: 2 × a1 × a2 × cov.',
   sulyNegyzet: 'A súlyok négyzetre emelve szerepelnek (a keresztszorzatban viszont nem).',
   szorasAtlag: 'Ez a szórások súlyozott átlaga; a portfólió szórása a variancia gyöke, és a diverzifikáció miatt általában ennél kisebb.',
   gyokNelkul: 'Ez a variancia; a szórás ennek négyzetgyöke.',
@@ -167,6 +167,7 @@ function ketReszvenyLepesek<P extends KetReszveny>(): Lepes<P>[] {
       formulaId: '3.3',
       kerdes: 'Mekkora a két hozam korrelációja?',
       egyseg: 'tizedes',
+      tartomany: [-1, 1],
       ertek: (_p, e) => korrelacio(e('cov'), e('sA'), e('sB')),
       tipikusHibak: (p, e) => [
         { ertek: e('cov') / (e('sA') ** 2 * e('sB') ** 2), uzenet: H.kVariancia },
@@ -184,7 +185,7 @@ function ketReszvenyLepesek<P extends KetReszveny>(): Lepes<P>[] {
         { ertek: e('cov') / e('sB') ** 2, uzenet: 'Ez a béta képlete (cov / σ²); a korrelációhoz a két szórás szorzatával kell osztani.' },
         { ertek: e('cov') / (e('sA') ** 2 * e('sB')), uzenet: 'A két szórás szorzatával kell osztani; egyiket sem kell négyzetre emelni.' },
       ],
-      levezetes: (_p, e) => `k = cov / (σA × σB) = ${sz(e('cov'), 6)} / (${sz(e('sA'))} × ${sz(e('sB'))}) = ${sz(e('k'))}`,
+      levezetes: (_p, e) => `k = cov / (σA × σB) = ${sz(e('cov'), 8)} / (${sz(e('sA'), 8)} × ${sz(e('sB'), 8)}) = ${sz(e('k'))}`,
     },
   ]
 }

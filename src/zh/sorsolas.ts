@@ -38,6 +38,17 @@ export type ZhValasztos = {
 
 export type ZhSzamitas = { feladat: Feladat; szoveg: FeladatSzoveg; kulcsok: string[] }
 
+/**
+ * A feleletválasztós kérdések háttere a kiértékelés magyarázatához. Külön tábla, hogy a ZH adata (és a
+ * seedből számolt ujjlenyomata) ne változzon.
+ */
+export type McHatter =
+  | { fajta: 'elmeleti'; kerdes: ElmeletiKerdes }
+  | { fajta: 'felismeres'; feladat: Feladat }
+  | { fajta: 'szamitas'; feladat: Feladat; key: string; uzenetek: (string | null)[] }
+
+export const MC_HATTER = new WeakMap<ZhValasztos, McHatter>()
+
 export type Zh = { seed: number; igazHamis: ZhIgazHamis[]; valasztos: ZhValasztos[]; szamitas: ZhSzamitas[] }
 
 const ZH_KEPES = SABLONOK.filter((s) => s.zh)
@@ -70,7 +81,7 @@ function kerdesekNelkul(sz: FeladatSzoveg): FeladatSzoveg {
  * szerinti helye egyenletes legyen (ne mindig középre essen). Tartalék (a helyes érték arányos, a
  * tűrésen jóval túl eső eltolása) csak akkor jön, ha a kívánt oldalon nincs elég tipikus hiba.
  */
-export function szamOpciok(l: SzamLepes<unknown>, helyes: number, f: Feladat, r: Rng): { opciok: string[]; helyes: number; tipikus: number } {
+export function szamOpciok(l: SzamLepes<unknown>, helyes: number, f: Feladat, r: Rng): { opciok: string[]; helyes: number; tipikus: number; uzenetek: (string | null)[] } {
   // a kiírt alak felesleges nullák nélkül (0,81 és nem 0,8100)
   const kiir = (v: number) => (l.egyseg === 'tizedes' ? sz(v, 4) : l.egyseg === '%' ? pct(v, 2) : eredmeny(v, l.egyseg))
   const tures = f.turesek[l.key]
@@ -82,8 +93,11 @@ export function szamOpciok(l: SzamLepes<unknown>, helyes: number, f: Feladat, r:
     nyitott.every((n) => Math.abs(n - v) > kuszob) &&
     lista.every((e) => eredmeny(e, l.egyseg) !== eredmeny(v, l.egyseg) && Math.abs(e - v) > Math.max(kuszob, engedettElteres(e, l.egyseg, tures) * 4))
   // a nagyságrendben képtelen érték (pl. 2200%-os hozam, −22-es korreláció) nem hihető opció
+  const [min, max] = l.tartomany ?? [-Infinity, Infinity]
   const hiheto = (v: number) =>
-    l.egyseg === '%' ? Math.abs(v) <= Math.max(1, 2 * Math.abs(helyes)) : l.egyseg === 'tizedes' ? Math.abs(v - helyes) <= Math.max(3 * Math.abs(helyes), 1) : true
+    v >= min &&
+    v <= max &&
+    (    l.egyseg === '%' ? Math.abs(v) <= Math.max(1, 2 * Math.abs(helyes)) : l.egyseg === 'tizedes' ? Math.abs(v - helyes) <= Math.max(3 * Math.abs(helyes), 1) : true)
 
   const jeloltek: number[] = []
   for (const h of f.tipikusHibak[l.key] ?? []) if (hiheto(h.ertek) && kulonbozik([helyes, ...jeloltek], h.ertek)) jeloltek.push(h.ertek)
@@ -95,7 +109,7 @@ export function szamOpciok(l: SzamLepes<unknown>, helyes: number, f: Feladat, r:
   const tartalek = r.kever([1.25, 0.8, 1.5, 0.65, 1.1, 0.9, 2, 0.5].map((m) => helyes * m)).concat([helyes + lepes, helyes - lepes, helyes + 2 * lepes, helyes - 2 * lepes, helyes + 3 * lepes, helyes - 3 * lepes])
   const opciok = [helyes]
   const tartalekkal = (lent: boolean) => {
-    const v = tartalek.find((x) => (lent ? x < helyes : x > helyes) && kulonbozik(opciok, x))
+    const v = tartalek.find((x) => (lent ? x < helyes : x > helyes) && x >= min && x <= max && kulonbozik(opciok, x))
     if (v !== undefined) opciok.push(v)
   }
 
@@ -109,10 +123,12 @@ export function szamOpciok(l: SzamLepes<unknown>, helyes: number, f: Feladat, r:
   for (let i = 0; i < 2 && lent + i < k; i++) tartalekkal(true)
   for (let i = 0; i < 2 && fent + i < 3 - k; i++) tartalekkal(false)
   for (const v of [...alatta.slice(lent), ...folotte.slice(fent)]) if (opciok.length < 4) opciok.push(v)
-  for (const v of tartalek) if (opciok.length < 4 && kulonbozik(opciok, v)) opciok.push(v)
+  for (const v of tartalek) if (opciok.length < 4 && v >= min && v <= max && kulonbozik(opciok, v)) opciok.push(v)
   const tipikus = opciok.filter((v) => jeloltek.includes(v)).length
   const kevert = r.kever(opciok)
-  return { opciok: kevert.map(kiir), helyes: kevert.indexOf(helyes), tipikus }
+  // opciónként a tipikus hiba üzenete (a helyesnél és a tartaléknál nincs)
+  const uzenetek = kevert.map((v) => (v === helyes || !jeloltek.includes(v) ? null : (f.tipikusHibak[l.key] ?? []).find((h) => h.ertek === v)!.uzenet))
+  return { opciok: kevert.map(kiir), helyes: kevert.indexOf(helyes), tipikus, uzenetek }
 }
 
 function elmeletiSorsol(r: Rng, db: number, bank: readonly ElmeletiKerdes[]): ZhValasztos[] {
@@ -121,7 +137,9 @@ function elmeletiSorsol(r: Rng, db: number, bank: readonly ElmeletiKerdes[]): Zh
     .slice(0, db)
     .map((k) => {
       const opciok = r.kever([k.helyes, ...k.rosszak])
-      return { fajta: 'elmeleti' as const, kerdes: k.kerdes, opciok, helyes: opciok.indexOf(k.helyes) }
+      const q: ZhValasztos = { fajta: 'elmeleti' as const, kerdes: k.kerdes, opciok, helyes: opciok.indexOf(k.helyes) }
+      MC_HATTER.set(q, { fajta: 'elmeleti', kerdes: k })
+      return q
     })
 }
 
@@ -147,7 +165,7 @@ function felismeresSorsol(r: Rng, sablonok: AnySablon[], foglalt: Set<string>): 
     const fe = f.felismeresek[0]
     const helyesSor = felismeroSor(fe.helyes)
     const lancok = r.kever([fe.helyes, ...fe.zavarok])
-    return {
+    const q: ZhValasztos = {
       fajta: 'felismeres' as const,
       kulcs: valtozatKulcs(f),
       // a kérdezett mennyiség nélkül: a kérdés szövege elárulná a láncot
@@ -158,6 +176,8 @@ function felismeresSorsol(r: Rng, sablonok: AnySablon[], foglalt: Set<string>): 
       helyes: lancok.indexOf(fe.helyes),
       indok: `Ha a feladat ezt adja: ${helyesSor.adja}; és ezt kérdezi: ${helyesSor.kerdezi}, akkor a lánc: ${lancNevekkel(helyesSor.lanc)}.`,
     }
+    MC_HATTER.set(q, { fajta: 'felismeres', feladat: f })
+    return q
   })
 }
 
@@ -173,7 +193,7 @@ function szamitasMcSorsol(r: Rng, sablonok: AnySablon[], db: number, foglalt: Se
     const helyes = f.ertekek[l.key] as number
     const o = szamOpciok(l, helyes, f, r)
     const get = kiertekelo(s, f.p) as Getter
-    ki.push({
+    const q: ZhValasztos = {
       fajta: 'szamitas',
       kulcs: valtozatKulcs(f),
       szoveg: kerdesekNelkul(f.szoveg),
@@ -181,7 +201,9 @@ function szamitasMcSorsol(r: Rng, sablonok: AnySablon[], db: number, foglalt: Se
       opciok: o.opciok,
       helyes: o.helyes,
       indok: [l.levezetes(f.p, get), ...(f.nyitottak[l.key] ?? []).map((n) => n.uzenet)].join(' '),
-    })
+    }
+    MC_HATTER.set(q, { fajta: 'szamitas', feladat: f, key: l.key, uzenetek: o.uzenetek })
+    ki.push(q)
   }
   return ki
 }

@@ -37,7 +37,9 @@ describe('az 1. ZH tartalma nem változott (ujjlenyomat a 2. ZH anyaga előttrő
 
   it('ugyanabból a seedből ugyanaz az 1. ZH sorsolódik', () => {
     const zhk = [1, 2, 3, 7, 42, 1234, 99999].map((s) => JSON.stringify(zhOsszeallit(s)))
-    expect(fnv(zhk.join('|'))).toBe('cd503fc8')
+    // cd503fc8 → 207c369: a magyarázatok átnézése után a felhasználó jóváhagyta az 1. ZH javítását (WACC Gordon-os
+    // felismerés, 5.4-es sor, korrelációs opciók [−1, 1]-ben, pontosabb levezetések, pontosabb hibaüzenet)
+    expect(fnv(zhk.join('|'))).toBe('207c369')
   })
 })
 
@@ -101,11 +103,13 @@ Nincs.
     for (const k of KEPLETEK) expect([1, 2], k.id).toContain(kepletKor(k.id))
   })
 
-  it('a felismerő tábla 14 régi sora az 1., az új sorok a 2. ZH-é', () => {
+  it('a felismerő tábla 14 régi sora az 1., az F15–F28 sorok a 2. ZH-é, a tábla végére került F29–F30 az 1. ZH-é', () => {
+    // F29–F30: a felhasználó jóváhagyásával a tábla végére került 1. ZH-s sorok (az azonosítók így nem csúsztak el)
     const korok = KT.felismero.sorok.map(felismeroSorKor)
     expect(korok.slice(0, 14)).toEqual(new Array(14).fill(1))
-    expect(korok.slice(14).length).toBeGreaterThan(4)
-    expect(korok.slice(14).every((k) => k === 2)).toBe(true)
+    expect(korok.slice(14, 28).length).toBe(14)
+    expect(korok.slice(14, 28).every((k) => k === 2)).toBe(true)
+    expect(korok.slice(28)).toEqual([1, 1])
   })
 
   it('a diahibák táblázatában minden sor egy ZH-hoz tartozik', () => {

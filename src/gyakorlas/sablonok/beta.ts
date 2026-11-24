@@ -285,7 +285,7 @@ export const kevertPortfolioSablon: Sablon<KP> = {
   id: 'kevert-portfolio',
   csalad: 'beta',
   cim: 'Kockázatos és kockázatmentes eszköz keveréke',
-  felismeresek: [{ elott: '', helyes: 'F06', zavarok: ['F07', 'F08', 'F10'] }],
+  felismeresek: [{ elott: '', helyes: 'F30', zavarok: ['F07', 'F08', 'F10'] }],
   general: (r) => {
     const rf = r.lepeskoz(0.02, 0.06, 0.005)
     const EA = kerekit4(rf + r.lepeskoz(0.04, 0.14, 0.005))

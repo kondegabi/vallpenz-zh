@@ -65,7 +65,11 @@ export const waccLanc: Sablon<W> = {
   id: 'wacc',
   csalad: 'wacc',
   cim: 'WACC teljes lánc',
-  felismeresek: [{ elott: '', helyes: 'F13', zavarok: ['F12', 'F07', 'F14'] }],
+  // a saját tőke költsége CAPM-ből (F13) vagy osztaléknövekedésből (F29) jön, a változat szerint
+  felismeresek: [
+    { mikor: (p) => p.reMod === 'capm', elott: '', helyes: 'F13', zavarok: ['F12', 'F07', 'F14'] },
+    { mikor: (p) => p.reMod !== 'capm', elott: '', helyes: 'F29', zavarok: ['F13', 'F07', 'F14'] },
+  ],
   general: (r) => {
     const rf = r.lepeskoz(0.02, 0.06, 0.005)
     const MRP = r.lepeskoz(0.04, 0.08, 0.005)
@@ -319,7 +323,7 @@ export const waccLanc: Sablon<W> = {
       },
       levezetes: (p, e) => {
         const v = wacc(e('wE'), e('rE'), e('wD'), aYTM(p, e), p.Tc)
-        return `WACC = E/V × rE + D/V × rD × (1 − TC) = ${sz(e('wE'))} × ${sz(e('rE'))} + ${sz(e('wD'))} × ${sz(e('rDu'))} = ${sz(v)} → ${pct(v)}`
+        return `WACC = E/V × rE + D/V × rD × (1 − TC) = ${sz(e('wE'), 6)} × ${sz(e('rE'), 6)} + ${sz(e('wD'), 6)} × ${sz(e('rDu'), 6)} = ${sz(v)} → ${pct(v)}`
       },
     },
   ],

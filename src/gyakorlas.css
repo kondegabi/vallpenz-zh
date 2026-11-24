@@ -1111,13 +1111,182 @@ details summary {
   color: var(--rossz);
 }
 
-.zh-levezetes {
+/* ---------- ZH kiértékelés: magyarázat és részeredmények ---------- */
+.zh-magyarazat {
+  display: grid;
+  gap: 10px;
+  min-width: 0;
+}
+
+.zh-magyarazat h4 {
+  margin: 0 0 6px;
+  font-size: 12.5px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--szoveg-3);
+}
+
+.zh-miert,
+.zh-reszek {
+  padding: 10px 12px;
+  border: 1px solid var(--vonal);
+  border-radius: var(--sugar);
+  background: var(--felulet-2);
+  font-size: 14.5px;
+  min-width: 0;
+}
+
+.zh-miert > p {
+  margin: 0 0 6px;
+  color: var(--szoveg-2);
+}
+
+.zh-miert > p:last-child {
+  margin-bottom: 0;
+}
+
+.zh-idezet {
+  margin: 6px 0 0;
+  padding: 6px 0 6px 12px;
+  border-left: 3px solid var(--akcent);
+}
+
+.zh-idezet p {
+  margin: 0;
+}
+
+.zh-idezet .katex-blokk {
+  margin: 0;
+  background: none;
+  border: none;
+  overflow-x: auto;
+}
+
+.zh-idezet cite {
   display: block;
-  margin-top: 2px;
+  margin-top: 4px;
+  font-size: 13px;
+  font-style: normal;
+  color: var(--szoveg-3);
+}
+
+.zh-idezet cite a {
+  color: var(--akcent-szoveg);
+}
+
+.zh-idezet-magyarazat {
+  margin: 6px 0 0;
+  font-size: 14px;
+  color: var(--szoveg-2);
+}
+
+.zh-csere-felirat {
+  font-weight: 600;
+  color: var(--szoveg);
+}
+
+mark.zh-csere-hamis,
+mark.zh-csere-igaz {
+  padding: 0 3px;
+  border-radius: 3px;
+  color: inherit;
+}
+
+mark.zh-csere-hamis {
+  background: var(--rossz-hatter);
+  text-decoration: line-through;
+  text-decoration-color: var(--rossz);
+}
+
+mark.zh-csere-igaz {
+  background: var(--jo-hatter);
+  font-weight: 600;
+}
+
+.zh-lanc strong {
+  color: var(--szoveg);
+}
+
+.zh-resz-cimke {
+  display: inline-block;
+  margin-left: 6px;
+  padding: 0 6px;
+  border-radius: 999px;
+  font-size: 11.5px;
+  font-weight: 600;
+  line-height: 18px;
+  vertical-align: 1px;
+  background: var(--akcent-halvany);
+  color: var(--akcent-szoveg);
+}
+
+.zh-reszek ol {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  counter-reset: resz;
+  display: grid;
+}
+
+.zh-reszek li {
+  counter-increment: resz;
+  display: grid;
+  grid-template-columns: 22px minmax(0, 1fr) auto;
+  column-gap: 8px;
+  row-gap: 2px;
+  padding: 7px 0;
+  border-top: 1px solid var(--vonal);
+}
+
+.zh-reszek li:first-child {
+  border-top: none;
+  padding-top: 0;
+}
+
+.zh-reszek li::before {
+  content: counter(resz) '.';
+  grid-row: 1 / 3;
+  color: var(--szoveg-3);
+  font-variant-numeric: tabular-nums;
+}
+
+.zh-resz-kerdes {
+  color: var(--szoveg-2);
+}
+
+.zh-resz-ertek {
+  font-family: var(--mono);
+  font-weight: 600;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.zh-resz-lev {
+  grid-column: 2 / -1;
   font-family: var(--mono);
   font-size: 13px;
   color: var(--szoveg-3);
   overflow-wrap: anywhere;
+}
+
+.zh-reszek li.kerdezett .zh-resz-kerdes {
+  color: var(--szoveg);
+  font-weight: 500;
+}
+
+.zh-reszek li.kerdezett .zh-resz-ertek {
+  color: var(--akcent-szoveg);
+}
+
+@media (max-width: 520px) {
+  .zh-reszek li {
+    grid-template-columns: 22px minmax(0, 1fr);
+  }
+  .zh-resz-ertek {
+    grid-column: 2;
+    text-align: left;
+  }
 }
 
 .zh-eredmeny {

@@ -54,6 +54,7 @@ type RA = { ceg: string; mod: 'arany' | 'ertek' | 'negy'; f: Forras[]; V: number
 
 const H = {
   felcserelt: 'A súlyokat felcserélted: a saját tőke hozama a saját tőke súlyával, a hitelé a hitel súlyával szorzódik.',
+  felcserBeta: 'A súlyokat felcserélted: a saját tőke bétája a saját tőke súlyával, a hitelé a hitel súlyával szorzódik.',
   atlag: 'A súlyok a piaci értékek arányai, nem egyenlők: súlyozott átlagot kell számolni.',
   deDv: 'A képletben D/E áll, nem D/V: az adósságot a saját tőkéhez kell viszonyítani.',
   ed: 'Az arányt megfordítottad: a képletben D/E áll, nem E/D.',
@@ -109,8 +110,8 @@ export const mmTokekoltseg: Sablon<RA> = {
     const mondatok =
       p.mod === 'negy'
         ? [
-            `A vállalatot ${p.f.map((x) => `${pct(x.w)}-ban ${x.nev}`).join(', ')} formájában finanszírozzák.`,
-            `Az éves hozamok ugyanebben a sorrendben: ${p.f.map((x) => pct(x.r)).join(', ')}.`,
+            // az „ugyanebben a sorrendben” az előző mondatra utal: egy egységként mozog
+            `A vállalatot ${p.f.map((x) => `${pct(x.w)}-ban ${x.nev}`).join(', ')} formájában finanszírozzák. Az éves hozamok ugyanebben a sorrendben: ${p.f.map((x) => pct(x.r)).join(', ')}.`,
           ]
         : p.mod === 'arany'
           ? [`A vállalat piaci értékének ${pct(els.w)}-át idegen forrásból, ${pct(ut.w)}-át saját tőkéből finanszírozzák.`, `Az idegen források éves hozama ${pct(els.r)}.`, `A saját tőkétől évi ${pct(ut.r)} hozamot vár el a piac.`]
@@ -277,7 +278,11 @@ export const mmUjrafinanszirozas: Sablon<Ujra> = {
   id: 'mm-ujrafinanszirozas',
   csalad: 'mm',
   cim: 'A tőkeszerkezet átalakítása',
-  felismeresek: [{ elott: '', helyes: 'F17', zavarok: ['F16', 'F15', 'F18'] }],
+  // hitel nélküli kiindulásnál az rA = rE, elég a 8.3 (F16); hitelesnél kell előbb a 8.1 is (F17)
+  felismeresek: [
+    { elott: '', helyes: 'F17', zavarok: ['F16', 'F15', 'F18'], mikor: (p) => p.mod === 'hiteles' },
+    { elott: '', helyes: 'F16', zavarok: ['F15', 'F18', 'F22'], mikor: (p) => p.mod === 'tiszta' },
+  ],
   general: (r) => {
     const mod = r.esely(0.4) ? 'tiszta' : 'hiteles'
     const wD1 = mod === 'tiszta' ? 0 : r.lepeskoz(0.2, 0.45, 0.05)
@@ -366,7 +371,7 @@ export const mmUjrafinanszirozas: Sablon<Ujra> = {
       levezetes: (p) => {
         const de = p.wD2 / (1 - p.wD2)
         const rA = ujraRA(p)
-        return `rE = rA + D/E × (rA − rD) = ${pct(rA)} + ${sz(de)} × (${pct(rA)} − ${pct(p.rD)}) = ${pct(mmIIRE(rA, p.rD, de))}`
+        return `rE = rA + D/E × (rA − rD) = ${pct(rA, 4)} + ${sz(de, 6)} × (${pct(rA, 4)} − ${pct(p.rD)}) = ${pct(mmIIRE(rA, p.rD, de))}`
       },
     },
   ],
@@ -445,7 +450,7 @@ export const mmEszkozBeta: Sablon<Beta> = {
         { ertek: tokeSzerkezetHozam([[1 - p.wD, p.rD], [p.wD, e('rE')]]), uzenet: H.felcserelt },
         { ertek: (p.rD + e('rE')) / 2, uzenet: H.atlag },
       ],
-      levezetes: (p, e) => `rA = ${sz(p.wD)} × ${pct(p.rD)} + ${sz(1 - p.wD)} × ${pct(e('rE'))} = ${pct(tokeSzerkezetHozam([[p.wD, p.rD], [1 - p.wD, e('rE')]]))}`,
+      levezetes: (p, e) => `rA = ${sz(p.wD)} × ${pct(p.rD)} + ${sz(1 - p.wD)} × ${pct(e('rE'), 4)} = ${pct(tokeSzerkezetHozam([[p.wD, p.rD], [1 - p.wD, e('rE')]]))}`,
     },
     {
       tipus: 'szam',
@@ -469,7 +474,7 @@ export const mmEszkozBeta: Sablon<Beta> = {
         const bD = p.kockazatos ? hitelBeta(p.rD, p.rf, p.MRP) : 0
         const hibak: TipikusHiba[] = [
           { ertek: p.betaE, uzenet: 'Ez a részvények bétája; az eszközöké ennél kisebb, mert a hitel kockázata alacsonyabb.' },
-          { ertek: eszkozBeta(p.wD, p.betaE, 1 - p.wD, bD), uzenet: H.felcserelt },
+          { ertek: eszkozBeta(p.wD, p.betaE, 1 - p.wD, bD), uzenet: H.felcserBeta },
           { ertek: e('rA') / p.MRP, uzenet: 'Az rA-ból előbb le kell vonni a kockázatmentes hozamot: βA = (rA − rf) / MRP.' },
           { ertek: e('rA') / (p.rf + p.MRP), uzenet: 'A béta nem az rA és a piaci hozam hányadosa: βA = (rA − rf) / MRP.' },
         ]
@@ -478,7 +483,7 @@ export const mmEszkozBeta: Sablon<Beta> = {
       },
       levezetes: (p) => {
         const bD = p.kockazatos ? hitelBeta(p.rD, p.rf, p.MRP) : 0
-        return `βA = E/V × βE + D/V × βD = ${sz(1 - p.wD)} × ${sz(p.betaE)} + ${sz(p.wD)} × ${sz(bD)} = ${sz(eszkozBeta(1 - p.wD, p.betaE, p.wD, bD))}`
+        return `βA = E/V × βE + D/V × βD = ${sz(1 - p.wD)} × ${sz(p.betaE)} + ${sz(p.wD)} × ${sz(bD, 6)} = ${sz(eszkozBeta(1 - p.wD, p.betaE, p.wD, bD))}`
       },
     },
   ],
@@ -691,7 +696,9 @@ export const adopajzsVeges: Sablon<Veges> = {
       },
       levezetes: (p) => {
         const k = kamatok(p)
-        return `PV(TS) = ${k.map((x, i) => `${sz(p.Tc)} × ${sz(x)} / ${sz(1 + p.rD)}^${i + 1}`).join(' + ')} = ${sz(adomegtakaritasPvVeges(p.Tc, k, p.rD))} M USD`
+        // törlesztő hitelnél a kamatok forrása az évente csökkenő tartozás
+        const forras = p.mod === 'torleszto' ? `Év eleji tartozás: ${k.map((_, i) => sz((p.D * (p.n - i)) / p.n)).join('; ')} → kamat: ${k.map((x) => sz(x)).join('; ')}. ` : ''
+        return `${forras}PV(TS) = ${k.map((x, i) => `${sz(p.Tc)} × ${sz(x)} / ${sz(1 + p.rD)}^${i + 1}`).join(' + ')} = ${sz(adomegtakaritasPvVeges(p.Tc, k, p.rD))} M USD`
       },
     },
   ],
@@ -755,7 +762,7 @@ export const adosTokekoltseg: Sablon<AdosRE> = {
       },
       levezetes: (p) => {
         const de = (1 - p.wE) / p.wE
-        return `rE = rU + D/E × (rU − rD) × (1 − TC) = ${pct(p.rU)} + ${sz(de)} × (${pct(p.rU)} − ${pct(p.rD)}) × ${sz(1 - p.Tc)} = ${pct(adosRE(p.rU, p.rD, de, p.Tc))}`
+        return `rE = rU + D/E × (rU − rD) × (1 − TC) = ${pct(p.rU)} + ${sz(de, 6)} × (${pct(p.rU)} − ${pct(p.rD)}) × ${sz(1 - p.Tc)} = ${pct(adosRE(p.rU, p.rD, de, p.Tc))}`
       },
     },
     {
@@ -775,7 +782,7 @@ export const adosTokekoltseg: Sablon<AdosRE> = {
           { ertek: modositottWacc(p.wE, mmIIRE(p.rU, p.rD, wD / p.wE), wD, p.rD, p.Tc), uzenet: 'Az rE-t az adós képlettel kell számolni, az (1 − TC) szorzóval.' },
         ]
       },
-      levezetes: (p, e) => `WACC* = ${sz(p.wE)} × ${pct(e('rE'))} + ${sz(1 - p.wE)} × ${pct(p.rD)} × ${sz(1 - p.Tc)} = ${pct(modositottWacc(p.wE, e('rE'), 1 - p.wE, p.rD, p.Tc))}`,
+      levezetes: (p, e) => `WACC* = ${sz(p.wE)} × ${pct(e('rE'), 4)} + ${sz(1 - p.wE)} × ${pct(p.rD)} × ${sz(1 - p.Tc)} = ${pct(modositottWacc(p.wE, e('rE'), 1 - p.wE, p.rD, p.Tc))}`,
     },
   ],
   diasPeldak: [

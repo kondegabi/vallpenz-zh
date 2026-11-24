@@ -113,7 +113,7 @@ export const baumolSablon: Sablon<Baumol> = {
       formulaId: '9.1',
       latexIdx: 1,
       kerdes: 'Mekkora az optimális időköz években (L_opt)?',
-      egyseg: 'tizedes',
+      egyseg: 'év',
       tures: { abs: 0.0005 },
       ertek: (p) => baumolL(eviT(p), p.F, p.r),
       tipikusHibak: (p) => [{ ertek: Math.sqrt(p.F / (p.r * eviT(p))), uzenet: 'A 2-es szorzó kimaradt: L = √(2F / (r × T)).' }],
@@ -125,7 +125,7 @@ export const baumolSablon: Sablon<Baumol> = {
       formulaId: '9.1',
       latexIdx: 1,
       kerdes: 'Hány naponként kell feltölteni (L_opt napokban)?',
-      egyseg: 'tizedes',
+      egyseg: 'nap',
       // az előző lépés ±0,0005 év tűrése napokban ±0,18 nap
       tures: { abs: 0.2 },
       ertek: (_p, e) => e('L') * 365,
@@ -134,7 +134,7 @@ export const baumolSablon: Sablon<Baumol> = {
         const C = baumolC(T, p.F, p.r)
         return [
           { ertek: T / C, uzenet: 'Ez az évi feltöltések száma (T / C); a kérdés a két feltöltés közötti napok száma: 365 / (T / C).' },
-          { ertek: e('L') * 12, uzenet: 'Ez hónapokban van; napokban × 365.' },
+          { ertek: e('L') * 12, uzenet: 'Ez az időköz hónapokban (év × 12); napokban: év × 365.' },
           { ertek: Math.sqrt(p.F / (p.r * T)) * 365, uzenet: 'A 2-es szorzó kimaradt: L = √(2F / (r × T)).' },
           { ertek: ((2 * p.F) / (p.r * T)) * 365, uzenet: 'A négyzetgyökvonás kimaradt.' },
           { ertek: 2 * Math.sqrt(p.F / (p.r * T)) * 365, uzenet: 'A 2 a gyök alatt van: L = √(2F / (r × T)).' },

@@ -59,10 +59,11 @@ describe('A képlettár beolvasása', () => {
     expect(KEPLETEK.find((k) => k.id === '5.3')!.cim).toBe('Két helyesen árazott eszközből r_f és E(rM)')
   })
 
-  it('a fő szakaszok és a felismerő tábla sorai (14 az 1. ZH-é)', () => {
+  it('a fő szakaszok és a felismerő tábla sorai (16 az 1. ZH-é: F01–F14, és a tábla végére került F29–F30)', () => {
     expect(KT.cim).toBe('Vállalati pénzügyek II – ZH képlettár')
     expect(KT.terkep.blokkok[0].tipus).toBe('kod')
-    expect(KT.felismero.sorok).toHaveLength(28)
+    // 28 → 30: a felhasználó jóváhagyásával két új sor (WACC Gordon-os r_E-vel; 5.4 keverék)
+    expect(KT.felismero.sorok).toHaveLength(30)
     for (const s of KT.felismero.sorok) expect(s.kepletek.length, s.lanc).toBeGreaterThan(0)
     expect(KT.felismero.sorok[13].kepletek).toEqual(['5.1', '7.5'])
     expect(KT.hibak.blokkok.some((b) => b.tipus === 'tabla')).toBe(true)

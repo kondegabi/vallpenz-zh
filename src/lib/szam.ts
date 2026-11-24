@@ -40,6 +40,8 @@ export type Beolvasott = { ertek: number; szazalek: boolean; tizedesjegyek: numb
  */
 export function beolvas(s: string): Beolvasott | null {
   let t = s.trim().replace(/[\s  ]/g, '').replace(MINUSZ, '-')
+  // a mértékegységgel beírt válasz is jó („25,69 nap”, „0,0704 év”)
+  t = t.replace(/(nap|év)$/i, '')
   const szazalek = t.endsWith('%')
   if (szazalek) t = t.slice(0, -1)
   t = t.replace(',', '.')

@@ -21,11 +21,12 @@ function bevezetok(ceg: string): [string, string, string] {
   return [`Egy elemző ${ceg} osztalékpolitikáját vizsgálja.`, `Egy befektető ${ceg} részvényét elemzi.`, `Az igazgatóság ${ceg} kifizetési döntését készíti elő.`]
 }
 
-function zavaroAdat(r: Rng): string {
+/** `osztalekAdat = false`: ott, ahol a feladat maga ad osztalékot, a „tavaly fizetett” osztalék ütközne vele (a tanított D_0). */
+function zavaroAdat(r: Rng, osztalekAdat = true): string {
   return r.valaszt([
     `A vállalat részvényeinek múlt évi hozama ${pct(r.lepeskoz(-0.1, 0.3, 0.01))} volt.`,
     `A piaci portfólió várható hozama ${pct(r.lepeskoz(0.06, 0.12, 0.005))}.`,
-    `A vállalat tavaly részvényenként ${sz(r.lepeskoz(0.5, 4, 0.1))} USD osztalékot fizetett.`,
+    ...(osztalekAdat ? [`A vállalat tavaly részvényenként ${sz(r.lepeskoz(0.5, 4, 0.1))} USD osztalékot fizetett.`] : []),
   ])
 }
 
@@ -78,13 +79,13 @@ export const osztalekNovekedes: Sablon<Novekedes> = {
           kifizetes,
           p.mod === 'most' ? undefined : `A jövő évi egy részvényre jutó nyereség ${sz(p.EPS1)} USD.`,
           `A befektetők elvárt hozama ${pct(p.r)}, a vállalat csak saját tőkéből finanszíroz.`,
-          v === 3 ? zavaroAdat(r) : undefined,
+          v === 3 ? zavaroAdat(r, false) : undefined,
         ]),
       ],
       kerdesek: ['Mekkora a fenntartható növekedési ütem?', 'Mekkora a részvény értéke ma (P0)?'],
     }
   },
-  zh: (p) => (p.kerdes === 'P0' ? { kulcsok: ['P0'] } : { kulcsok: ['g'], kerdesek: ['Mekkora a fenntartható növekedési ütem?'] }),
+  zh: (p) => (p.kerdes === 'P0' ? { kulcsok: ['P0'], kerdesek: ['Mekkora a részvény értéke ma (P0)?'] } : { kulcsok: ['g'], kerdesek: ['Mekkora a fenntartható növekedési ütem?'] }),
   lepesek: [
     {
       tipus: 'szam',
@@ -144,7 +145,13 @@ export const osztalekNovekedes: Sablon<Novekedes> = {
         const D = div1(p)
         return [
           { ertek: osztalekModellAr(D, p.r, p.ROE * p.dp), uzenet: 'A növekedési ütemben a visszaforgatott hányad kell: g = ROE × (1 − dp).' },
-          { ertek: osztalekModellAr(p.EPS1, p.r, g(p)), uzenet: 'A teljes EPS-sel számoltál; a számlálóban csak a kifizetett osztalék áll: DIV1 = dp × EPS1.' },
+          {
+            ertek: osztalekModellAr(p.EPS1, p.r, g(p)),
+            uzenet:
+              p.mod === 'most'
+                ? 'A teljes nyereséggel (EPS = DIV0 / dp) számoltál; a számlálóban a jövő évi osztalék áll: DIV1 = DIV0 × (1 + g).'
+                : 'A teljes EPS-sel számoltál; a számlálóban csak a kifizetett osztalék áll: DIV1 = dp × EPS1.',
+          },
           { ertek: D / p.r, uzenet: 'A növekedés kimaradt: P0 = DIV1 / (r − g).' },
           { ertek: D / (p.r + g(p)), uzenet: 'A nevező r − g, nem r + g.' },
           { ertek: (D * (1 + g(p))) / (p.r - g(p)), uzenet: 'A DIV1 már a jövő évi osztalék, nem kell még egyszer (1 + g)-vel szorozni.' },
@@ -298,8 +305,8 @@ export const osztalekSzakaszos: Sablon<Szakaszos> = {
         keretbe(v, bevezetok(p.ceg), [
           `A vállalat sajáttőke-arányos nyeresége tartósan évi ${pct(p.ROE)}.`,
           `Az egy részvényre jutó nyeresége az éppen lezárt évben ${sz(p.EPS0)} USD volt.`,
-          `Idén és a következő ${p.k - 1} évben nem fizet osztalékot, minden nyereséget visszaforgat.`,
-          `${p.k} év múlva visszatér az osztalékfizetéshez, és onnan minden évben a nyereség ${pct(p.dp)}-át fizeti ki.`,
+          // a „visszatér” az előző mondatra utal: egy egységként mozog
+          `Idén és a következő ${p.k - 1} évben nem fizet osztalékot, minden nyereséget visszaforgat. ${p.k} év múlva visszatér az osztalékfizetéshez, és onnan minden évben a nyereség ${pct(p.dp)}-át fizeti ki.`,
           `A részvény kockázatának megfelelő elvárt hozam évi ${pct(p.r)}.`,
           v === 3 ? zavaroAdat(r) : undefined,
         ]),
@@ -425,9 +432,12 @@ export const tokeletesPiaciMuveletek: Sablon<TokeletesPiac> = {
           ]
         : [
             `A vállalat tökéletes piacon működik, ${sz(p.N)} részvénye van, az árfolyam a jelen helyzetben ${sz(p.P)} USD.`,
-            `A részvényesek részvényenként ${sz(p.DIV)} USD osztalékot várnak, emellett egy ${sz(p.I / 1e6, 1)} millió USD-s beruházást is végre kell hajtani.`,
-            ...(p.B > 0 ? [`A vállalatnak ${sz(p.B / 1e6)} millió USD hitelt most egy összegben kell törlesztenie.`] : []),
-            `Pénzeszköze nincs, ezért mindezt új részvények kibocsátásából fedezi: előbb a kibocsátás történik, utána ${p.B > 0 ? 'a törlesztés és ' : ''}az osztalékfizetés; az új részvényekre osztalék nem jár.`,
+            // a „mindezt” az előtte álló kiadásokra utal: a három mondat egy egységként mozog
+            [
+              `A részvényesek részvényenként ${sz(p.DIV)} USD osztalékot várnak, emellett egy ${sz(p.I / 1e6, 1)} millió USD-s beruházást is végre kell hajtani.`,
+              ...(p.B > 0 ? [`A vállalatnak ${sz(p.B / 1e6)} millió USD hitelt most egy összegben kell törlesztenie.`] : []),
+              `Pénzeszköze nincs, ezért mindezt új részvények kibocsátásából fedezi: előbb a kibocsátás történik, utána ${p.B > 0 ? 'a törlesztés és ' : ''}az osztalékfizetés; az új részvényekre osztalék nem jár.`,
+            ].join(' '),
           ]
     return {
       valtozat: `k${v}`,

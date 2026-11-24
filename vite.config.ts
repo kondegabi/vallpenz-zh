@@ -10,5 +10,7 @@ export default defineConfig({
   build: { chunkSizeWarningLimit: 700 },
   test: {
     environment: 'node',
+    // a sok seedes tesztek egyedül ~1 s alatt futnak, a teljes párhuzamos futásban a terhelés miatt 5–7 s is lehet
+    testTimeout: 20000,
   },
 })
