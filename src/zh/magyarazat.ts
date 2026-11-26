@@ -8,6 +8,7 @@ import { eredmeny, sz } from '../gyakorlas/formaz.ts'
 import { type Feladat, felismeroSor, kiertekelo, lancNevekkel } from '../gyakorlas/motor.ts'
 import type { Egyseg, Getter } from '../gyakorlas/tipusok.ts'
 import type { Allitas } from './allitasok.ts'
+import { MC_HATTER, type ZhValasztos } from './sorsolas.ts'
 
 const SOROK = md.replace(/\r\n/g, '\n').split('\n')
 
@@ -248,11 +249,34 @@ export function reszErtek(x: number, egyseg: Egyseg): string {
 export type Reszeredmeny = { key: string; kerdes: string; ertek: string; levezetes: string; kerdezett: boolean }
 
 /** A feladat minden aktív lépése sorban: kérdés, helyes érték, levezetés; a kérdezett végeredmények jelölve. */
+/** A megoldás lépései: a lépések a megoldás sorrendjében állnak, az utolsó kérdezett utániak nem kellenek. */
+function megoldasLepesei(f: Feladat, kerdezett: readonly string[]) {
+  const utolso = Math.max(...f.lepesek.map((l, i) => (kerdezett.includes(l.key) ? i : -1)))
+  return f.lepesek.slice(0, utolso < 0 ? f.lepesek.length : utolso + 1)
+}
+
+/**
+ * A megoldáshoz szükséges képletek LaTeX-alakja, sorrendben, ismétlés nélkül (a lépés saját blokkjával).
+ * A ZH-ban a tanár megadja a számolós feladatok képletét (bejelentés: 2026-11-26).
+ */
+export function megoldasKepletei(f: Feladat, kerdezett: readonly string[]): string[] {
+  const ki = megoldasLepesei(f, kerdezett).map((l) => {
+    const k = keplet(l.formulaId)
+    if (!k) throw new Error(`Nincs ilyen képlet: ${l.formulaId}`)
+    return k.latex[l.latexIdx ?? 0] ?? k.latex[0]
+  })
+  return [...new Set(ki)]
+}
+
+/** A feleletválasztós kérdés képletei: csak számítási kérdésnél (a felismerősnél épp a képletet kell felismerni). */
+export function mcKepletei(k: ZhValasztos): string[] {
+  const h = MC_HATTER.get(k)
+  return h?.fajta === 'szamitas' ? megoldasKepletei(h.feladat, [h.key]) : []
+}
+
 export function reszeredmenyek(f: Feladat, kerdezett: readonly string[]): Reszeredmeny[] {
   const get = kiertekelo(f.sablon, f.p) as Getter
-  // a lépések a megoldás sorrendjében állnak: az utolsó kérdezett utániak a megoldáshoz nem kellenek
-  const utolso = Math.max(...f.lepesek.map((l, i) => (kerdezett.includes(l.key) ? i : -1)))
-  return f.lepesek.slice(0, utolso < 0 ? f.lepesek.length : utolso + 1).map((l) => ({
+  return megoldasLepesei(f, kerdezett).map((l) => ({
     key: l.key,
     kerdes: l.kerdes,
     ertek: l.tipus === 'szam' ? reszErtek(f.ertekek[l.key] as number, l.egyseg) : String(f.ertekek[l.key]),

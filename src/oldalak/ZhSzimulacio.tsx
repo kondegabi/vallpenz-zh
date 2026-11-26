@@ -11,7 +11,8 @@ import { KOR_OPCIOK, korValasztas, type KorValasztas, useKor } from '../kor.ts'
 import { ujSeed } from '../lib/rng.ts'
 import { Inline } from '../ui/Inline.tsx'
 import { link } from '../router.ts'
-import { IgazHamisMiert, SzamitasMiert, ValasztosMiert } from './ZhMagyarazat.tsx'
+import { mcKepletei, megoldasKepletei } from '../zh/magyarazat.ts'
+import { IgazHamisMiert, SzamitasMiert, ValasztosMiert, ZhKepletek } from './ZhMagyarazat.tsx'
 import { elozoValtozatok, valtozatokMentes, zhEredmenyRogzit } from '../zh/eredmenyek.ts'
 import { kiertekel, MAX, uresValaszok, type Kiertekeles, type Valaszok } from '../zh/pontozas.ts'
 import { IH_DB, MC_DB, SZ_DB, valtozatKulcsok, ZH_PERC, zhOsszeallit, type Zh } from '../zh/sorsolas.ts'
@@ -82,6 +83,7 @@ function Kezdo({ indit }: { indit: () => void }) {
         <strong>Feltételezett szabályok, a valódi ZH eltérhet:</strong> {feltetelezettSzabalyok().join('; ')}.
       </p>
       {valasztas !== 1 && <p className="zh-feltetelezett">A 2. ZH formátuma tudomásunk szerint ugyanaz, mint az 1. ZH-é, ezért ugyanezzel a pontozással számolunk.</p>}
+      <p className="megjegyzes">A valódi ZH-hoz hasonlóan a számolós feladatoknál ott a megoldáshoz szükséges képlet; a képletlánc-felismerős kérdéseknél nincs.</p>
       <p className="megjegyzes">Számoknál tizedesvesszőt vagy pontot is írhatsz; a százalékokat százalékban add meg (pl. 13,18).</p>
       <button className="gomb" onClick={indit} autoFocus>
         <TimerIcon size={18} aria-hidden /> ZH indítása ({ZH_PERC} perc)
@@ -223,6 +225,8 @@ function ValasztosKartya({ zh, v, setV, e, ido }: { zh: Zh; v: Valaszok; setV: (
                     rejtettKerdes={k.fajta === 'felismeres' ? 'A feladat kérdését itt nem mutatjuk: a láncot az adatokból kell felismerni.' : undefined}
                   />
                 )}
+                {/* a ZH-ban a számolós feladatnál a tanár megadja a képletet; a felismerősnél nem */}
+                <ZhKepletek kepletek={mcKepletei(k)} />
                 <p className="zh-kerdes">{k.kerdes}</p>
                 <div className="zh-opciok" role="radiogroup" aria-label={`${IH_DB + i + 1}. kérdés`}>
                   {k.opciok.map((o, j) => {
@@ -276,6 +280,7 @@ function SzamitasKartya({ zh, v, setV, e, ido }: { zh: Zh; v: Valaszok; setV: (f
               <div className="zh-kartya-test">
                 {/* a kérdések a beviteli mezők címkéiben állnak, ezért a felsorolás nem kell */}
                 <FeladatSzoveg szoveg={{ ...p.szoveg, kerdesek: [] }} />
+                <ZhKepletek kepletek={megoldasKepletei(p.feladat, p.kulcsok)} />
                 <div className="zh-bevitelek">
                   {p.kulcsok.map((key) => {
                     const l = p.feladat.lepesek.find((x) => x.key === key)!

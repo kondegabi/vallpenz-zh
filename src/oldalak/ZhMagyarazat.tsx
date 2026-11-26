@@ -10,6 +10,19 @@ import { MC_HATTER, type ZhIgazHamis, type ZhSzamitas, type ZhValasztos } from '
 
 const BETUK = ['A', 'B', 'C', 'D']
 
+/** A számolós feladat képletei a ZH-lapon, ahogy a tanár megadja: csak a képlet, név és képletszám nélkül. */
+export function ZhKepletek({ kepletek }: { kepletek: string[] }) {
+  if (!kepletek.length) return null
+  return (
+    <div className="zh-kepletek">
+      <h4>Képletek</h4>
+      {kepletek.map((latex) => (
+        <Katex key={latex} latex={latex} display />
+      ))}
+    </div>
+  )
+}
+
 function Miert({ children }: { children: React.ReactNode }) {
   return (
     <div className="zh-miert">
