@@ -248,18 +248,21 @@ export function reszErtek(x: number, egyseg: Egyseg): string {
 
 export type Reszeredmeny = { key: string; kerdes: string; ertek: string; levezetes: string; kerdezett: boolean }
 
-/** A feladat minden aktív lépése sorban: kérdés, helyes érték, levezetés; a kérdezett végeredmények jelölve. */
 /** A megoldás lépései: a lépések a megoldás sorrendjében állnak, az utolsó kérdezett utániak nem kellenek. */
 function megoldasLepesei(f: Feladat, kerdezett: readonly string[]) {
   const utolso = Math.max(...f.lepesek.map((l, i) => (kerdezett.includes(l.key) ? i : -1)))
   return f.lepesek.slice(0, utolso < 0 ? f.lepesek.length : utolso + 1)
 }
 
+/** A ZH-ban a tanár csak a készpénz- és likviditásmenedzsment (9. fejezet) számolós feladataihoz ad képletet. */
+const KEPLETET_KAP = new Set(['baumol', 'miller-orr'])
+
 /**
- * A megoldáshoz szükséges képletek LaTeX-alakja, sorrendben, ismétlés nélkül (a lépés saját blokkjával).
- * A ZH-ban a tanár megadja a számolós feladatok képletét (bejelentés: 2026-11-26).
+ * A ZH-lapon megadott képletek LaTeX-alakja, sorrendben, ismétlés nélkül (a lépés saját blokkjával);
+ * a likviditási feladatokon kívül üres (bejelentés: 2026-11-26, pontosítás: 2026-11-27).
  */
 export function megoldasKepletei(f: Feladat, kerdezett: readonly string[]): string[] {
+  if (!KEPLETET_KAP.has(f.sablon.id)) return []
   const ki = megoldasLepesei(f, kerdezett).map((l) => {
     const k = keplet(l.formulaId)
     if (!k) throw new Error(`Nincs ilyen képlet: ${l.formulaId}`)
@@ -268,12 +271,13 @@ export function megoldasKepletei(f: Feladat, kerdezett: readonly string[]): stri
   return [...new Set(ki)]
 }
 
-/** A feleletválasztós kérdés képletei: csak számítási kérdésnél (a felismerősnél épp a képletet kell felismerni). */
+/** A feleletválasztós kérdés képletei: csak likviditási számítási kérdésnél (a felismerősnél épp a képletet kell felismerni). */
 export function mcKepletei(k: ZhValasztos): string[] {
   const h = MC_HATTER.get(k)
   return h?.fajta === 'szamitas' ? megoldasKepletei(h.feladat, [h.key]) : []
 }
 
+/** A feladat lépései a kérdezettig: kérdés, helyes érték, levezetés; a kérdezett végeredmények jelölve. */
 export function reszeredmenyek(f: Feladat, kerdezett: readonly string[]): Reszeredmeny[] {
   const get = kiertekelo(f.sablon, f.p) as Getter
   return megoldasLepesei(f, kerdezett).map((l) => ({

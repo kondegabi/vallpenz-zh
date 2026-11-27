@@ -83,7 +83,7 @@ function Kezdo({ indit }: { indit: () => void }) {
         <strong>Feltételezett szabályok, a valódi ZH eltérhet:</strong> {feltetelezettSzabalyok().join('; ')}.
       </p>
       {valasztas !== 1 && <p className="zh-feltetelezett">A 2. ZH formátuma tudomásunk szerint ugyanaz, mint az 1. ZH-é, ezért ugyanezzel a pontozással számolunk.</p>}
-      <p className="megjegyzes">A valódi ZH-hoz hasonlóan a számolós feladatoknál ott a megoldáshoz szükséges képlet; a képletlánc-felismerős kérdéseknél nincs.</p>
+      <p className="megjegyzes">A valódi ZH-hoz hasonlóan képlet csak a készpénz- és likviditásmenedzsment (Baumol, Miller–Orr) számolós feladatainál van megadva; a többi feladatnál nincs.</p>
       <p className="megjegyzes">Számoknál tizedesvesszőt vagy pontot is írhatsz; a százalékokat százalékban add meg (pl. 13,18).</p>
       <button className="gomb" onClick={indit} autoFocus>
         <TimerIcon size={18} aria-hidden /> ZH indítása ({ZH_PERC} perc)
